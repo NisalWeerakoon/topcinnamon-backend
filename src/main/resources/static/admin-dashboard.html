@@ -1,0 +1,3507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - G.D. De Silva Sons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --sidebar-width: 250px;
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .menu-item.active {
+            background: rgba(255,255,255,0.15);
+            border-left-color: var(--secondary);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .menu-badge {
+            background: var(--danger);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin-left: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 0 30px;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left h1 {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-icon.primary { background: var(--primary); }
+        .stat-icon.success { background: var(--success); }
+        .stat-icon.warning { background: var(--warning); }
+        .stat-icon.danger { background: var(--danger); }
+        .stat-icon.info { background: var(--info); }
+
+        .stat-info h3 {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .stat-info .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-info .trend {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .trend.up { color: var(--success); }
+        .trend.down { color: var(--danger); }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary { background: var(--secondary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-warning { background: var(--warning); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-outline { background: transparent; border: 1px solid #ddd; color: #666; }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 15px 25px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-approved { background: #d1edff; color: #004085; }
+        .status-rejected { background: #f8d7da; color: #721c24; }
+        .status-under-review { background: #d1ecf1; color: #0c5460; }
+        .status-read { background: #d4edda; color: #155724; }
+        .status-responded { background: #e2e3e5; color: #383d41; }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .action-btn.view { background: #e3f2fd; color: #1976d2; }
+        .action-btn.edit { background: #fff3e0; color: #f57c00; }
+        .action-btn.delete { background: #ffebee; color: #d32f2f; }
+        .action-btn.approve { background: #e8f5e8; color: #2e7d32; }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-header h3 {
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            color: var(--primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Email Section Styles */
+        .email-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #007bff;
+        }
+
+        .email-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .email-preview {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .action-panel {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .customer-info-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .status-tracker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .status-step {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .status-step.active {
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .status-step.completed {
+            color: #28a745;
+        }
+
+        .step-connector {
+            width: 20px;
+            height: 1px;
+            background: #ddd;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--secondary);
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Debug Button */
+        .debug-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 15px;
+            background: #17a2b8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .status-pending {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.status-approved {
+    background: #d1edff;
+    color: #004085;
+    border: 1px solid #b3d7ff;
+}
+
+.status-rejected {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f1b0b7;
+}
+
+        /* Enhanced Dashboard Styles */
+.customer-info-compact {
+    display: flex;
+    flex-direction: column;
+}
+.customer-info-compact small {
+    color: #666;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.subject-preview {
+    max-width: 200px;
+}
+.subject-preview small {
+    color: #888;
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: white;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: slideInRight 0.3s ease;
+}
+
+.notification-success { background: #28a745; }
+.notification-error { background: #dc3545; }
+.notification-info { background: #17a2b8; }
+.notification-warning { background: #ffc107; color: #000; }
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.quick-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.bulk-action-panel {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.bulk-action-panel.active {
+    display: block;
+}
+
+.export-options {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.export-options select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+        /* Enhanced Contact Modal Styles */
+.customer-details-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--secondary);
+}
+
+.customer-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.info-card {
+    display: flex;
+    align-items: flex-start;
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-content label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    color: #555;
+    font-size: 14px;
+    word-break: break-word;
+}
+
+.message-details-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.message-subject-display {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    font-weight: 600;
+    color: #333;
+}
+
+.message-content-display {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    max-height: 200px;
+    overflow-y: auto;
+    line-height: 1.6;
+    color: #555;
+}
+
+.admin-actions-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.status-update-section {
+    background: #fff9e6;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ffc107;
+}
+
+.email-response-section {
+    background: #e8f4fd;
+    padding: 20px;
+    border-radius: 6px;
+    border-left: 4px solid #17a2b8;
+}
+
+.email-templates {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+}
+
+.email-templates label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #555;
+}
+
+.template-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.template-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.3s ease;
+}
+
+.template-btn:hover {
+    background: #5a6268;
+}
+
+.contact-link {
+    color: var(--secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.action-panel {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    flex-wrap: wrap;
+}
+
+.action-panel .btn {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Status badge colors in modal */
+.status-pending { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+.status-approved { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.status-rejected { background: #f8d7da; color: #721c24; border: 1px solid #f1b0b7; }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .customer-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-panel {
+        flex-direction: column;
+    }
+
+    .action-panel .btn {
+        flex: none;
+    }
+
+    .template-buttons {
+        flex-direction: column;
+    }
+}
+
+        /* Notification System */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: white;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: slideInRight 0.3s ease;
+    max-width: 400px;
+}
+
+.notification-success { background: #28a745; }
+.notification-error { background: #dc3545; }
+.notification-info { background: #17a2b8; }
+.notification-warning { background: #ffc107; color: #000; }
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.notification button {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+        // Update the CSS to match the review modal styling
+const additionalStyles = `
+.customer-info-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #007bff;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #495057;
+    min-width: 100px;
+}
+
+.info-value {
+    color: #212529;
+    text-align: right;
+    flex: 1;
+    margin-left: 15px;
+}
+
+.email-section {
+    background: #e8f4fd;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #17a2b8;
+}
+
+.action-panel {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    flex-wrap: wrap;
+}
+
+.action-panel .btn {
+    flex: 1;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #f8f9fa;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+/* Add these styles to your existing CSS */
+.action-btn.trash {
+    background: #f8d7da;
+    color: #dc3545;
+    border: 1px solid #f5c6cb;
+}
+
+.action-btn.trash:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Export Modal Styles */
+.export-preview-table {
+    font-size: 12px;
+}
+
+.export-preview-table th {
+    background: #f8f9fa;
+    padding: 8px 12px;
+    font-weight: 600;
+}
+
+.export-preview-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.export-summary {
+    font-size: 13px;
+    color: #666;
+}
+
+.export-summary strong {
+    color: #333;
+}
+
+/* Enhanced action buttons */
+.action-panel .btn {
+    flex: none;
+    min-width: 160px;
+}
+
+/* Responsive export modal */
+@media (max-width: 768px) {
+    .export-modal .modal-content {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .export-preview-table {
+        font-size: 11px;
+    }
+
+    .action-panel {
+        flex-direction: column;
+    }
+
+    .action-panel .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .action-panel {
+        flex-direction: column;
+    }
+
+    .action-panel .btn {
+        flex: none;
+        width: 100%;
+    }
+
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .info-value {
+        text-align: left;
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}
+`;
+
+    </style>
+</head>
+<body>
+<div class="admin-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin Dashboard</h2>
+            <p>G.D. De Silva Sons</p>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" data-section="contacts">
+                <i class="fas fa-envelope"></i>
+                <span>Contact Messages</span>
+                <span class="menu-badge" id="pendingContacts">0</span>
+            </div>
+            <div class="menu-item" data-section="reviews">
+                <i class="fas fa-star"></i>
+                <span>Product Reviews</span>
+                <span class="menu-badge" id="pendingReviews">0</span>
+            </div>
+            <div class="menu-item" data-section="users">
+                <i class="fas fa-users"></i>
+                <span>User Management</span>
+            </div>
+            <div class="menu-item" data-section="analytics">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </div>
+            <div class="menu-item" data-section="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <button class="btn btn-outline menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 id="pageTitle">Dashboard Overview</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <div>
+                        <div style="font-weight: 500;">Admin User</div>
+                        <div style="font-size: 12px; color: #666;">Administrator</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Dashboard Overview -->
+            <div id="dashboard-section" class="content-section active">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Messages</h3>
+                            <div class="number" id="totalMessages">0</div>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12% from last week</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Reviews</h3>
+                            <div class="number" id="totalReviews">0</div>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8% from last week</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Pending Actions</h3>
+                            <div class="number" id="pendingActions">0</div>
+                            <div class="trend down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>5% from last week</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon info">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Approval Rate</h3>
+                            <div class="number" id="approvalRate">0%</div>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>3% from last week</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Messages Overview</h3>
+                            <select class="btn btn-outline" id="messagesTimeRange">
+                                <option value="7d">Last 7 Days</option>
+                                <option value="30d">Last 30 Days</option>
+                                <option value="90d">Last 90 Days</option>
+                            </select>
+                        </div>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Messages Chart will be displayed here</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Reviews Overview</h3>
+                            <select class="btn btn-outline" id="reviewsTimeRange">
+                                <option value="7d">Last 7 Days</option>
+                                <option value="30d">Last 30 Days</option>
+                                <option value="90d">Last 90 Days</option>
+                            </select>
+                        </div>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Reviews Chart will be displayed here</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2>Recent Activity</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-outline" onclick="refreshActivity()">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Details</th>
+                                <th>User</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="activityTable">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading activity...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Contact Messages Section -->
+            <div id="contacts-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Contact Messages</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-outline" onclick="exportContacts()">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                        <button class="btn btn-primary" onclick="refreshContacts()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" data-tab="all-contacts">All Messages</div>
+                    <div class="tab" data-tab="pending-contacts">Pending</div>
+                    <div class="tab" data-tab="approved-contacts">Approved</div>
+                    <div class="tab" data-tab="rejected-contacts">Rejected</div>
+                </div>
+
+                <!-- All Messages Tab -->
+                <div class="tab-content active" id="all-contacts">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="contactsTableAll">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading all contacts...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pending Tab -->
+                <div class="tab-content" id="pending-contacts">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="contactsTablePending">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading pending contacts...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Approved Tab -->
+                <div class="tab-content" id="approved-contacts">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="contactsTableApproved">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading approved contacts...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Rejected Tab -->
+                <div class="tab-content" id="rejected-contacts">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="contactsTableRejected">
+                            <tr>
+                                <td colspan="6">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading rejected contacts...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Section -->
+            <!-- Reviews Section -->
+            <div id="reviews-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Product Reviews</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-outline" onclick="exportReviews()">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                        <button class="btn btn-primary" onclick="refreshReviews()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" data-tab="all-reviews">All Reviews</div>
+                    <div class="tab" data-tab="pending-reviews">Pending Approval</div>
+                    <div class="tab" data-tab="approved-reviews">Approved</div>
+                    <div class="tab" data-tab="rejected-reviews">Rejected</div>
+                </div>
+
+                <!-- All Reviews Tab -->
+                <div class="tab-content active" id="all-reviews">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Rating</th>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="reviewsTableAll">
+                            <tr>
+                                <td colspan="7">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading all reviews...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pending Approval Tab (no inline style) -->
+                <div class="tab-content" id="pending-reviews">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Rating</th>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="reviewsTablePending">
+                            <tr>
+                                <td colspan="7">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading pending reviews...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Approved Tab -->
+                <div class="tab-content" id="approved-reviews">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Rating</th>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="reviewsTableApproved">
+                            <tr>
+                                <td colspan="7">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading approved reviews...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Rejected Tab -->
+                <div class="tab-content" id="rejected-reviews">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Rating</th>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="reviewsTableRejected">
+                            <tr>
+                                <td colspan="7">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <span>Loading rejected reviews...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modals -->
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Contacts Management</h3>
+            <button class="modal-close" onclick="closeModal('contactModal')">&times;</button>
+        </div>
+        <div class="modal-body" id="contactModalBody">
+            <!-- Contact details will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<div id="reviewModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Review Management</h3>
+            <button class="modal-close" onclick="closeModal('reviewModal')">&times;</button>
+        </div>
+        <div class="modal-body" id="reviewModalBody">
+            <!-- Review details will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<div id="emailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Send Email to Customer</h3>
+            <button class="modal-close" onclick="closeModal('emailModal')">&times;</button>
+        </div>
+        <div class="modal-body" id="emailModalBody">
+            <!-- Email form will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<!-- Debug Button -->
+<button class="debug-button" onclick="debugReviewData()">
+    <i class="fas fa-bug"></i> Debug Reviews
+</button>
+
+<script>
+    const API_BASE_URL = 'http://localhost:8081/api';
+
+// ==================== UTILITY FUNCTIONS ====================
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function formatDate(date) {
+    if (!date) return 'Unknown date';
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : type === 'warning' ? 'exclamation' : 'info'}"></i>
+        <span>${message}</span>
+        <button onclick="this.parentElement.remove()">&times;</button>
+    `;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+function showError(elementId, message) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>${message}</p>
+                        <button class="btn btn-outline" onclick="location.reload()" style="margin-top: 10px;">
+                            <i class="fas fa-redo"></i> Try Again
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }
+}
+
+function getStatusClass(status) {
+    const statusClasses = {
+        'Under Review': 'status-pending',
+        'SUBMITTED': 'status-pending',
+        'UNDER_REVIEW': 'status-under-review',
+        'APPROVED': 'status-approved',
+        'REJECTED': 'status-rejected',
+        'Responded': 'status-approved',
+        'Read': 'status-approved',
+        'Pending': 'status-pending',
+        'Approved': 'status-approved',
+        'Rejected': 'status-rejected'
+    };
+    return statusClasses[status] || 'status-pending';
+}
+
+function getDisplayStatus(status) {
+    const statusMap = {
+        'SUBMITTED': 'Pending',
+        'UNDER_REVIEW': 'Under Review',
+        'APPROVED': 'Approved',
+        'REJECTED': 'Rejected',
+        'Pending': 'Pending',
+        'Approved': 'Approved',
+        'Rejected': 'Rejected',
+        'Under Review': 'Pending',
+        'Responded': 'Approved'
+    };
+    return statusMap[status] || status;
+}
+
+// ==================== INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Admin Dashboard Initialized');
+    initializeDashboard();
+});
+
+function initializeDashboard() {
+    loadDashboardStats();
+    loadRecentActivity();
+    loadContacts();
+    loadReviews();
+    setupEventListeners();
+}
+
+function setupEventListeners() {
+    // Menu navigation
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const section = this.getAttribute('data-section');
+            navigateToSection(section);
+        });
+    });
+
+    // Tab navigation
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            switchTab(tabId);
+        });
+    });
+}
+
+// ==================== NAVIGATION ====================
+function navigateToSection(section) {
+    // Update active menu item
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelector(`[data-section="${section}"]`).classList.add('active');
+
+    // Show/hide sections
+    document.querySelectorAll('.content-section').forEach(sec => {
+        sec.style.display = 'none';
+    });
+    document.getElementById(`${section}-section`).style.display = 'block';
+
+    // Update page title
+    const titles = {
+        'dashboard': 'Dashboard Overview',
+        'contacts': 'Contact Messages',
+        'reviews': 'Product Reviews',
+        'users': 'User Management',
+        'analytics': 'Analytics',
+        'settings': 'Settings'
+    };
+    document.getElementById('pageTitle').textContent = titles[section];
+
+    // Load section-specific data with default tab
+    if (section === 'contacts') {
+        loadContacts('all-contacts');
+    } else if (section === 'reviews') {
+        loadReviews('all-reviews');
+    }
+}
+
+function switchTab(tabId) {
+    // Update active tab
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+
+    // Show/hide tab content
+    const container = document.querySelector('.tab-content.active').parentElement;
+    container.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.getElementById(tabId).classList.add('active');
+
+    // No need to reload data since all tables are already populated
+}
+
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('active');
+}
+
+// ==================== DASHBOARD STATISTICS ====================
+async function loadDashboardStats() {
+    try {
+        console.log('📊 Loading dashboard statistics...');
+
+        // Load contact statistics
+        const contactsResponse = await fetch(`${API_BASE_URL}/contact`);
+        if (!contactsResponse.ok) {
+            throw new Error(`Contacts API error: ${contactsResponse.status}`);
+        }
+        const contacts = await contactsResponse.json();
+
+        // Update contact counts
+        document.getElementById('totalMessages').textContent = contacts.length;
+        const pendingContacts = contacts.filter(c =>
+            c.status === 'Under Review' || c.status === 'Pending'
+        ).length;
+        document.getElementById('pendingContacts').textContent = pendingContacts;
+
+        // Load review statistics
+        let reviewStats = { totalReviews: 0, totalSubmitted: 0, totalApproved: 0, totalRejected: 0 };
+        try {
+            const reviewsResponse = await fetch(`${API_BASE_URL}/reviews/admin/dashboard/stats`);
+            if (reviewsResponse.ok) {
+                reviewStats = await reviewsResponse.json();
+            }
+        } catch (reviewError) {
+            console.warn('Could not load review stats:', reviewError);
+        }
+
+        document.getElementById('totalReviews').textContent = reviewStats.totalReviews || 0;
+
+        // Calculate pending actions
+        const pendingReviews = reviewStats.totalSubmitted || 0;
+        document.getElementById('pendingActions').textContent = pendingContacts + pendingReviews;
+        document.getElementById('pendingReviews').textContent = pendingReviews;
+
+        // Calculate approval rate
+        const totalProcessed = (reviewStats.totalApproved || 0) + (reviewStats.totalRejected || 0);
+        const approvalRate = totalProcessed > 0 ?
+            Math.round((reviewStats.totalApproved / totalProcessed) * 100) : 0;
+        document.getElementById('approvalRate').textContent = approvalRate + '%';
+
+        console.log('✅ Dashboard stats loaded successfully');
+
+    } catch (error) {
+        console.error('❌ Error loading dashboard stats:', error);
+        showNotification('Error loading dashboard statistics', 'error');
+    }
+}
+
+// review functions
+async function viewReview(id) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/reviews/admin/${id}/details`);
+            const review = await response.json();
+
+            document.getElementById('reviewModalBody').innerHTML = `
+                <div class="customer-info-card">
+                    <div class="info-row">
+                        <span class="info-label">Customer:</span>
+                        <span class="info-value">${escapeHtml(review.customerName)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">${escapeHtml(review.email)}</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Product Type:</span>
+                        <span class="info-value">${escapeHtml(review.productType || 'Not specified')}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Submitted:</span>
+                        <span class="info-value">${formatDate(new Date(review.createdAt))}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div style="color: #ffc107; font-size: 20px; margin: 10px 0;">
+                        ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                        <span style="color: #666; margin-left: 10px; font-size: 16px;">(${review.rating}/5)</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Review Title</label>
+                    <input type="text" value="${escapeHtml(review.reviewTitle)}" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Review Content</label>
+                    <textarea readonly style="min-height: 120px;">${escapeHtml(review.comment)}</textarea>
+                </div>
+
+
+
+                <div class="email-section">
+                    <h4 style="margin-bottom: 15px;"><i class="fas fa-envelope"></i> Contact Customer</h4>
+                    <button class="btn btn-outline" onclick="openEmailComposer('${escapeHtml(review.email)}', '${escapeHtml(review.customerName)}', 'Regarding Your Review')">
+                        <i class="fas fa-envelope"></i> Compose Email
+                    </button>
+                </div>
+
+                <div class="action-panel">
+                    <button class="btn btn-success" onclick="approveReview(${review.id})">
+                        <i class="fas fa-check"></i> Approve Review
+                    </button>
+                    <button class="btn btn-warning" onclick="markAsUnderReview(${review.id})">
+                        <i class="fas fa-eye"></i> Mark Under Review
+                    </button>
+                    <button class="btn btn-danger" onclick="rejectReview(${review.id})">
+                        <i class="fas fa-times"></i> Reject Review
+                    </button>
+                    <button class="btn btn-outline" onclick="deleteReview(${review.id})">
+                        <i class="fas fa-trash"></i> Delete Review
+                    </button>
+                </div>
+            `;
+
+            openModal('reviewModal');
+        } catch (error) {
+            console.error('Error loading review:', error);
+            alert('Error loading review details');
+        }
+    }
+
+    async function approveReview(id) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/reviews/admin/${id}/approve`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ adminNotes: 'Approved via admin dashboard' })
+            });
+
+            if (response.ok) {
+                alert('Review approved successfully');
+                closeModal('reviewModal');
+                loadReviews();
+                loadDashboardStats();
+                loadRecentActivity();
+            } else {
+                throw new Error('Failed to approve review');
+            }
+        } catch (error) {
+            console.error('Error approving review:', error);
+            alert('Error approving review');
+        }
+    }
+
+    async function rejectReview(id) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/reviews/admin/${id}/reject`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ adminNotes: 'Rejected via admin dashboard' })
+            });
+
+            if (response.ok) {
+                alert('Review rejected successfully');
+                closeModal('reviewModal');
+                loadReviews();
+                loadDashboardStats();
+                loadRecentActivity();
+            } else {
+                throw new Error('Failed to reject review');
+            }
+        } catch (error) {
+            console.error('Error rejecting review:', error);
+            alert('Error rejecting review');
+        }
+    }
+
+    async function markAsUnderReview(id) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/reviews/admin/${id}/start-review`, {
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                alert('Review marked as under review');
+                closeModal('reviewModal');
+                loadReviews();
+                loadDashboardStats();
+                loadRecentActivity();
+            } else {
+                throw new Error('Failed to mark review as under review');
+            }
+        } catch (error) {
+            console.error('Error marking review as under review:', error);
+            alert('Error updating review status');
+        }
+    }
+
+    async function deleteReview(id) {
+        if (confirm('Are you sure you want to delete this review?')) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/reviews/admin/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Review deleted successfully');
+                    closeModal('reviewModal');
+                    loadReviews();
+                    loadDashboardStats();
+                    loadRecentActivity();
+                } else {
+                    throw new Error('Failed to delete review');
+                }
+            } catch (error) {
+                console.error('Error deleting review:', error);
+                alert('Error deleting review');
+            }
+        }
+    }
+
+
+    // Email Functions
+    function openEmailComposer(email, name, subject) {
+        document.getElementById('emailModalBody').innerHTML = `
+            <div class="form-group">
+                <label>To</label>
+                <input type="email" id="composeTo" value="${escapeHtml(email)}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" id="composeName" value="${escapeHtml(name)}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Subject</label>
+                <input type="text" id="composeSubject" value="${escapeHtml(subject)}" placeholder="Enter email subject">
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea id="composeMessage" placeholder="Type your email message here..." style="min-height: 200px;"></textarea>
+            </div>
+            <div class="action-panel">
+                <button class="btn btn-primary" onclick="sendComposedEmail()">
+                    <i class="fas fa-paper-plane"></i> Send Email
+                </button>
+                <button class="btn btn-outline" onclick="closeModal('emailModal')">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        `;
+        openModal('emailModal');
+    }
+
+    async function sendComposedEmail() {
+        const to = document.getElementById('composeTo').value;
+        const subject = document.getElementById('composeSubject').value;
+        const message = document.getElementById('composeMessage').value;
+
+        if (!subject || !message) {
+            alert('Please fill in both subject and message');
+            return;
+        }
+
+        await sendEmailToCustomer(to, '', subject, message);
+    }
+
+    async function sendEmailToCustomer(email, name, customSubject = '', customMessage = '') {
+        const subject = customSubject || document.getElementById('emailSubject')?.value;
+        const message = customMessage || document.getElementById('emailMessage')?.value;
+
+        if (!subject || !message) {
+            alert('Please fill in both subject and message');
+            return;
+        }
+
+        try {
+            // Simulate email sending (you'll need to implement this in your backend)
+            console.log('Sending email to:', email);
+            console.log('Subject:', subject);
+            console.log('Message:', message);
+
+            // Fallback: Open default email client
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+            window.open(mailtoLink, '_blank');
+
+            alert('Email client opened. Please send the email manually.');
+
+        } catch (error) {
+            console.error('Error sending email:', error);
+            alert('Error preparing email: ' + error.message);
+        }
+    }
+
+
+
+
+
+
+// ==================== RECENT ACTIVITY ====================
+async function loadRecentActivity() {
+    try {
+        const activityTable = document.getElementById('activityTable');
+        activityTable.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Loading activity...</span>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        // Load recent contacts and reviews
+        const [contactsResponse, reviewsResponse] = await Promise.all([
+            fetch(`${API_BASE_URL}/contact/all-ordered`),
+            fetch(`${API_BASE_URL}/reviews/admin/all`)
+        ]);
+
+        if (!contactsResponse.ok) throw new Error('Failed to load contacts');
+        if (!reviewsResponse.ok) throw new Error('Failed to load reviews');
+
+        const contacts = await contactsResponse.json();
+        const reviews = await reviewsResponse.json();
+
+        // Combine and sort by date
+        const activities = [
+            ...contacts.slice(0, 10).map(contact => ({
+                type: 'Contact',
+                details: contact.subject || 'No Subject',
+                user: contact.name,
+                date: new Date(contact.createdAt),
+                status: contact.status,
+                id: contact.id,
+                entity: 'contact'
+            })),
+            ...reviews.slice(0, 10).map(review => ({
+                type: 'Review',
+                details: review.reviewTitle,
+                user: review.customerName,
+                date: new Date(review.createdAt),
+                status: review.status,
+                id: review.id,
+                entity: 'review'
+            }))
+        ].sort((a, b) => b.date - a.date).slice(0, 10);
+
+        if (activities.length === 0) {
+            activityTable.innerHTML = `
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No recent activity</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        activityTable.innerHTML = activities.map(activity => `
+            <tr>
+                <td>
+                    <span class="status-badge ${getStatusClass(activity.status)}">
+                        ${activity.type}
+                    </span>
+                </td>
+                <td>${escapeHtml(activity.details)}</td>
+                <td>${escapeHtml(activity.user)}</td>
+                <td>${formatDate(activity.date)}</td>
+                <td>
+                    <span class="status-badge ${getStatusClass(activity.status)}">
+                        ${getDisplayStatus(activity.status)}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn view" onclick="view${activity.entity.charAt(0).toUpperCase() + activity.entity.slice(1)}(${activity.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        ${activity.entity === 'review' ? `
+                            <button class="action-btn approve" onclick="approveReview(${activity.id})">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="rejectReview(${activity.id})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        ` : `
+                            <button class="action-btn edit" onclick="updateContactStatus(${activity.id}, 'Approved')">
+                                <i class="fas fa-reply"></i>
+                            </button>
+                        `}
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error loading activity:', error);
+        document.getElementById('activityTable').innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error loading activity: ${error.message}</p>
+                        <button class="btn btn-outline" onclick="loadRecentActivity()" style="margin-top: 10px;">
+                            <i class="fas fa-redo"></i> Try Again
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }
+}
+
+// ==================== CONTACT MANAGEMENT ====================
+
+
+function getTabDisplayName(tabId) {
+    const names = {
+        'all-contacts': 'all',
+        'pending-contacts': 'pending',
+        'approved-contacts': 'approved',
+        'rejected-contacts': 'rejected'
+    };
+    return names[tabId] || '';
+}
+
+async function loadContacts(activeTab = 'all-contacts') {
+    try {
+        console.log(`📥 Loading contacts for tab: ${activeTab}`);
+
+        const response = await fetch(`${API_BASE_URL}/contact/all-ordered`);
+        if (!response.ok) {
+            throw new Error(`Failed to load contacts: ${response.status}`);
+        }
+
+        const contacts = await response.json();
+        console.log(`✅ Loaded ${contacts.length} contacts`);
+
+        // Update all tab tables
+        updateContactTables(contacts);
+
+    } catch (error) {
+        console.error('❌ Error loading contacts:', error);
+        showError('contactsTableAll', `Failed to load contacts: ${error.message}`);
+        showError('contactsTablePending', `Failed to load contacts: ${error.message}`);
+        showError('contactsTableApproved', `Failed to load contacts: ${error.message}`);
+        showError('contactsTableRejected', `Failed to load contacts: ${error.message}`);
+    }
+}
+
+function updateContactTables(contacts) {
+    // All contacts
+    const allContacts = contacts;
+    displayContactsTable(allContacts, 'contactsTableAll', 'all');
+
+    // Pending contacts
+    const pendingContacts = contacts.filter(contact =>
+        contact.status === 'Pending' ||
+        contact.status === 'Under Review' ||
+        contact.status === 'SUBMITTED'
+    );
+    displayContactsTable(pendingContacts, 'contactsTablePending', 'pending');
+
+    // Approved contacts
+    const approvedContacts = contacts.filter(contact =>
+        contact.status === 'Approved' ||
+        contact.status === 'Responded' ||
+        contact.status === 'APPROVED'
+    );
+    displayContactsTable(approvedContacts, 'contactsTableApproved', 'approved');
+
+    // Rejected contacts
+    const rejectedContacts = contacts.filter(contact =>
+        contact.status === 'Rejected' ||
+        contact.status === 'REJECTED'
+    );
+    displayContactsTable(rejectedContacts, 'contactsTableRejected', 'rejected');
+}
+
+function displayContactsTable(contacts, tableId, type) {
+    const table = document.getElementById(tableId);
+
+    if (contacts.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No ${type} contact messages found</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    table.innerHTML = contacts.map(contact => `
+        <tr>
+            <td>
+                <div class="customer-info-compact">
+                    <strong>${escapeHtml(contact.name)}</strong>
+                    <small>${escapeHtml(contact.country || 'No country')}</small>
+                </div>
+            </td>
+            <td>
+                <a href="mailto:${escapeHtml(contact.email)}" style="color: var(--secondary); text-decoration: none;">
+                    ${escapeHtml(contact.email)}
+                </a>
+            </td>
+            <td>
+                <div class="subject-preview">
+                    <strong>${escapeHtml(contact.subject || 'No Subject')}</strong>
+                    ${contact.message ? `<small>${escapeHtml(contact.message.substring(0, 50))}...</small>` : ''}
+                </div>
+            </td>
+            <td>${formatDate(contact.createdAt)}</td>
+            <td>
+                <span class="status-badge ${getStatusClass(contact.status)}">
+                    ${getDisplayStatus(contact.status)}
+                </span>
+            </td>
+            <td>
+                <div class="action-buttons">
+                    <button class="action-btn view" onclick="viewContact(${contact.id})" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="action-btn delete" onclick="deleteContactFromTable(${contact.id})" title="Delete Message">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+
+
+function filterContactsByTab(contacts, tabId) {
+    switch(tabId) {
+        case 'pending-contacts':
+            return contacts.filter(contact =>
+                contact.status === 'Pending' ||
+                contact.status === 'Under Review' ||
+                contact.status === 'SUBMITTED'
+            );
+        case 'approved-contacts':
+            return contacts.filter(contact =>
+                contact.status === 'Approved' ||
+                contact.status === 'Responded' ||
+                contact.status === 'APPROVED'
+            );
+        case 'rejected-contacts':
+            return contacts.filter(contact =>
+                contact.status === 'Rejected' ||
+                contact.status === 'REJECTED'
+            );
+        case 'all-contacts':
+        default:
+            return contacts;
+    }
+}
+
+
+
+function displayContacts(contacts, tab) {
+    const contactsTable = document.getElementById('contactsTable');
+
+    if (contacts.length === 0) {
+        const tabNames = {
+            'all-contacts': 'all',
+            'pending-contacts': 'pending',
+            'approved-contacts': 'approved',
+            'rejected-contacts': 'rejected'
+        };
+
+        contactsTable.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No ${tabNames[tab]} contact messages found</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    contactsTable.innerHTML = contacts.map(contact => `
+        <tr>
+            <td>
+                <div class="customer-info-compact">
+                    <strong>${escapeHtml(contact.name)}</strong>
+                    <small>${escapeHtml(contact.country || 'No country')}</small>
+                </div>
+            </td>
+            <td>
+                <a href="mailto:${escapeHtml(contact.email)}" style="color: var(--secondary); text-decoration: none;">
+                    ${escapeHtml(contact.email)}
+                </a>
+            </td>
+            <td>
+                <div class="subject-preview">
+                    <strong>${escapeHtml(contact.subject || 'No Subject')}</strong>
+                    ${contact.message ? `<small>${escapeHtml(contact.message.substring(0, 50))}...</small>` : ''}
+                </div>
+            </td>
+            <td>${formatDate(contact.createdAt)}</td>
+            <td>
+                <span class="status-badge ${getStatusClass(contact.status)}">
+                    ${getDisplayStatus(contact.status)}
+                </span>
+            </td>
+            <td>
+                <div class="action-buttons">
+                    <button class="action-btn view" onclick="viewContact(${contact.id})" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="action-btn delete" onclick="deleteContactFromTable(${contact.id})" title="Delete Message">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// ==================== REVIEW MANAGEMENT ====================
+async function loadReviews(activeTab = 'all-reviews') {
+    try {
+        const response = await fetch(`${API_BASE_URL}/reviews/admin/all`);
+        if (!response.ok) {
+            throw new Error(`Failed to load reviews: ${response.status}`);
+        }
+
+        const reviews = await response.json();
+        console.log('📊 Loaded reviews:', reviews.length);
+
+        // Update all tab tables
+        updateReviewTables(reviews);
+
+    } catch (error) {
+        console.error('Error loading reviews:', error);
+        showError('reviewsTableAll', `Failed to load reviews: ${error.message}`);
+        showError('reviewsTablePending', `Failed to load reviews: ${error.message}`);
+        showError('reviewsTableApproved', `Failed to load reviews: ${error.message}`);
+        showError('reviewsTableRejected', `Failed to load reviews: ${error.message}`);
+    }
+}
+
+function updateReviewTables(reviews) {
+    console.log('📊 Processing reviews for tables...');
+
+    // Remove duplicates first
+    const uniqueReviews = removeDuplicateReviews(reviews);
+    console.log('✅ Unique reviews:', uniqueReviews.length);
+
+    // All reviews - show all unique reviews
+    displayReviewsTable(uniqueReviews, 'reviewsTableAll', 'all');
+
+    // Pending reviews - filter only pending ones
+    const pendingReviews = uniqueReviews.filter(review =>
+        review.status === 'SUBMITTED' || review.status === 'UNDER_REVIEW'
+    );
+    console.log('⏳ Pending reviews:', pendingReviews.length);
+    displayReviewsTable(pendingReviews, 'reviewsTablePending', 'pending');
+
+    // Approved reviews
+    const approvedReviews = uniqueReviews.filter(review =>
+        review.status === 'APPROVED'
+    );
+    displayReviewsTable(approvedReviews, 'reviewsTableApproved', 'approved');
+
+    // Rejected reviews
+    const rejectedReviews = uniqueReviews.filter(review =>
+        review.status === 'REJECTED'
+    );
+    displayReviewsTable(rejectedReviews, 'reviewsTableRejected', 'rejected');
+}
+
+function removeDuplicateReviews(reviews) {
+    const uniqueReviews = [];
+    const seenIds = new Set();
+
+    reviews.forEach(review => {
+        if (!seenIds.has(review.id)) {
+            seenIds.add(review.id);
+            uniqueReviews.push(review);
+        }
+    });
+
+    return uniqueReviews;
+}
+
+function debugReviewDuplicates() {
+    console.log('🔍 Debugging review duplicates...');
+
+    const tables = ['reviewsTableAll', 'reviewsTablePending', 'reviewsTableApproved', 'reviewsTableRejected'];
+
+    tables.forEach(tableId => {
+        const tbody = document.getElementById(tableId);
+        if (tbody) {
+            const rows = tbody.querySelectorAll('tr');
+            console.log(`${tableId}: ${rows.length} rows`);
+
+            // Check for duplicate content
+            const contents = new Set();
+            rows.forEach((row, index) => {
+                const content = row.textContent.trim();
+                if (contents.has(content)) {
+                    console.log(`🚫 DUPLICATE ROW ${index}:`, content);
+                    row.style.backgroundColor = '#ffcccc'; // Highlight duplicates in red
+                } else {
+                    contents.add(content);
+                }
+            });
+        }
+    });
+
+    alert('Check browser console for duplicate analysis!');
+}
+
+function displayReviewsTable(reviews, tableId, type) {
+    const table = document.getElementById(tableId);
+
+    if (!table) {
+        console.error(`Table with ID ${tableId} not found`);
+        return;
+    }
+
+    // COMPLETELY CLEAR the table content first
+    table.innerHTML = '';
+
+    if (!reviews || reviews.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    <div class="empty-state">
+                        <i class="fas fa-star"></i>
+                        <p>No ${type} reviews found</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    // Add ONLY the review data rows - NO HEADERS in tbody!
+    table.innerHTML = reviews.map(review => {
+        const productDisplay = review.productType || review.productName || 'Product Not Specified';
+
+        return `
+            <tr>
+                <td>${escapeHtml(review.customerName)}</td>
+                <td>
+                    <strong>${escapeHtml(productDisplay)}</strong>
+                    ${review.productId && review.productId !== 'default-product-001' ?
+                     `<br><small style="color: #888;">ID: ${escapeHtml(review.productId)}</small>` : ''}
+                </td>
+                <td>
+                    <div style="color: #ffc107;">
+                        ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                        <span style="color: #666; margin-left: 5px;">(${review.rating})</span>
+                    </div>
+                </td>
+                <td>${escapeHtml(review.reviewTitle)}</td>
+                <td>${formatDate(review.createdAt)}</td>
+                <td>
+                    <span class="status-badge ${getStatusClass(review.status)}">
+                        ${getDisplayStatus(review.status)}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn view" onclick="viewReview(${review.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteReview(${review.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+
+    console.log(`✅ Displayed ${reviews.length} reviews in ${tableId}`);
+}
+
+function debugTableContent() {
+    console.log('🔍 Debugging table content...');
+
+    const tables = ['reviewsTableAll', 'reviewsTablePending', 'reviewsTableApproved', 'reviewsTableRejected'];
+
+    tables.forEach(tableId => {
+        const tbody = document.getElementById(tableId);
+        if (tbody) {
+            const rows = tbody.querySelectorAll('tr');
+            console.log(`${tableId}: ${rows.length} rows`);
+            rows.forEach((row, index) => {
+                const cells = row.querySelectorAll('td, th');
+                console.log(`  Row ${index} has ${cells.length} cells:`);
+                cells.forEach((cell, cellIndex) => {
+                    console.log(`    Cell ${cellIndex}: "${cell.textContent.trim()}" (tag: ${cell.tagName})`);
+                });
+            });
+        }
+    });
+}
+
+function checkTableContent() {
+    console.log('🔍 Checking table content...');
+
+    const tables = [
+        'reviewsTableAll',
+        'reviewsTablePending',
+        'reviewsTableApproved',
+        'reviewsTableRejected'
+    ];
+
+    tables.forEach(tableId => {
+        const table = document.getElementById(tableId);
+        if (table) {
+            const rows = table.querySelectorAll('tr');
+            console.log(`${tableId}: ${rows.length} rows`);
+            rows.forEach((row, index) => {
+                console.log(`  Row ${index}:`, row.textContent.trim());
+            });
+        }
+    });
+}
+
+// Call this after loading reviews to debug
+// checkTableContent();
+
+// ==================== MODAL FUNCTIONS ====================
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'flex';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// ==================== ACTION FUNCTIONS ====================
+async function viewContact(id) {
+    try {
+        console.log('🔍 Fetching contact details for ID:', id);
+
+        const response = await fetch(`${API_BASE_URL}/contact/all-ordered`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch contacts: ${response.status}`);
+        }
+
+        const allContacts = await response.json();
+        const contact = allContacts.find(c => c.id == id);
+
+        if (!contact) {
+            throw new Error(`Contact with ID ${id} not found`);
+        }
+
+        displayContactModal(contact);
+
+    } catch (error) {
+        console.error('❌ Error loading contact details:', error);
+        showNotification('Error loading contact details: ' + error.message, 'error');
+    }
+}
+
+function displayContactModal(contact) {
+    document.getElementById('contactModalBody').innerHTML = `
+        <div class="customer-info-card">
+            <div class="info-row">
+                <span class="info-label">Full Name:</span>
+                <span class="info-value">${escapeHtml(contact.name || 'Not provided')}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">
+                    <a href="mailto:${escapeHtml(contact.email)}" style="color: var(--secondary);">
+                        ${escapeHtml(contact.email || 'Not provided')}
+                    </a>
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Phone:</span>
+                <span class="info-value">
+                    <a href="tel:${escapeHtml(contact.phone)}" style="color: var(--secondary);">
+                        ${escapeHtml(contact.phone || 'Not provided')}
+                    </a>
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Country:</span>
+                <span class="info-value">${escapeHtml(contact.country || 'Not specified')}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Submitted:</span>
+                <span class="info-value">${formatDate(contact.createdAt)}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Status:</span>
+                <span class="info-value">
+                    <span class="status-badge ${getStatusClass(contact.status)}">
+                        ${getDisplayStatus(contact.status)}
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Subject</label>
+            <input type="text" value="${escapeHtml(contact.subject || 'No Subject Provided')}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Message Content</label>
+            <textarea readonly style="min-height: 150px;">${escapeHtml(contact.message || 'No message content')}</textarea>
+        </div>
+
+        <div class="email-section">
+            <h4 style="margin-bottom: 15px;"><i class="fas fa-envelope"></i> Contact Customer</h4>
+            <button class="btn btn-outline" onclick="openEmailComposer('${escapeHtml(contact.email)}', '${escapeHtml(contact.name)}', 'Re: ${escapeHtml(contact.subject || 'Your Inquiry')}')">
+                <i class="fas fa-envelope"></i> Compose Email
+            </button>
+        </div>
+
+        <div class="action-panel">
+            <button class="btn btn-success" onclick="updateContactStatus(${contact.id}, 'Approved')">
+                <i class="fas fa-check"></i> Approve Message
+            </button>
+            <button class="btn btn-warning" onclick="updateContactStatus(${contact.id}, 'Under Review')">
+                <i class="fas fa-eye"></i> Mark Under Review
+            </button>
+            <button class="btn btn-danger" onclick="updateContactStatus(${contact.id}, 'Rejected')">
+                <i class="fas fa-times"></i> Reject Message
+            </button>
+            <button class="btn btn-outline" onclick="deleteContact(${contact.id})">
+                <i class="fas fa-trash"></i> Delete Message
+            </button>
+        </div>
+    `;
+
+    openModal('contactModal');
+}
+
+// Tab switching function
+function switchTab(tabId) {
+    // Hide all tab contents and remove inline styles
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+        content.style.display = ''; // Clear any inline display style
+    });
+
+    // Show selected tab content
+    const selectedTab = document.getElementById(tabId);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+
+    // Update tab buttons
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    event.target.classList.add('active');
+}
+
+// Initialize on page load to ensure proper display
+document.addEventListener('DOMContentLoaded', function() {
+    // Ensure only active tab is visible on load
+    document.querySelectorAll('.tab-content').forEach(content => {
+        if (!content.classList.contains('active')) {
+            content.style.display = 'none';
+        } else {
+            content.style.display = 'block';
+        }
+    });
+
+    // Clear inline styles after initial setup
+    setTimeout(() => {
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.style.display = ''; // Let CSS handle it
+        });
+    }, 100);
+});
+
+async function updateContactStatus(id, status) {
+    try {
+        if (!confirm(`Are you sure you want to mark this message as "${status}"?`)) {
+            return;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/contact/admin/${id}/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: status,
+                adminNotes: `Status changed to ${status} via admin dashboard`
+            })
+        });
+
+        if (response.ok) {
+            showNotification(`Message status updated to ${status}`, 'success');
+            closeModal('contactModal');
+
+            // Refresh the current view
+            const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            loadContacts(activeTab);
+            loadDashboardStats();
+            loadRecentActivity();
+        } else {
+            const errorText = await response.text();
+            throw new Error(`Server returned ${response.status}: ${errorText}`);
+        }
+    } catch (error) {
+        console.error('❌ Error updating contact status:', error);
+        showNotification('Error updating status: ' + error.message, 'error');
+    }
+}
+
+async function deleteContact(id) {
+    if (!confirm('Are you sure you want to permanently delete this contact message? This action cannot be undone.')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/contact/admin/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            showNotification('Contact message deleted successfully!', 'success');
+            closeModal('contactModal');
+
+            // Refresh the current view
+            const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            loadContacts(activeTab);
+            loadDashboardStats();
+            loadRecentActivity();
+        } else {
+            const errorText = await response.text();
+            throw new Error(`Delete failed: ${errorText}`);
+        }
+    } catch (error) {
+        console.error('❌ Error deleting contact:', error);
+        showNotification('Error deleting contact: ' + error.message, 'error');
+    }
+}
+
+async function deleteContactFromTable(contactId) {
+    if (!confirm('Are you sure you want to permanently delete this contact message? This action cannot be undone.')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/contact/admin/${contactId}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            showNotification('Contact message deleted successfully!', 'success');
+
+            // Refresh current tab
+            const activeTab = document.querySelector('.tab.active').getAttribute('data-tab');
+            loadContacts(activeTab);
+            loadDashboardStats();
+        } else {
+            const errorText = await response.text();
+            throw new Error(`Delete failed: ${errorText}`);
+        }
+    } catch (error) {
+        console.error('❌ Error deleting contact:', error);
+        showNotification('Error deleting contact: ' + error.message, 'error');
+    }
+}
+
+
+// ==================== EXPORT MODAL CREATION ====================
+function createExportModal() {
+    // Check if modal already exists
+    let modal = document.getElementById('exportModal');
+    if (modal) {
+        modal.remove();
+    }
+
+    // Create new modal
+    modal = document.createElement('div');
+    modal.id = 'exportModal';
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3>Export Data</h3>
+                <button class="modal-close" onclick="closeModal('exportModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be populated dynamically -->
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    return modal;
+}
+
+// ==================== SIMPLE CSV EXPORT FUNCTIONS ====================
+async function simpleExportContacts() {
+    try {
+        showNotification('Exporting contacts as CSV...', 'info');
+
+        const response = await fetch(`${API_BASE_URL}/contact/all-ordered`);
+        if (!response.ok) throw new Error('Failed to load contacts');
+
+        const contacts = await response.json();
+
+        // Convert to CSV
+        const headers = ['ID', 'Name', 'Email', 'Phone', 'Country', 'Subject', 'Status', 'Created Date'];
+        const csvContent = [
+            headers.join(','),
+            ...contacts.map(contact => [
+                contact.id,
+                `"${escapeCsvField(contact.name || '')}"`,
+                `"${escapeCsvField(contact.email || '')}"`,
+                `"${escapeCsvField(contact.phone || '')}"`,
+                `"${escapeCsvField(contact.country || '')}"`,
+                `"${escapeCsvField(contact.subject || '')}"`,
+                `"${escapeCsvField(contact.status || '')}"`,
+                `"${escapeCsvField(formatDate(contact.createdAt))}"`
+            ].join(','))
+        ].join('\n');
+
+        // Download
+        downloadCsv(csvContent, `contacts_export_${new Date().toISOString().split('T')[0]}.csv`);
+        showNotification(`Exported ${contacts.length} contacts as CSV!`, 'success');
+
+    } catch (error) {
+        console.error('CSV export error:', error);
+        showNotification('CSV export failed: ' + error.message, 'error');
+    }
+}
+
+async function simpleExportReviews() {
+    try {
+        showNotification('Exporting reviews as CSV...', 'info');
+
+        const response = await fetch(`${API_BASE_URL}/reviews/admin/all`);
+        if (!response.ok) throw new Error('Failed to load reviews');
+
+        const reviews = await response.json();
+
+        // Convert to CSV
+        const headers = ['ID', 'Customer', 'Email', 'Rating', 'Title', 'Product', 'Status', 'Verified', 'Created Date'];
+        const csvContent = [
+            headers.join(','),
+            ...reviews.map(review => [
+                review.id,
+                `"${escapeCsvField(review.customerName || '')}"`,
+                `"${escapeCsvField(review.email || '')}"`,
+                review.rating,
+                `"${escapeCsvField(review.reviewTitle || '')}"`,
+                `"${escapeCsvField(review.productType || 'Not Specified')}"`,
+                `"${escapeCsvField(review.status || '')}"`,
+                review.verifiedPurchase ? 'Yes' : 'No',
+                `"${escapeCsvField(formatDate(review.createdAt))}"`
+            ].join(','))
+        ].join('\n');
+
+        // Download
+        downloadCsv(csvContent, `reviews_export_${new Date().toISOString().split('T')[0]}.csv`);
+        showNotification(`Exported ${reviews.length} reviews as CSV!`, 'success');
+
+    } catch (error) {
+        console.error('CSV export error:', error);
+        showNotification('CSV export failed: ' + error.message, 'error');
+    }
+}
+
+// Filtered CSV exports
+async function simpleExportContactsWithFilters(status) {
+    try {
+        showNotification('Exporting filtered contacts as CSV...', 'info');
+
+        let contacts = [];
+        const response = await fetch(`${API_BASE_URL}/contact/all-ordered`);
+        if (response.ok) {
+            contacts = await response.json();
+        }
+
+        // Filter by status if provided
+        if (status) {
+            contacts = contacts.filter(contact => contact.status === status);
+        }
+
+        const headers = ['ID', 'Name', 'Email', 'Phone', 'Country', 'Subject', 'Status', 'Created Date'];
+        const csvContent = [
+            headers.join(','),
+            ...contacts.map(contact => [
+                contact.id,
+                `"${escapeCsvField(contact.name || '')}"`,
+                `"${escapeCsvField(contact.email || '')}"`,
+                `"${escapeCsvField(contact.phone || '')}"`,
+                `"${escapeCsvField(contact.country || '')}"`,
+                `"${escapeCsvField(contact.subject || '')}"`,
+                `"${escapeCsvField(contact.status || '')}"`,
+                `"${escapeCsvField(formatDate(contact.createdAt))}"`
+            ].join(','))
+        ].join('\n');
+
+        const filename = `contacts_export_${status || 'all'}_${new Date().toISOString().split('T')[0]}.csv`;
+        downloadCsv(csvContent, filename);
+        showNotification(`Exported ${contacts.length} contacts as CSV!`, 'success');
+
+    } catch (error) {
+        console.error('Filtered CSV export error:', error);
+        showNotification('CSV export failed: ' + error.message, 'error');
+    }
+}
+
+async function simpleExportReviewsWithFilters(status) {
+    try {
+        showNotification('Exporting filtered reviews as CSV...', 'info');
+
+        let reviews = [];
+        const response = await fetch(`${API_BASE_URL}/reviews/admin/all`);
+        if (response.ok) {
+            reviews = await response.json();
+        }
+
+        // Filter by status if provided
+        if (status) {
+            reviews = reviews.filter(review => review.status === status);
+        }
+
+        const headers = ['ID', 'Customer', 'Email', 'Rating', 'Title', 'Product', 'Status', 'Verified', 'Created Date'];
+        const csvContent = [
+            headers.join(','),
+            ...reviews.map(review => [
+                review.id,
+                `"${escapeCsvField(review.customerName || '')}"`,
+                `"${escapeCsvField(review.email || '')}"`,
+                review.rating,
+                `"${escapeCsvField(review.reviewTitle || '')}"`,
+                `"${escapeCsvField(review.productType || 'Not Specified')}"`,
+                `"${escapeCsvField(review.status || '')}"`,
+                review.verifiedPurchase ? 'Yes' : 'No',
+                `"${escapeCsvField(formatDate(review.createdAt))}"`
+            ].join(','))
+        ].join('\n');
+
+        const filename = `reviews_export_${status || 'all'}_${new Date().toISOString().split('T')[0]}.csv`;
+        downloadCsv(csvContent, filename);
+        showNotification(`Exported ${reviews.length} reviews as CSV!`, 'success');
+
+    } catch (error) {
+        console.error('Filtered CSV export error:', error);
+        showNotification('CSV export failed: ' + error.message, 'error');
+    }
+}
+
+// ==================== EXCEL EXPORT FUNCTIONS ====================
+async function exportContactsToExcel() {
+    try {
+        showNotification('Preparing Excel export...', 'info');
+
+        const response = await fetch(`${API_BASE_URL}/contact/all-ordered`);
+        if (!response.ok) {
+            throw new Error(`Failed to load contacts: ${response.status}`);
+        }
+
+        const contacts = await response.json();
+
+        // Create Excel workbook using SheetJS (if available) or fallback to CSV
+        await createExcelFile(contacts, 'contacts', 'Contacts Export');
+
+    } catch (error) {
+        console.error('Excel export error:', error);
+        showNotification('Excel export failed, trying CSV...', 'warning');
+        // Fallback to CSV
+        await simpleExportContacts();
+    }
+}
+
+async function exportReviewsToExcel() {
+    try {
+        showNotification('Preparing Excel export...', 'info');
+
+        const response = await fetch(`${API_BASE_URL}/reviews/admin/all`);
+        if (!response.ok) {
+            throw new Error(`Failed to load reviews: ${response.status}`);
+        }
+
+        const reviews = await response.json();
+
+        // Create Excel workbook using SheetJS (if available) or fallback to CSV
+        await createExcelFile(reviews, 'reviews', 'Reviews Export');
+
+    } catch (error) {
+        console.error('Excel export error:', error);
+        showNotification('Excel export failed, trying CSV...', 'warning');
+        // Fallback to CSV
+        await simpleExportReviews();
+    }
+}
+
+// ==================== ENHANCED EXPORT WITH OPTIONS ====================
+function showExportOptions(type) {
+    const exportModal = document.getElementById('exportModal') || createExportModal();
+    const modalBody = exportModal.querySelector('.modal-body');
+
+    if (type === 'contacts') {
+        modalBody.innerHTML = `
+            <h4>Export Contact Messages</h4>
+            <div class="form-group">
+                <label>Export Format:</label>
+                <select id="exportFormat">
+                    <option value="excel">Excel (.xlsx) - Recommended</option>
+                    <option value="csv">CSV (.csv)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Filter by Status:</label>
+                <select id="exportContactStatus">
+                    <option value="">All Messages</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+            <div class="action-panel">
+                <button class="btn btn-success" onclick="downloadContactsWithOptions()">
+                    <i class="fas fa-download"></i> Download Export
+                </button>
+                <button class="btn btn-outline" onclick="closeModal('exportModal')">
+                    Cancel
+                </button>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+                <h5><i class="fas fa-info-circle"></i> Export Information</h5>
+                <p style="margin: 5px 0; font-size: 13px;">
+                    <strong>Excel Format:</strong> Properly formatted spreadsheet with columns and styling
+                </p>
+                <p style="margin: 5px 0; font-size: 13px;">
+                    <strong>CSV Format:</strong> Simple comma-separated values
+                </p>
+            </div>
+        `;
+    } else {
+        modalBody.innerHTML = `
+            <h4>Export Product Reviews</h4>
+            <div class="form-group">
+                <label>Export Format:</label>
+                <select id="exportFormat">
+                    <option value="excel">Excel (.xlsx) - Recommended</option>
+                    <option value="csv">CSV (.csv)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Filter by Status:</label>
+                <select id="exportReviewStatus">
+                    <option value="">All Reviews</option>
+                    <option value="SUBMITTED">Pending</option>
+                    <option value="APPROVED">Approved</option>
+                    <option value="REJECTED">Rejected</option>
+                </select>
+            </div>
+            <div class="action-panel">
+                <button class="btn btn-success" onclick="downloadReviewsWithOptions()">
+                    <i class="fas fa-download"></i> Download Export
+                </button>
+                <button class="btn btn-outline" onclick="closeModal('exportModal')">
+                    Cancel
+                </button>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+                <h5><i class="fas fa-info-circle"></i> Export Information</h5>
+                <p style="margin: 5px 0; font-size: 13px;">
+                    <strong>Excel Format:</strong> Properly formatted spreadsheet with columns and styling
+                </p>
+                <p style="margin: 5px 0; font-size: 13px;">
+                    <strong>CSV Format:</strong> Simple comma-separated values
+                </p>
+            </div>
+        `;
+    }
+
+    openModal('exportModal');
+}
+
+// ==================== DOWNLOAD WITH OPTIONS ====================
+async function downloadContactsWithOptions() {
+    const format = document.getElementById('exportFormat').value;
+    const status = document.getElementById('exportContactStatus').value;
+
+    closeModal('exportModal');
+
+    if (format === 'excel') {
+        await exportContactsToExcelWithFilters(status);
+    } else {
+        await simpleExportContactsWithFilters(status);
+    }
+}
+
+async function downloadReviewsWithOptions() {
+    const format = document.getElementById('exportFormat').value;
+    const status = document.getElementById('exportReviewStatus').value;
+
+    closeModal('exportModal');
+
+    if (format === 'excel') {
+        await exportReviewsToExcelWithFilters(status);
+    } else {
+        await simpleExportReviewsWithFilters(status);
+    }
+}
+
+// ==================== FILTERED EXPORTS ====================
+async function exportContactsToExcelWithFilters(status) {
+    try {
+        showNotification('Preparing filtered Excel export...', 'info');
+
+        let contacts = [];
+        const response = await fetch(`${API_BASE_URL}/contact/all-ordered`);
+        if (response.ok) {
+            contacts = await response.json();
+        }
+
+        // Filter by status if provided
+        if (status) {
+            contacts = contacts.filter(contact => contact.status === status);
+        }
+
+        await createExcelFile(contacts, 'contacts', `Contacts Export - ${status || 'All'}`);
+
+    } catch (error) {
+        console.error('Filtered export error:', error);
+        showNotification('Excel export failed, trying CSV...', 'warning');
+        await simpleExportContactsWithFilters(status);
+    }
+}
+
+async function exportReviewsToExcelWithFilters(status) {
+    try {
+        showNotification('Preparing filtered Excel export...', 'info');
+
+        let reviews = [];
+        const response = await fetch(`${API_BASE_URL}/reviews/admin/all`);
+        if (response.ok) {
+            reviews = await response.json();
+        }
+
+        // Filter by status if provided
+        if (status) {
+            reviews = reviews.filter(review => review.status === status);
+        }
+
+        await createExcelFile(reviews, 'reviews', `Reviews Export - ${status || 'All'}`);
+
+    } catch (error) {
+        console.error('Filtered export error:', error);
+        showNotification('Excel export failed, trying CSV...', 'warning');
+        await simpleExportReviewsWithFilters(status);
+    }
+}
+
+// ==================== EXCEL FILE CREATION ====================
+async function createExcelFile(data, type, title) {
+    try {
+        // Check if SheetJS is available
+        if (window.XLSX) {
+            // Use SheetJS for proper Excel format
+            await createExcelWithSheetJS(data, type, title);
+        } else {
+            // Fallback to simple Excel-like format using CSV with .xls extension
+            await createSimpleExcel(data, type, title);
+        }
+    } catch (error) {
+        console.error('Excel creation error:', error);
+        throw error;
+    }
+}
+
+async function createExcelWithSheetJS(data, type, title) {
+    // This would use the SheetJS library for proper Excel files
+    // For now, we'll use the simple method
+    await createSimpleExcel(data, type, title);
+}
+
+async function createSimpleExcel(data, type, title) {
+    // Create Excel-like format using HTML table (opens in Excel)
+    let headers, rows;
+
+    if (type === 'contacts') {
+        headers = ['ID', 'Name', 'Email', 'Phone', 'Country', 'Subject', 'Message', 'Status', 'Created Date'];
+        rows = data.map(contact => [
+            contact.id,
+            contact.name || '',
+            contact.email || '',
+            contact.phone || '',
+            contact.country || '',
+            contact.subject || '',
+            contact.message || '',
+            contact.status || '',
+            formatDate(contact.createdAt)
+        ]);
+    } else {
+        headers = ['ID', 'Customer', 'Email', 'Rating', 'Title', 'Comment', 'Product', 'Status', 'Verified', 'Created Date'];
+        rows = data.map(review => [
+            review.id,
+            review.customerName || '',
+            review.email || '',
+            review.rating || '',
+            review.reviewTitle || '',
+            review.comment || '',
+            review.productType || review.productName || 'Not Specified',
+            review.status || '',
+            review.verifiedPurchase ? 'Yes' : 'No',
+            formatDate(review.createdAt)
+        ]);
+    }
+
+    // Create HTML table for Excel
+    let htmlContent = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+            <meta charset="UTF-8">
+            <title>${title}</title>
+            <!--[if gte mso 9]>
+            <xml>
+                <x:ExcelWorkbook>
+                    <x:ExcelWorksheets>
+                        <x:ExcelWorksheet>
+                            <x:Name>${title}</x:Name>
+                            <x:WorksheetOptions>
+                                <x:DisplayGridlines/>
+                            </x:WorksheetOptions>
+                        </x:ExcelWorksheet>
+                    </x:ExcelWorksheets>
+                </x:ExcelWorkbook>
+            </xml>
+            <![endif]-->
+        </head>
+        <body>
+            <table border="1">
+                <thead>
+                    <tr style="background-color: #f0f0f0; font-weight: bold;">
+                        ${headers.map(header => `<th>${header}</th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    ${rows.map(row => `
+                        <tr>
+                            ${row.map(cell => `<td>${escapeHtml(String(cell))}</td>`).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </body>
+        </html>
+    `;
+
+    const blob = new Blob([htmlContent], { type: 'application/vnd.ms-excel' });
+    const filename = `${type}_export_${new Date().toISOString().split('T')[0]}.xls`;
+
+    downloadBlob(blob, filename);
+    showNotification(`Exported ${data.length} ${type} as Excel file!`, 'success');
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+function escapeCsvField(field) {
+    if (field === null || field === undefined) return '';
+    const stringField = String(field);
+    // Escape quotes and wrap in quotes if contains comma, quote, or newline
+    if (stringField.includes('"') || stringField.includes(',') || stringField.includes('\n')) {
+        return '"' + stringField.replace(/"/g, '""') + '"';
+    }
+    return stringField;
+}
+
+function downloadCsv(csvContent, filename) {
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    downloadBlob(blob, filename);
+}
+
+function downloadBlob(blob, filename) {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+}
+
+// ==================== SIMPLE EXPORT BUTTONS ====================
+function exportContacts() {
+    // Simple one-click export - change this to Excel
+    exportContactsToExcel();
+}
+
+function exportReviews() {
+    // Simple one-click export - change this to Excel
+    exportReviewsToExcel();
+}
+
+// ==================== QUICK TEST FUNCTION ====================
+function quickExportTest() {
+    if (confirm('Download contacts as Excel file?')) {
+        exportContactsToExcel();
+    }
+}
+
+// ==================== REFRESH FUNCTIONS ====================
+function refreshActivity() {
+    loadRecentActivity();
+}
+
+function refreshContacts() {
+    const activeTab = document.querySelector('.tab.active')?.getAttribute('data-tab') || 'all-contacts';
+    loadContacts(activeTab);
+}
+
+function refreshReviews() {
+    loadReviews();
+}
+
+function debugReviewData() {
+    console.log('🔍 Debugging review data...');
+    const pendingTable = document.getElementById('reviewsTablePending');
+    console.log('Pending table innerHTML:', pendingTable.innerHTML);
+
+    // Check if there are any hidden rows or extra elements
+    const allRows = pendingTable.querySelectorAll('tr');
+    console.log('Number of rows in pending table:', allRows.length);
+
+    allRows.forEach((row, index) => {
+        console.log(`Row ${index}:`, row.innerHTML);
+    });
+}
+
+
+// ==================== SYSTEM FUNCTIONS ====================
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('adminToken');
+        window.location.href = 'admin-login.html';
+    }
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    document.querySelectorAll('.modal').forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+};
+
+// Auto-refresh dashboard every 30 seconds
+setInterval(() => {
+    if (document.getElementById('dashboard-section').style.display !== 'none') {
+        loadDashboardStats();
+        loadRecentActivity();
+    }
+}, 30000);
+</script>
+</body>
+</html>

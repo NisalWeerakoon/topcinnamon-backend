@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Reviews</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #fff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .review-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Rating Header */
+        .rating-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .overall-rating {
+            text-align: center;
+        }
+
+        .rating-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff6b00;
+            line-height: 1;
+        }
+
+        .rating-stars-large {
+            color: #ffa500;
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .total-ratings {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .rating-distribution {
+            flex: 1;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .rating-bar .stars {
+            width: 80px;
+            color: #ffa500;
+        }
+
+        .rating-bar .bar-container {
+            flex: 1;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin: 0 15px;
+            overflow: hidden;
+        }
+
+        .rating-bar .bar-fill {
+            height: 100%;
+            background: #ffa500;
+            border-radius: 4px;
+        }
+
+        .rating-bar .count {
+            width: 30px;
+            text-align: right;
+            color: #666;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .review-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sort-filter {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .sort-select, .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+        }
+
+        /* Review Item */
+        .review-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            background: #ff6b00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .reviewer-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reviewer-name {
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .verified-badge {
+            background: #28a745;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .review-date {
+            color: #666;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .review-rating {
+            color: #ffa500;
+            font-size: 16px;
+        }
+
+        .review-content {
+            margin: 10px 0;
+        }
+
+        .review-tags {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .review-tag {
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .helpful-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .helpful-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .helpful-btn.active {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #2196f3;
+        }
+
+        /* Write Review Section */
+        .write-review-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
+        .write-review-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .review-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+        }
+
+        .star-rating .star {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star-rating .star.active {
+            color: #ffa500;
+        }
+
+        .submit-btn {
+            background: #ff6b00;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+
+        .submit-btn:hover {
+            background: #e55a00;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* No Reviews */
+        .no-reviews {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-reviews i {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #ddd;
+        }
+
+        /* Debug Tools */
+        .debug-tools {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .debug-tools h6 {
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .debug-btn {
+            padding: 5px 10px;
+            margin: 2px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: white;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .debug-btn:hover {
+            background: #e9ecef;
+        }
+
+        .btn-primary { background: #007bff; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-dark { background: #343a40; color: white; }
+
+        /* Verified Purchase Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<div class="review-container">
+    <!-- Rating Header -->
+    <div class="rating-header">
+        <div class="overall-rating">
+            <div class="rating-score" id="averageRating">0.0</div>
+            <div class="rating-stars-large" id="ratingStars">★★★★★</div>
+            <div class="total-ratings" id="totalReviews">0 Ratings</div>
+        </div>
+        <div class="rating-distribution" id="ratingDistribution">
+            <!-- Rating bars will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+        <h2 class="section-title">Product Reviews</h2>
+
+        <div class="review-filters">
+            <div class="sort-filter">
+                <select class="sort-select" id="sortSelect">
+                    <option value="relevance">Sort: Relevance</option>
+                    <option value="newest">Newest First</option>
+                    <option value="highest">Highest Rating</option>
+                    <option value="lowest">Lowest Rating</option>
+                </select>
+                <select class="filter-select" id="filterSelect">
+                    <option value="all">Filter: All stars</option>
+                    <option value="5">5 stars only</option>
+                    <option value="4">4 stars only</option>
+                    <option value="3">3 stars only</option>
+                    <option value="2">2 stars only</option>
+                    <option value="1">1 star only</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Reviews List -->
+        <div class="reviews-list" id="reviewsList">
+            <div class="no-reviews">
+                <i class="fas fa-comments"></i>
+                <p>Loading reviews...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Write Review Section -->
+    <div class="write-review-section">
+        <h3 class="write-review-title">Write a Review</h3>
+        <form class="review-form" id="reviewSubmissionForm">
+            <div class="form-group">
+                <label>Your Name *</label>
+                <input type="text" id="customerName" name="customerName" required
+                       placeholder="Enter your name">
+            </div>
+
+            <div class="form-group">
+                <label>Your Email *</label>
+                <input type="email" id="customerEmail" name="email" required
+                       placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label>Product Type *</label>
+                <select id="productType" name="productType" required>
+                    <option value="">Select Product Type</option>
+                    <option value="Others">Others</option>
+                    <option value="ALBA">ALBA</option>
+                    <option value="C5-Special">C5-Special</option>
+                    <option value="C5">C5</option>
+                    <option value="C4">C4</option>
+                    <option value="M4">M4</option>
+                    <option value="H1">H1</option>
+                    <option value="H2">H2</option>
+                    <option value="H2 FAQ">H2 FAQ</option>
+                    <option value="No 2 Quillings">No 2 Quillings</option>
+                    <option value="Cut Cinnamon">Cut Cinnamon</option>
+                    <option value="Cinnamon Powder">Cinnamon Powder</option>
+                    <option value="Cinnamon Leaf">Cinnamon Leaf</option>
+                    <option value="Cinnamon Drink">Cinnamon Drink</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Your Rating *</label>
+                <div class="star-rating" id="starRating">
+                    <span class="star" data-rating="1">★</span>
+                    <span class="star" data-rating="2">★</span>
+                    <span class="star" data-rating="3">★</span>
+                    <span class="star" data-rating="4">★</span>
+                    <span class="star" data-rating="5">★</span>
+                </div>
+                <input type="hidden" id="selectedRating" name="rating" required>
+            </div>
+
+            <div class="form-group">
+                <label>Review Title *</label>
+                <input type="text" id="reviewTitle" name="reviewTitle" required
+                       placeholder="Summarize your experience" maxlength="200">
+            </div>
+
+            <div class="form-group">
+                <label>Your Review *</label>
+                <textarea id="reviewComment" name="comment" required
+                          placeholder="Share details of your experience with this product"
+                          maxlength="1000"></textarea>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="verifiedPurchase" name="verifiedPurchase">
+                <label for="verifiedPurchase">I made a verified purchase</label>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Review</button>
+        </form>
+    </div>
+</div>
+
+<!-- Debug Tools -->
+<div class="debug-tools">
+    <h6>Debug Tools</h6>
+    <button onclick="testConnection()" class="debug-btn btn-primary">Test Connection</button>
+    <button onclick="testReviewSubmission()" class="debug-btn btn-warning">Test Submit</button>
+    <button onclick="debugReviewSystem()" class="debug-btn btn-info">Debug System</button>
+    <button onclick="checkFormStatus()" class="debug-btn btn-secondary">Check Form</button>
+    <button onclick="clearConsole()" class="debug-btn btn-dark">Clear Console</button>
+</div>
+
+<script>
+    const API_BASE_URL = 'http://localhost:8081/api/reviews';
+    let currentRating = 0;
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔗 Page loaded, API Base URL:', API_BASE_URL);
+        initializeStarRating();
+        setupEventListeners();
+        loadReviewStatistics();
+        loadReviews();
+
+        // Test connection
+        testConnection();
+    });
+
+    // Star Rating System
+    function initializeStarRating() {
+        const stars = document.querySelectorAll('.star-rating .star');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                setRating(rating);
+            });
+
+            star.addEventListener('mouseover', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                highlightStars(rating);
+            });
+        });
+
+        document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+            highlightStars(currentRating);
+        });
+    }
+
+    function setRating(rating) {
+        currentRating = rating;
+        document.getElementById('selectedRating').value = rating;
+        highlightStars(rating);
+    }
+
+    function highlightStars(rating) {
+        const stars = document.querySelectorAll('.star-rating .star');
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+        });
+    }
+
+    // Event Listeners
+    function setupEventListeners() {
+        document.getElementById('sortSelect').addEventListener('change', loadReviews);
+        document.getElementById('filterSelect').addEventListener('change', loadReviews);
+
+        // Form submission
+        document.getElementById('reviewSubmissionForm').addEventListener('submit', handleFormSubmit);
+    }
+
+    // Load Review Statistics
+    async function loadReviewStatistics() {
+        try {
+            console.log('📊 Loading review statistics...');
+            const response = await fetch(`${API_BASE_URL}/statistics`);
+            if (response.ok) {
+                const stats = await response.json();
+                console.log('✅ Statistics loaded:', stats);
+                updateRatingDisplay(stats);
+            } else {
+                console.error('❌ Failed to load statistics:', response.status);
+            }
+        } catch (error) {
+            console.error('❌ Error loading review statistics:', error);
+        }
+    }
+
+    // Load Reviews
+    async function loadReviews() {
+        try {
+            const sortBy = document.getElementById('sortSelect').value;
+            const filterBy = document.getElementById('filterSelect').value;
+
+            console.log('📥 Loading approved reviews...');
+            const response = await fetch(`${API_BASE_URL}/approved`);
+
+            if (response.ok) {
+                let reviews = await response.json();
+                console.log('✅ Reviews loaded:', reviews.length, 'reviews');
+                reviews = filterReviews(reviews, filterBy);
+                reviews = sortReviews(reviews, sortBy);
+                displayReviews(reviews);
+            } else {
+                console.error('❌ Failed to load reviews:', response.status);
+                const errorText = await response.text();
+                console.error('Error details:', errorText);
+                displayReviews([]);
+            }
+        } catch (error) {
+            console.error('❌ Error loading reviews:', error);
+            displayReviews([]);
+        }
+    }
+
+function checkTableContents() {
+    console.log('🔍 Checking table contents...');
+
+    const tables = [
+        { id: 'reviewsTableAll', name: 'All Reviews' },
+        { id: 'reviewsTablePending', name: 'Pending Approval' },
+        { id: 'reviewsTableApproved', name: 'Approved' },
+        { id: 'reviewsTableRejected', name: 'Rejected' }
+    ];
+
+    tables.forEach(table => {
+        const tbody = document.getElementById(table.id);
+        if (tbody) {
+            const rows = tbody.querySelectorAll('tr');
+            console.log(`${table.name} (${table.id}): ${rows.length} rows`);
+
+            rows.forEach((row, index) => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length > 0) {
+                    console.log(`  📝 Row ${index + 1}: ${cells[0].textContent.trim()} - ${cells[3].textContent.trim()}`);
+                }
+            });
+        }
+    });
+}
+
+    function filterReviews(reviews, filter) {
+        if (filter === 'all') return reviews;
+        return reviews.filter(review => review.rating === parseInt(filter));
+    }
+
+
+
+    function sortReviews(reviews, sortBy) {
+        const sorted = [...reviews];
+        switch (sortBy) {
+            case 'newest':
+                return sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            case 'highest':
+                return sorted.sort((a, b) => b.rating - a.rating);
+            case 'lowest':
+                return sorted.sort((a, b) => a.rating - b.rating);
+            case 'relevance':
+            default:
+                return sorted.sort((a, b) => {
+                    const scoreA = a.rating * 2 + (a.helpfulVotes || 0);
+                    const scoreB = b.rating * 2 + (b.helpfulVotes || 0);
+                    return scoreB - scoreA;
+                });
+        }
+    }
+
+    function getCurrentProductId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('productId') || 'default-product-001';
+    }
+
+    function getCurrentProductName() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('productId');
+
+        const productMap = {
+            'others': 'Others',
+            'alba': 'ALBA',
+            'c5-special': 'C5-Special',
+            'c5': 'C5',
+            'c4': 'C4',
+            'm4': 'M4',
+            'h1': 'H1',
+            'h2': 'H2',
+            'h2-faq': 'H2 FAQ',
+            'no2-quillings': 'No 2 Quillings',
+            'cut-cinnamon': 'Cut Cinnamon',
+            'cinnamon-powder': 'Cinnamon Powder',
+            'cinnamon-leaf': 'Cinnamon Leaf',
+            'cinnamon-drink': 'Cinnamon Drink'
+        };
+
+        return productMap[productId] || document.querySelector('.product-name')?.textContent || 'Cinnamon Product';
+    }
+
+    function displayReviews(reviews) {
+        const reviewsList = document.getElementById('reviewsList');
+        console.log('📊 Displaying reviews:', reviews);
+
+        if (!reviews || reviews.length === 0) {
+            reviewsList.innerHTML = `
+                <div class="no-reviews">
+                    <i class="fas fa-comments"></i>
+                    <p>No reviews yet. Be the first to review this product!</p>
+                </div>
+            `;
+            return;
+        }
+
+        reviewsList.innerHTML = reviews.map(review => {
+            const reviewDate = new Date(review.createdAt);
+            const formattedDate = formatDate(reviewDate);
+
+            const maskedName = review.customerName ?
+                review.customerName.charAt(0) + '***' + (review.customerName.length > 1 ? review.customerName.charAt(review.customerName.length - 1) : '') :
+                'U***r';
+
+            return `
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                ${review.customerName ? review.customerName.charAt(0).toUpperCase() : 'U'}
+                            </div>
+                            <div class="reviewer-details">
+                                <div class="reviewer-name">
+                                    ${maskedName}
+                                    ${review.verifiedPurchase ? '<span class="verified-badge">Verified Purchase</span>' : ''}
+                                </div>
+                                <div class="review-date">${formattedDate}</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            ${generateStarRating(review.rating)}
+                        </div>
+                    </div>
+
+                    <div class="review-content">
+                        <strong>${escapeHtml(review.reviewTitle)}</strong>
+                        <p>${escapeHtml(review.comment)}</p>
+                    </div>
+
+                    <div class="review-tags">
+                        <span class="review-tag">
+                            <strong>Product:</strong> ${review.productType || 'Others'}
+                        </span>
+                    </div>
+
+                    <div class="review-actions">
+                        <button class="helpful-btn" onclick="markHelpful(${review.id})" id="helpful-${review.id}">
+                            <i class="fas fa-thumbs-up"></i> Helpful (${review.helpfulVotes || 0})
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function generateStarRating(rating) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            stars += i <= rating ? '★' : '☆';
+        }
+        return stars;
+    }
+
+    async function markHelpful(reviewId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${reviewId}/helpful`, {
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                const button = document.getElementById(`helpful-${reviewId}`);
+                button.innerHTML = `<i class="fas fa-thumbs-up"></i> Helpful (${result.helpfulVotes})`;
+                button.classList.add('active');
+            }
+        } catch (error) {
+            console.error('Error marking review as helpful:', error);
+        }
+    }
+
+    // Form submission handler
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+        console.log('🔄 Form submission intercepted');
+
+        if (currentRating === 0) {
+            alert('Please select a rating');
+            return;
+        }
+
+        const productType = document.getElementById('productType').value;
+        if (!productType) {
+            alert('Please select a product type');
+            return;
+        }
+
+        const formData = {
+            customerName: document.getElementById('customerName').value.trim(),
+            email: document.getElementById('customerEmail').value.trim(),
+            rating: currentRating,
+            reviewTitle: document.getElementById('reviewTitle').value.trim(),
+            comment: document.getElementById('reviewComment').value.trim(),
+            productType: productType,
+            productId: getCurrentProductId(),
+            productName: getCurrentProductName(),
+            verifiedPurchase: document.getElementById('verifiedPurchase').checked
+        };
+
+        console.log('📤 Submitting review:', formData);
+
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Submitting...';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            console.log('📡 Response status:', response.status);
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('✅ Review submitted successfully:', result);
+
+                alert('Review submitted successfully! It will be visible after approval.');
+
+                // Reset form
+                e.target.reset();
+                currentRating = 0;
+                highlightStars(0);
+
+                // Refresh data
+                await loadReviewStatistics();
+                await loadReviews();
+
+            } else {
+                const errorText = await response.text();
+                console.error('❌ Server error:', errorText);
+                throw new Error(`Server error: ${response.status} - ${errorText}`);
+            }
+
+        } catch (error) {
+            console.error('❌ Submission failed:', error);
+            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                alert('Network error: Cannot connect to server. Please check if the backend is running on localhost:8081');
+            } else {
+                alert('Failed to submit review: ' + error.message);
+            }
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    }
+
+    // Update rating display
+    function updateRatingDisplay(stats) {
+        document.getElementById('averageRating').textContent = stats.averageRating.toFixed(1);
+        document.getElementById('totalReviews').textContent = `${stats.totalReviews} Ratings`;
+
+        // Create star rating display
+        const ratingStars = document.getElementById('ratingStars');
+        ratingStars.innerHTML = '';
+        const average = stats.averageRating;
+        const fullStars = Math.floor(average);
+
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('span');
+            if (i <= fullStars) {
+                star.textContent = '★';
+                star.style.color = '#ffa500';
+            } else {
+                star.textContent = '★';
+                star.style.color = '#ddd';
+            }
+            ratingStars.appendChild(star);
+        }
+
+        // Create rating distribution
+        const distribution = document.getElementById('ratingDistribution');
+        distribution.innerHTML = '';
+        for (let i = 5; i >= 1; i--) {
+            const count = stats.ratingDistribution[i] || 0;
+            const percentage = stats.totalReviews > 0 ? (count / stats.totalReviews) * 100 : 0;
+
+            const bar = document.createElement('div');
+            bar.className = 'rating-bar';
+            bar.innerHTML = `
+                <div class="stars">${generateStarRating(i)}</div>
+                <div class="bar-container">
+                    <div class="bar-fill" style="width: ${percentage}%"></div>
+                </div>
+                <div class="count">${count}</div>
+            `;
+            distribution.appendChild(bar);
+        }
+    }
+
+    // Debug Functions
+    async function debugReviewSystem() {
+        console.log('🔧 Starting comprehensive debug...');
+
+        try {
+            // Test connection
+            const testResponse = await fetch(`${API_BASE_URL}/test`);
+            console.log('✅ Connection test:', await testResponse.text());
+
+            // Check all reviews in DB
+            const allReviews = await fetch(`${API_BASE_URL}/debug/all`);
+            const reviewsData = await allReviews.json();
+            console.log('📊 All reviews in database:', reviewsData);
+
+            // Check statistics
+            const stats = await fetch(`${API_BASE_URL}/statistics`);
+            console.log('📈 Statistics:', await stats.json());
+
+            // Check approved reviews
+            const approved = await fetch(`${API_BASE_URL}/approved`);
+            const approvedData = await approved.json();
+            console.log('👁 Approved reviews:', approvedData);
+
+        } catch (error) {
+            console.error('❌ Debug failed:', error);
+        }
+    }
+
+    function testReviewSubmission() {
+        console.log('🧪 Testing review submission...');
+
+        const testData = {
+            customerName: "Test User",
+            email: "test@example.com",
+            rating: 5,
+            reviewTitle: "Test Review",
+            comment: "This is a test review submission",
+            productType: "ALBA",
+            productId: "test-product",
+            productName: "Test Cinnamon",
+            verifiedPurchase: false
+        };
+
+        console.log('📤 Test data:', testData);
+
+        fetch(`${API_BASE_URL}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(testData)
+        })
+        .then(response => {
+            console.log('Test Response status:', response.status);
+            return response.text();
+        })
+        .then(data => {
+            console.log('Test Response data:', data);
+            alert('Test submission completed. Check console for details.');
+        })
+        .catch(error => {
+            console.error('Test submission failed:', error);
+            alert('Test submission failed: ' + error.message);
+        });
+    }
+
+    function testConnection() {
+        console.log('🧪 Testing connection to:', API_BASE_URL);
+
+        fetch(`${API_BASE_URL}/test`)
+            .then(response => {
+                console.log('GET Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`GET failed: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log('✅ GET Connection successful:', data);
+                alert('Connection is working! Check console for details.');
+            })
+            .catch(error => {
+                console.error('❌ Connection test failed:', error);
+                alert('Connection test failed: ' + error.message);
+            });
+    }
+
+    function checkFormStatus() {
+        console.log('📋 Form Status Check:');
+        console.log('   Rating:', currentRating);
+        console.log('   Name:', document.getElementById('customerName').value);
+        console.log('   Email:', document.getElementById('customerEmail').value);
+        console.log('   Product Type:', document.getElementById('productType').value);
+        console.log('   Title:', document.getElementById('reviewTitle').value);
+        console.log('   Comment:', document.getElementById('reviewComment').value);
+        console.log('   Verified Purchase:', document.getElementById('verifiedPurchase').checked);
+    }
+
+    function clearConsole() {
+        console.clear();
+        console.log('🔄 Console cleared');
+    }
+
+    // Utility Functions
+    function escapeHtml(unsafe) {
+        if (!unsafe) return '';
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function formatDate(date) {
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) return 'Today';
+        if (diffDays === 2) return 'Yesterday';
+        if (diffDays <= 7) return `${diffDays - 1} days ago`;
+        
+        return date.toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+    }
+</script>
+</body>
+</html>

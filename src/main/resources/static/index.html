@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - G.D.De Silva Sons | Premium Ceylon Cinnamon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+        --primary: #8B4513;
+        --secondary: #D2691E;
+        --accent: #CD853F;
+        --light: #2c2c2c;
+        --dark: #1a1a1a;
+        --text: #e0e0e0;
+        --white: #2c2c2c;
+        --shadow: 0 5px 15px rgba(0,0,0,0.3);
+        --transition: all 0.3s ease;
+        }
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        }
+        body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%238B4513"/><path d="M30,30 Q50,10 70,30 T90,50 T70,70 T30,70 T10,50 T30,30" fill="%23D2691E" opacity="0.3"/></svg>');
+        background-size: cover;
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+        }
+        h1, h2, h3, h4, h5 {
+        font-family: 'Playfair Display', serif;
+        color: #f8f8f8;
+        font-weight: 700;
+        }
+        .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        }
+        /* Header Styles */
+        .header {
+        background-color: rgba(26, 26, 26, 0.95);
+        box-shadow: var(--shadow);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        }
+        .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+        .logo {
+        font-size: 28px;
+        font-weight: 700;
+        color: #D2691E;
+        display: flex;
+        align-items: center;
+        }
+        .logo span {
+        color: #CD853F;
+        }
+        .nav-links {
+        display: flex;
+        list-style: none;
+        }
+        .nav-links li {
+        margin-left: 30px;
+        position: relative;
+        }
+        .nav-links a {
+        text-decoration: none;
+        color: #f8f8f8;
+        font-weight: 500;
+        transition: var(--transition);
+        padding: 5px 0;
+        position: relative;
+        }
+        .nav-links a:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--secondary);
+        transition: var(--transition);
+        }
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+        width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+        color: var(--secondary);
+        }
+        .mobile-toggle {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #f8f8f8;
+        }
+        /* Hero Section */
+        .hero {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1516387938699-a93567ec168e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        color: #f8f8f8;
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        }
+        .hero h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: #f8f8f8;
+        line-height: 1.2;
+        }
+        .hero p {
+        font-size: 18px;
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.9;
+        }
+        /* Contact Section */
+        .contact-section {
+        padding: 60px 0;
+        }
+        .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+        }
+        .section-title h2 {
+        font-size: 32px;
+        color: #D2691E;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+        }
+        .section-title h2:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70px;
+        height: 3px;
+        background: var(--secondary);
+        }
+        .section-title p {
+        color: var(--text);
+        }
+        .contact-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-bottom: 40px;
+        }
+        .contact-form {
+        flex: 1;
+        min-width: 300px;
+        background: rgba(44, 44, 44, 0.8);
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+        }
+        .contact-form h3 {
+        font-size: 24px;
+        margin-bottom: 25px;
+        color: #D2691E;
+        text-align: center;
+        }
+        .form-group {
+        margin-bottom: 20px;
+        position: relative;
+        }
+        label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #f8f8f8;
+        }
+        input, textarea, select {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1px solid #555;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: var(--transition);
+        background: #333;
+        color: #f8f8f8;
+        }
+        input:focus, textarea:focus, select:focus {
+        border-color: var(--secondary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.2);
+        }
+        textarea {
+        height: 140px;
+        resize: vertical;
+        }
+        button {
+        display: block;
+        width: 100%;
+        border: none;
+        background: var(--secondary);
+        color: #f8f8f8;
+        padding: 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: var(--transition);
+        }
+        button:hover {
+        background: var(--accent);
+        transform: translateY(-2px);
+        }
+        .contact-info {
+        flex: 1;
+        min-width: 300px;
+        }
+        .contact-info h3 {
+        font-size: 24px;
+        margin-bottom: 25px;
+        color: #D2691E;
+        text-align: center;
+        }
+        .info-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        background: rgba(44, 44, 44, 0.8);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        backdrop-filter: blur(10px);
+        }
+        .info-item:hover {
+        transform: translateY(-5px);
+        }
+        .info-item .icon {
+        font-size: 22px;
+        color: var(--secondary);
+        margin-right: 15px;
+        min-width: 25px;
+        text-align: center;
+        padding: 12px;
+        background: rgba(210, 105, 30, 0.2);
+        border-radius: 50%;
+        transition: var(--transition);
+        }
+        .info-item:hover .icon {
+        background: var(--secondary);
+        color: #f8f8f8;
+        }
+        .info-item h3 {
+        margin-bottom: 8px;
+        font-size: 18px;
+        color: #f8f8f8;
+        text-align: left;
+        }
+        .info-item p, .info-item a {
+        color: var(--text);
+        transition: var(--transition);
+        line-height: 1.6;
+        }
+        .info-item a:hover {
+        color: var(--secondary);
+        }
+        .contact-link {
+        color: var(--text);
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-block;
+        padding: 2px 0;
+        border-bottom: 1px solid transparent;
+        }
+        .contact-link:hover {
+        color: var(--secondary);
+        border-bottom: 1px solid var(--secondary);
+        transform: translateX(5px);
+        }
+        /* Map Section */
+        .map-section {
+        margin: 50px 0;
+        }
+        .map-container {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        position: relative;
+        }
+        .map {
+        height: 400px;
+        width: 100%;
+        }
+        .map-overlay {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(44, 44, 44, 0.9);
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        z-index: 10;
+        color: #f8f8f8;
+        backdrop-filter: blur(5px);
+        }
+        .map-overlay h4 {
+        color: var(--secondary);
+        margin-bottom: 8px;
+        font-size: 16px;
+        }
+        .map-overlay p {
+        margin-bottom: 5px;
+        font-size: 14px;
+        }
+        /* Modals */
+        .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left:0;
+        width:100%;
+        height:100%;
+        background: rgba(0,0,0,0.7);
+        justify-content:center;
+        align-items:center;
+        z-index: 2000;
+        backdrop-filter: blur(5px);
+        }
+        .modal-content {
+        background: rgba(44, 44, 44, 0.95);
+        padding:30px;
+        border-radius:10px;
+        max-width:400px;
+        width: 90%;
+        text-align:center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        animation: modalFade 0.3s;
+        color: #f8f8f8;
+        backdrop-filter: blur(10px);
+        }
+        @keyframes modalFade {
+        from {opacity: 0; transform: translateY(-50px);}
+        to {opacity: 1; transform: translateY(0);}
+        }
+        .modal-content h3 {
+        margin-bottom: 20px;
+        color: var(--secondary);
+        font-size: 22px;
+        }
+        .modal-content button {
+        margin:8px 0;
+        padding:12px 20px;
+        border:none;
+        border-radius:5px;
+        cursor:pointer;
+        width: 100%;
+        font-size: 16px;
+        }
+        .callBtn {
+        background: var(--secondary);
+        color:#f8f8f8;
+        transition: var(--transition);
+        }
+        .callBtn:hover {
+        background: var(--accent);
+        }
+        .cancelBtn {
+        background: #c23b22;
+        color:#f8f8f8;
+        margin-top: 15px;
+        }
+        /* Footer */
+        .footer {
+        background: rgba(26, 26, 26, 0.95);
+        color: #ecf0f1;
+        padding: 50px 0 20px;
+        }
+        .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        }
+        .footer-section {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: 30px;
+        }
+        .footer-section h3 {
+        margin-bottom: 20px;
+        font-size: 20px;
+        position: relative;
+        padding-bottom: 10px;
+        color: #f8f8f8;
+        }
+        .footer-section h3:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: var(--secondary);
+        }
+        .footer-section p {
+        margin-bottom: 12px;
+        line-height: 1.6;
+        opacity: 0.8;
+        }
+        .footer-links {
+        list-style: none;
+        }
+        .footer-links li {
+        margin-bottom: 10px;
+        }
+        .footer-links a {
+        color: #ecf0f1;
+        text-decoration: none;
+        transition: var(--transition);
+        opacity: 0.8;
+        }
+        .footer-links a:hover {
+        opacity: 1;
+        color: var(--secondary);
+        }
+        .contact-info-item {
+        display: flex;
+        margin-bottom: 15px;
+        }
+        .contact-info-icon {
+        margin-right: 12px;
+        color: var(--secondary);
+        font-size: 18px;
+        }
+        .contact-info-content {
+        opacity: 0.8;
+        font-size: 14px;
+        }
+        .social-icons {
+        display: flex;
+        margin-top: 20px;
+        }
+        .social-icons a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        margin-right: 12px;
+        background: rgba(255,255,255,0.1);
+        color: #f8f8f8;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: var(--transition);
+        }
+        .social-icons a:hover {
+        background: var(--secondary);
+        transform: translateY(-2px);
+        }
+        .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        font-size: 14px;
+        }
+        /* Alert Styles */
+        .alert {
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 5px;
+        font-weight: 500;
+        display: none;
+        }
+        .alert-success {
+        background-color: rgba(40, 167, 69, 0.2);
+        border: 1px solid #28a745;
+        color: #d4edda;
+        }
+        .alert-error {
+        background-color: rgba(220, 53, 69, 0.2);
+        border: 1px solid #dc3545;
+        color: #f8d7da;
+        }
+        /* Responsive Design */
+        @media (max-width: 992px) {
+        .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(26, 26, 26, 0.95);
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .nav-links.active {
+        display: flex;
+        }
+        .nav-links li {
+        margin: 10px 0;
+        }
+        .mobile-toggle {
+        display: block;
+        }
+        .hero h1 {
+        font-size: 32px;
+        }
+        .contact-form, .contact-info {
+        flex: 100%;
+        }
+        }
+        @media (max-width: 768px) {
+        .hero {
+        padding: 60px 0;
+        }
+        .hero h1 {
+        font-size: 28px;
+        }
+        .section-title h2 {
+        font-size: 26px;
+        }
+        .contact-form {
+        padding: 30px;
+        }
+        .footer-section {
+        flex: 100%;
+        }
+        .map {
+        height: 300px;
+        }
+        }
+        /* Animation */
+        @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+        animation: fadeIn 1s ease forwards;
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        /* Utilities */
+        .text-center { text-align: center; }
+        .mt-20 { margin-top: 20px; }
+        .mb-20 { margin-bottom: 20px; }
+        /* Enhanced Submission Management Styles */
+        /* Compact Messages Panel Styles */
+        .compact-messages-panel {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        width: 300px;
+        background: rgba(44, 44, 44, 0.98);
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(210, 105, 30, 0.4);
+        backdrop-filter: blur(10px);
+        z-index: 100;
+        overflow: hidden;
+        font-size: 13px;
+        }
+        .panel-header {
+        padding: 12px 15px;
+        background: rgba(210, 105, 30, 0.15);
+        border-bottom: 1px solid rgba(210, 105, 30, 0.2);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: var(--transition);
+        }
+        .panel-header:hover {
+        background: rgba(210, 105, 30, 0.2);
+        }
+        .header-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--secondary);
+        font-weight: 600;
+        font-size: 14px;
+        }
+        .message-badge {
+        background: var(--secondary);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 600;
+        min-width: 18px;
+        text-align: center;
+        }
+        #panelToggleIcon {
+        color: var(--accent);
+        font-size: 12px;
+        transition: transform 0.3s ease;
+        }
+        .panel-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        }
+        .compact-messages-panel.open .panel-content {
+        max-height: 350px;
+        }
+        .compact-messages-panel.open #panelToggleIcon {
+        transform: rotate(180deg);
+        }
+        .messages-list {
+        max-height: 280px;
+        overflow-y: auto;
+        padding: 10px;
+        }
+        /* Custom scrollbar */
+        .messages-list::-webkit-scrollbar {
+        width: 4px;
+        }
+        .messages-list::-webkit-scrollbar-track {
+        background: rgba(26, 26, 26, 0.6);
+        }
+        .messages-list::-webkit-scrollbar-thumb {
+        background: var(--secondary);
+        border-radius: 2px;
+        }
+        .message-item {
+        background: rgba(26, 26, 26, 0.7);
+        padding: 10px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        border-left: 2px solid var(--secondary);
+        transition: var(--transition);
+        }
+        .message-item:hover {
+        background: rgba(26, 26, 26, 0.9);
+        transform: translateX(2px);
+        }
+        .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 6px;
+        }
+        .message-sender {
+        font-weight: 600;
+        color: #f8f8f8;
+        font-size: 13px;
+        margin: 0;
+        }
+        .message-date {
+        font-size: 10px;
+        color: var(--accent);
+        }
+        .message-preview {
+        font-size: 12px;
+        color: var(--text);
+        opacity: 0.8;
+        line-height: 1.3;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        }
+        .message-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: var(--accent);
+        margin-bottom: 8px;
+        }
+        .message-actions {
+        display: flex;
+        justify-content: flex-end;
+        }
+        .delete-btn {
+        background: rgba(220, 53, 69, 0.2);
+        border: 1px solid #dc3545;
+        color: #dc3545;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 10px;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        }
+        .delete-btn:hover {
+        background: #dc3545;
+        color: white;
+        transform: translateY(-1px);
+        }
+        .empty-messages {
+        text-align: center;
+        padding: 30px 20px;
+        color: var(--text);
+        opacity: 0.5;
+        }
+        .empty-messages i {
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: var(--accent);
+        }
+        .empty-messages p {
+        margin: 0;
+        font-size: 12px;
+        }
+        .panel-actions {
+        padding: 10px 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+        .refresh-btn-small, .clear-all-btn {
+        background: rgba(210, 105, 30, 0.2);
+        border: 1px solid var(--secondary);
+        color: var(--secondary);
+        padding: 6px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 11px;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        }
+        .refresh-btn-small:hover, .clear-all-btn:hover {
+        background: var(--secondary);
+        color: white;
+        transform: translateY(-1px);
+        }
+        .clear-all-btn {
+        background: rgba(220, 53, 69, 0.2);
+        border-color: #dc3545;
+        color: #dc3545;
+        }
+        .clear-all-btn:hover {
+        background: #dc3545;
+        color: white;
+        }
+        /* Loading state */
+        .messages-loading {
+        text-align: center;
+        padding: 20px;
+        color: var(--accent);
+        }
+        .messages-loading i {
+        animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+        }
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+        .compact-messages-panel {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-width: 350px;
+        margin: 0 auto;
+        }
+        }
+
+        /* Add to your existing CSS */
+.edit-btn {
+    background: rgba(32, 201, 151, 0.2);
+    border: 1px solid #20c997;
+    color: #20c997;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 5px;
+}
+
+.edit-btn:hover {
+    background: #20c997;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.edit-btn:disabled {
+    background: rgba(108, 117, 125, 0.2);
+    border-color: #6c757d;
+    color: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.edit-time {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+}
+
+.edit-time.active {
+    background: rgba(32, 201, 151, 0.2);
+    color: #20c997;
+    border: 1px solid #20c997;
+}
+
+.edit-time.expired {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.message-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">G.D. <span>DE SILVA</span> SONS</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#" class="active">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </div>
+</header>
+<section class="hero">
+    <div class="container">
+        <h1 class="fade-in">Connect With The Cinnamon Experts</h1>
+        <p class="fade-in delay-1">We're here to answer any questions you may have about our premium cinnamon products.</p>
+    </div>
+</section>
+<section class="contact-section">
+    <div class="container">
+        <div class="section-title fade-in">
+            <h2>Get In Touch</h2>
+            <p>Have questions about our cinnamon products or need assistance? Our team is ready to help you.</p>
+        </div>
+        <div class="contact-wrapper">
+            <div class="contact-form fade-in">
+                <h3>Send Us a Message</h3>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">User Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Contact No</label>
+                        <input type="tel" id="phone" name="phone" required
+                               oninput="formatPhoneNumber(this); validatePhoneNumber()"
+                               onblur="validatePhoneNumber()"
+                               placeholder="Select country first">
+                        <small id="phoneHelp" style="color: #CD853F; font-size: 12px; display: block; margin-top: 5px;">
+                            Select a country to see the required phone format
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="countrySelect">Country</label>
+                        <select id="countrySelect" name="country" onchange="updatePhoneValidation()">
+                            <option value="">-- Select Country --</option>
+                            <option value="Afghanistan">Afghanistan</option>
+                            <option value="Albania">Albania</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="Andorra">Andorra</option>
+                            <option value="Angola">Angola</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Armenia">Armenia</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Azerbaijan">Azerbaijan</option>
+                            <option value="Bahamas">Bahamas</option>
+                            <option value="Bahrain">Bahrain</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Barbados">Barbados</option>
+                            <option value="Belarus">Belarus</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Belize">Belize</option>
+                            <option value="Benin">Benin</option>
+                            <option value="Bhutan">Bhutan</option>
+                            <option value="Bolivia">Bolivia</option>
+                            <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                            <option value="Botswana">Botswana</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Brunei">Brunei</option>
+                            <option value="Bulgaria">Bulgaria</option>
+                            <option value="Burkina Faso">Burkina Faso</option>
+                            <option value="Burundi">Burundi</option>
+                            <option value="Cambodia">Cambodia</option>
+                            <option value="Cameroon">Cameroon</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Cape Verde">Cape Verde</option>
+                            <option value="Central African Republic">Central African Republic</option>
+                            <option value="Chad">Chad</option>
+                            <option value="Chile">Chile</option>
+                            <option value="China">China</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Comoros">Comoros</option>
+                            <option value="Congo (Brazzaville)">Congo (Brazzaville)</option>
+                            <option value="Congo (Kinshasa)">Congo (Kinshasa)</option>
+                            <option value="Costa Rica">Costa Rica</option>
+                            <option value="Croatia">Croatia</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Cyprus">Cyprus</option>
+                            <option value="Czech Republic">Czech Republic</option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Djibouti">Djibouti</option>
+                            <option value="Dominica">Dominica</option>
+                            <option value="Dominican Republic">Dominican Republic</option>
+                            <option value="East Timor">East Timor</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Egypt">Egypt</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Equatorial Guinea">Equatorial Guinea</option>
+                            <option value="Eritrea">Eritrea</option>
+                            <option value="Estonia">Estonia</option>
+                            <option value="Eswatini">Eswatini</option>
+                            <option value="Ethiopia">Ethiopia</option>
+                            <option value="Fiji">Fiji</option>
+                            <option value="Finland">Finland</option>
+                            <option value="France">France</option>
+                            <option value="Gabon">Gabon</option>
+                            <option value="Gambia">Gambia</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Grenada">Grenada</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Guinea">Guinea</option>
+                            <option value="Guinea-Bissau">Guinea-Bissau</option>
+                            <option value="Guyana">Guyana</option>
+                            <option value="Haiti">Haiti</option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Hungary">Hungary</option>
+                            <option value="Iceland">Iceland</option>
+                            <option value="India">India</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="Iran">Iran</option>
+                            <option value="Iraq">Iraq</option>
+                            <option value="Ireland">Ireland</option>
+                            <option value="Israel">Israel</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Jamaica">Jamaica</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Jordan">Jordan</option>
+                            <option value="Kazakhstan">Kazakhstan</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Kiribati">Kiribati</option>
+                            <option value="Korea, North">Korea, North</option>
+                            <option value="Korea, South">Korea, South</option>
+                            <option value="Kuwait">Kuwait</option>
+                            <option value="Kyrgyzstan">Kyrgyzstan</option>
+                            <option value="Laos">Laos</option>
+                            <option value="Latvia">Latvia</option>
+                            <option value="Lebanon">Lebanon</option>
+                            <option value="Lesotho">Lesotho</option>
+                            <option value="Liberia">Liberia</option>
+                            <option value="Libya">Libya</option>
+                            <option value="Liechtenstein">Liechtenstein</option>
+                            <option value="Lithuania">Lithuania</option>
+                            <option value="Luxembourg">Luxembourg</option>
+                            <option value="Madagascar">Madagascar</option>
+                            <option value="Malawi">Malawi</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Maldives">Maldives</option>
+                            <option value="Mali">Mali</option>
+                            <option value="Malta">Malta</option>
+                            <option value="Marshall Islands">Marshall Islands</option>
+                            <option value="Mauritania">Mauritania</option>
+                            <option value="Mauritius">Mauritius</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Micronesia">Micronesia</option>
+                            <option value="Moldova">Moldova</option>
+                            <option value="Monaco">Monaco</option>
+                            <option value="Mongolia">Mongolia</option>
+                            <option value="Montenegro">Montenegro</option>
+                            <option value="Morocco">Morocco</option>
+                            <option value="Mozambique">Mozambique</option>
+                            <option value="Myanmar">Myanmar</option>
+                            <option value="Namibia">Namibia</option>
+                            <option value="Nauru">Nauru</option>
+                            <option value="Nepal">Nepal</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="New Zealand">New Zealand</option>
+                            <option value="Nicaragua">Nicaragua</option>
+                            <option value="Niger">Niger</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="North Macedonia">North Macedonia</option>
+                            <option value="Norway">Norway</option>
+                            <option value="Oman">Oman</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="Palau">Palau</option>
+                            <option value="Panama">Panama</option>
+                            <option value="Papua New Guinea">Papua New Guinea</option>
+                            <option value="Paraguay">Paraguay</option>
+                            <option value="Peru">Peru</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Poland">Poland</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="Qatar">Qatar</option>
+                            <option value="Romania">Romania</option>
+                            <option value="Russia">Russia</option>
+                            <option value="Rwanda">Rwanda</option>
+                            <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                            <option value="Saint Lucia">Saint Lucia</option>
+                            <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                            <option value="Samoa">Samoa</option>
+                            <option value="San Marino">San Marino</option>
+                            <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="Senegal">Senegal</option>
+                            <option value="Serbia">Serbia</option>
+                            <option value="Seychelles">Seychelles</option>
+                            <option value="Sierra Leone">Sierra Leone</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Slovakia">Slovakia</option>
+                            <option value="Slovenia">Slovenia</option>
+                            <option value="Solomon Islands">Solomon Islands</option>
+                            <option value="Somalia">Somalia</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="South Sudan">South Sudan</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Sudan">Sudan</option>
+                            <option value="Suriname">Suriname</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Syria">Syria</option>
+                            <option value="Taiwan">Taiwan</option>
+                            <option value="Tajikistan">Tajikistan</option>
+                            <option value="Tanzania">Tanzania</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="Togo">Togo</option>
+                            <option value="Tonga">Tonga</option>
+                            <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                            <option value="Tunisia">Tunisia</option>
+                            <option value="Turkey">Turkey</option>
+                            <option value="Turkmenistan">Turkmenistan</option>
+                            <option value="Tuvalu">Tuvalu</option>
+                            <option value="Uganda">Uganda</option>
+                            <option value="Ukraine">Ukraine</option>
+                            <option value="United Arab Emirates">United Arab Emirates</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="United States">United States</option>
+                            <option value="Uruguay">Uruguay</option>
+                            <option value="Uzbekistan">Uzbekistan</option>
+                            <option value="Vanuatu">Vanuatu</option>
+                            <option value="Vatican City">Vatican City</option>
+                            <option value="Venezuela">Venezuela</option>
+                            <option value="Vietnam">Vietnam</option>
+                            <option value="Yemen">Yemen</option>
+                            <option value="Zambia">Zambia</option>
+                            <option value="Zimbabwe">Zimbabwe</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                    <!-- Compact Messages Panel - Add this inside contact-form div after the form -->
+                    <div class="compact-messages-panel" id="compactMessagesPanel" style="display: none;">
+                        <div class="panel-header" onclick="toggleMessagesPanel()">
+                            <div class="header-info">
+                                <i class="fas fa-comments"></i>
+                                <span>Your Messages</span>
+                                <span class="message-badge" id="messageBadge">0</span>
+                            </div>
+                            <i class="fas fa-chevron-down" id="panelToggleIcon"></i>
+                        </div>
+                        <div class="panel-content" id="panelContent">
+                            <div class="messages-list" id="messagesList">
+                                <div class="empty-messages">
+                                    <i class="fas fa-inbox"></i>
+                                    <p>No messages yet</p>
+                                </div>
+                            </div>
+                            <div class="panel-actions">
+                                <button class="refresh-btn-small" onclick="loadMessages()" title="Refresh messages">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                                <button class="clear-all-btn" onclick="clearAllMessages()" title="Clear all messages">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="contact-info">
+                <h3 class="fade-in">Contact Information</h3>
+                <!-- Addresses -->
+                <div class="info-item fade-in delay-1">
+                    <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h3>Office Address</h3>
+                        <p><a id="officeAddress" onclick="updateMap('G.D.De Silva Sons, No 51, Sri Subadrarama Road, Balapitiya, Sri Lanka')">G.D.De Silva Sons, No 51, Sri Subadrarama Road, Balapitiya, Sri Lanka</a></p>
+                    </div>
+                </div>
+                <div class="info-item fade-in delay-2">
+                    <div class="icon"><i class="fas fa-industry"></i></div>
+                    <div>
+                        <h3>Factory Address</h3>
+                        <p><a id="factoryAddress" onclick="updateMap('G.D.De Silva Sons, Diggoda, Ahungalla, Sri Lanka')">G.D.De Silva Sons, Diggoda, Ahungalla, Sri Lanka</a></p>
+                    </div>
+                </div>
+                <!-- Phone -->
+                <div class="info-item fade-in delay-1">
+                    <div class="icon" onclick="showCallModal()"><i class="fas fa-phone"></i></div>
+                    <div>
+                        <h3>Phone Numbers</h3>
+                        <p><a href="tel:+94913099670" class="contact-link">+94 913 099 670</a></p>
+                        <p><a href="tel:+94914943668" class="contact-link">+94 914 943 668</a></p>
+                        <p><a href="tel:+94777369330" class="contact-link">+94 777 369 330</a></p>
+                        <p><a href="tel:+94912257949" class="contact-link">+94 912 257 949</a></p>
+                        <p><a href="tel:+94776306861" class="contact-link">+94 776 306 861</a></p>
+                        <p><a href="tel:+94777641659" class="contact-link">+94 777 641 659</a></p>
+                        <p><a href="tel:+94718307540" class="contact-link">+94 718 307 540</a></p>
+                        <p><small style="color: #CD853F; font-style: italic;">Click any number to call directly</small></p>
+                    </div>
+                </div>
+                <!-- Fax -->
+                <div class="info-item fade-in delay-2">
+                    <div class="icon"><i class="fas fa-fax"></i></div>
+                    <div>
+                        <h3>Fax</h3>
+                        <p><a href="tel:+94912257614" class="contact-link">+94 912 257 614</a></p>
+                        <p><small style="color: #CD853F; font-style: italic;">Click to dial fax number</small></p>
+                    </div>
+                </div>
+                <!-- Email -->
+                <div class="info-item fade-in delay-1">
+                    <div class="icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <h3>Email Addresses</h3>
+                        <p><a href="mailto:sales@topcinnamon.com" class="contact-link">sales@topcinnamon.com</a></p>
+                        <p><a href="mailto:info@topcinnamon.com" class="contact-link">info@topcinnamon.com</a></p>
+                        <p><small style="color: #CD853F; font-style: italic;">Click any email to send a message</small></p>
+                    </div>
+                </div>
+                <!-- Skype -->
+                <div class="info-item fade-in delay-2">
+                    <div class="icon"><i class="fab fa-skype"></i></div>
+                    <div>
+                        <h3>Skype</h3>
+                        <p><a href="skype:topcinnamon?call" class="contact-link">topcinnamon</a></p>
+                        <p><small style="color: #CD853F; font-style: italic;">Click to start a Skype call</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="map-section fade-in">
+    <div class="container">
+        <div class="map-container">
+            <div class="map">
+                <iframe id="gmap"
+                        src="https://www.google.com/maps?q=G.D.De+Silva+Sons,+No+51,+Sri+Subadrarama+Road,+Balapitiya,+Sri+Lanka&output=embed"
+                        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="map-overlay">
+                <h4>Head Office</h4>
+                <p>G.D.De Silva Sons, No 51</p>
+                <p>Sri Subadrarama Road, Balapitiya</p>
+                <p>Sri Lanka</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modals -->
+<div id="callModal" class="modal">
+    <div class="modal-content">
+        <h3>Choose a number to call:</h3>
+        <div id="callButtons"></div>
+        <button class="cancelBtn" onclick="closeCallModal()">Cancel</button>
+    </div>
+</div>
+<div id="emailModal" class="modal">
+    <div class="modal-content">
+        <h3>Choose an email:</h3>
+        <div id="emailButtons"></div>
+        <button class="cancelBtn" onclick="closeEmailModal()">Cancel</button>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>G.D. De Silva Sons is a leading exporter of premium Ceylon cinnamon products, maintaining the highest quality standards for over three decades.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Products</a></li>
+                    <li><a href="#">Export Markets</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-info-content">
+                        <p>G.D.De Silva Sons, No 51, Sri Subadrarama Road, Balapitiya, Sri Lanka</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-info-content">
+                        <p><a href="tel:+94913099670" class="contact-link">+94 913 099 670</a></p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-info-content">
+                        <p><a href="mailto:sales@topcinnamon.com" class="contact-link">sales@topcinnamon.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2023 G.D. De Silva Sons. All Rights Reserved. | Premium Ceylon Cinnamon Exporters</p>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    // ==================== CONFIGURATION ====================
+    const API_BASE_URL = 'http://localhost:8081/api';
+    console.log('🔗 API Base URL:', API_BASE_URL);
+
+    // ==================== DOM ELEMENTS ====================
+    const contactForm = document.querySelector('form');
+
+    // Create alert elements
+    const successAlert = document.createElement('div');
+    const errorAlert = document.createElement('div');
+    successAlert.className = 'alert alert-success';
+    errorAlert.className = 'alert alert-error';
+    successAlert.style.display = 'none';
+    errorAlert.style.display = 'none';
+    contactForm.insertBefore(errorAlert, contactForm.firstChild);
+    contactForm.insertBefore(successAlert, contactForm.firstChild);
+
+    // ==================== UTILITY FUNCTIONS ====================
+    function showAlert(alertElement, message, isSuccess = true) {
+        alertElement.textContent = message;
+        alertElement.className = isSuccess ? 'alert alert-success' : 'alert alert-error';
+        alertElement.style.display = 'block';
+        setTimeout(() => {
+            alertElement.style.display = 'none';
+        }, 5000);
+    }
+
+    function escapeHtml(unsafe) {
+        if (!unsafe) return '';
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    function formatMessageDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) return 'Today';
+        if (diffDays === 1) return 'Yesterday';
+        if (diffDays < 7) return `${diffDays}d ago`;
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    // ==================== DEBUG FUNCTIONS ====================
+    window.testBackendConnection = async function() {
+        console.log('🧪 === TESTING BACKEND CONNECTION ===');
+        try {
+            console.log('📡 Sending GET request to:', `${API_BASE_URL}/contact/test`);
+            const response = await fetch(`${API_BASE_URL}/contact/test`);
+            console.log('✅ GET Test - Status:', response.status);
+            console.log('✅ GET Test - OK:', response.ok);
+            const text = await response.text();
+            console.log('✅ GET Test - Response:', text);
+            alert(`✅ Backend connection successful!\nStatus: ${response.status}\nResponse: ${text}`);
+        } catch (error) {
+            console.error('❌ GET Test failed:', error);
+            alert(`❌ Backend connection failed:\n${error.message}\n\nCheck:\n1. Spring Boot is running\n2. Port 8081 is available\n3. No CORS errors`);
+        }
+    };
+
+    window.testSimplePost = async function() {
+        console.log('🧪 === TESTING POST REQUEST ===');
+        try {
+            const testData = {test: 'data', timestamp: new Date().toISOString()};
+            console.log('📡 Sending POST request to:', `${API_BASE_URL}/contact/test-submission`);
+            console.log('📦 POST data:', testData);
+
+            const response = await fetch(`${API_BASE_URL}/contact/test-submission`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(testData)
+            });
+            console.log('✅ POST Test - Status:', response.status);
+            console.log('✅ POST Test - OK:', response.ok);
+            const result = await response.json();
+            console.log('✅ POST Test - Response:', result);
+            alert(`✅ POST request successful!\nStatus: ${response.status}\nCheck console for details`);
+        } catch (error) {
+            console.error('❌ POST Test failed:', error);
+            alert(`❌ POST request failed:\n${error.message}`);
+        }
+    };
+
+    window.clearConsole = function() {
+        console.clear();
+        console.log('🔄 Console cleared - ready for testing');
+    };
+
+    // ==================== FORM SUBMISSION ====================
+    async function submitContactForm(formData) {
+        try {
+            console.log('🔄 === FORM SUBMISSION STARTED ===');
+            console.log('📝 Form data:', formData);
+            console.log('🎯 Target URL:', `${API_BASE_URL}/contact`);
+
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            // Test backend connection first
+            console.log('🧪 Testing backend connection...');
+            try {
+                const testResponse = await fetch(`${API_BASE_URL}/contact/test`);
+                console.log('✅ Backend test - Status:', testResponse.status);
+            } catch (testError) {
+                console.error('❌ Backend test failed:', testError);
+            }
+
+            // Submit the form
+            console.log('📤 Attempting form submission...');
+            const response = await fetch(`${API_BASE_URL}/contact`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            });
+
+            console.log('📡 Response received - Status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Server error: ${response.status} - ${errorText}`);
+            }
+
+            const result = await response.json();
+            console.log('✅ Success! Response:', result);
+
+            if (result.success) {
+                showAlert(successAlert, result.message || 'Message sent successfully!', true);
+                contactForm.reset();
+                console.log('🎉 Form submitted successfully!');
+
+                if (result.editToken) {
+                    localStorage.setItem('editToken', result.editToken);
+                    showMessagesPanel();
+                    loadMessages();
+                }
+            } else {
+                showAlert(errorAlert, result.message || 'Failed to submit form', false);
+            }
+
+        } catch (error) {
+            console.error('❌ === FORM SUBMISSION FAILED ===');
+            console.error('Error:', error);
+
+            let errorMessage = 'Error submitting form: ' + error.message;
+            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                errorMessage = '❌ Cannot connect to backend server. Please check if Spring Boot is running on port 8081.';
+            }
+
+            showAlert(errorAlert, errorMessage, false);
+        } finally {
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Send Message';
+            submitBtn.disabled = false;
+        }
+    }
+
+    // ==================== MESSAGES PANEL FUNCTIONS ====================
+    let isPanelOpen = false;
+    let allSubmissions = [];
+
+    function toggleMessagesPanel() {
+        const panel = document.getElementById('compactMessagesPanel');
+        isPanelOpen = !isPanelOpen;
+        if (isPanelOpen) {
+            panel.classList.add('open');
+            loadMessages();
+        } else {
+            panel.classList.remove('open');
+        }
+    }
+
+    async function loadMessages() {
+        const messagesList = document.getElementById('messagesList');
+        const messageBadge = document.getElementById('messageBadge');
+        const editToken = localStorage.getItem('editToken');
+
+        console.log('🔍 Loading messages, token:', editToken);
+
+        if (!editToken) {
+            messagesList.innerHTML = `
+                <div class="empty-messages">
+                    <i class="fas fa-comments"></i>
+                    <p>No messages yet</p>
+                    <small>Submit a message to see it here</small>
+                </div>
+            `;
+            messageBadge.textContent = '0';
+            return;
+        }
+
+        try {
+            messagesList.innerHTML = `
+                <div class="messages-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading messages...</p>
+                </div>
+            `;
+
+            console.log('📡 Fetching messages from API...');
+            const response = await fetch(`${API_BASE_URL}/contact/submissions?token=${editToken}`);
+
+            console.log('📡 Response status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Server returned ${response.status}: ${errorText}`);
+            }
+
+            const messages = await response.json();
+            console.log('✅ Messages loaded:', messages);
+
+            allSubmissions = messages;
+            displayMessages(messages);
+            messageBadge.textContent = messages.length;
+
+        } catch (error) {
+            console.error('❌ Error loading messages:', error);
+            messagesList.innerHTML = `
+                <div class="empty-messages">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Failed to load messages</p>
+                    <small>Error: ${error.message}</small>
+                    <button class="refresh-btn-small" onclick="loadMessages()" style="margin-top: 10px;">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    function displayMessages(messages) {
+        const messagesList = document.getElementById('messagesList');
+        const messageBadge = document.getElementById('messageBadge');
+
+        console.log('🎯 Displaying messages:', messages);
+
+        if (!messages || messages.length === 0) {
+            messagesList.innerHTML = `
+                <div class="empty-messages">
+                    <i class="fas fa-inbox"></i>
+                    <p>No messages found</p>
+                    <small>Submit a contact form to see your messages here</small>
+                </div>
+            `;
+            messageBadge.textContent = '0';
+            return;
+        }
+
+        // Sort by newest first
+        messages.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        messagesList.innerHTML = messages.map(msg => `
+            <div class="message-item">
+                <div class="message-header">
+                    <div class="message-sender">${escapeHtml(msg.name || 'No Name')}</div>
+                    <div class="message-date">${formatMessageDate(msg.createdAt)}</div>
+                </div>
+                ${msg.subject ? `
+                    <div class="message-preview">
+                        ${escapeHtml(msg.subject)}
+                    </div>
+                ` : ''}
+                <div class="message-meta">
+                    <span><i class="fas fa-envelope"></i> ${escapeHtml(msg.email || 'No Email')}</span>
+                    <span><i class="fas fa-globe"></i> ${escapeHtml(msg.country || 'No Country')}</span>
+                </div>
+                <div class="message-status">
+                    <span class="status-${msg.reviewed ? 'reviewed' : 'pending'}">
+                        ${msg.reviewed ? '✓ Reviewed' : '⏳ Pending'}
+                    </span>
+                    <span class="edit-time ${msg.canEdit === false ? 'expired' : 'active'}">
+                        ${msg.canEdit === false ? '✗ Edit expired' : '✓ Can edit'}
+                    </span>
+                </div>
+                <div class="message-actions">
+                    <button class="edit-btn" onclick="editMessage(${msg.id})" title="Edit message" ${msg.canEdit === false ? 'disabled' : ''}>
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="delete-btn" onclick="deleteMessage(${msg.id})" title="Delete message">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        `).join('');
+
+        messageBadge.textContent = messages.length;
+    }
+
+    async function editMessage(messageId) {
+    const editToken = localStorage.getItem('editToken');
+    try {
+        console.log('📝 Editing message ID:', messageId);
+
+        // First, get the message details using the specific message ID
+        const response = await fetch(`${API_BASE_URL}/contact/edit/${editToken}`);
+        if (!response.ok) {
+            throw new Error('Failed to load message for editing');
+        }
+
+        const message = await response.json();
+        console.log('📋 Message data for editing:', message);
+
+        // Populate the form with existing data
+        document.getElementById('name').value = message.name || '';
+        document.getElementById('email').value = message.email || '';
+        document.getElementById('phone').value = message.phone || '';
+
+        // Set country and trigger phone validation update
+        const countrySelect = document.getElementById('countrySelect');
+        countrySelect.value = message.country || '';
+
+        // Update phone validation after setting country
+        setTimeout(() => {
+            updatePhoneValidation();
+            validatePhoneNumber();
+        }, 100);
+
+        document.getElementById('subject').value = message.subject || '';
+        document.getElementById('message').value = message.message || '';
+
+        // Change form submit behavior to update instead of create
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        submitBtn.textContent = 'Update Message';
+        submitBtn.setAttribute('data-editing', messageId);
+        submitBtn.setAttribute('data-edit-token', editToken);
+
+        // Scroll to form
+        contactForm.scrollIntoView({ behavior: 'smooth' });
+
+        showAlert(successAlert, 'Form populated with your message. Update the fields and click "Update Message".', true);
+
+    } catch (error) {
+        console.error('Error loading message for edit:', error);
+        showAlert(errorAlert, 'Error loading message for editing: ' + error.message, false);
+    }
+}
+
+    async function updateMessage(messageId, editToken, formData) {
+        try {
+            console.log('🔄 Updating message ID:', messageId);
+
+            const response = await fetch(`${API_BASE_URL}/contact/${messageId}/edit`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    editToken: editToken
+                })
+            });
+
+            console.log('📡 Update response status:', response.status);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Server error: ${response.status} - ${errorText}`);
+            }
+
+            const result = await response.json();
+            console.log('✅ Update successful! Response:', result);
+
+            showAlert(successAlert, result.message || 'Message updated successfully!', true);
+
+            // Reset form and button
+            contactForm.reset();
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Send Message';
+            submitBtn.removeAttribute('data-editing');
+            submitBtn.removeAttribute('data-edit-token');
+
+            // Reload messages
+            loadMessages();
+
+        } catch (error) {
+            console.error('❌ Update failed:', error);
+            showAlert(errorAlert, 'Error updating message: ' + error.message, false);
+        }
+    }
+
+    async function deleteMessage(messageId) {
+        if (!confirm('Delete this message?')) return;
+
+        const editToken = localStorage.getItem('editToken');
+        try {
+            const response = await fetch(`${API_BASE_URL}/contact/submissions/${messageId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${editToken}`
+                }
+            });
+
+            if (response.ok) {
+                showAlert(successAlert, 'Message deleted!', true);
+                loadMessages();
+            } else {
+                throw new Error('Failed to delete message');
+            }
+        } catch (error) {
+            console.error('Error deleting message:', error);
+            showAlert(errorAlert, 'Error deleting message', false);
+        }
+    }
+
+    async function clearAllMessages() {
+        if (!confirm('Delete all messages? This cannot be undone.')) return;
+
+        const editToken = localStorage.getItem('editToken');
+        const messages = allSubmissions;
+        if (!messages || messages.length === 0) return;
+
+        try {
+            for (const message of messages) {
+                await fetch(`${API_BASE_URL}/contact/submissions/${message.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${editToken}`
+                    }
+                });
+            }
+            showAlert(successAlert, 'All messages cleared!', true);
+            loadMessages();
+        } catch (error) {
+            console.error('Error clearing messages:', error);
+            showAlert(errorAlert, 'Error clearing messages', false);
+        }
+    }
+
+    function showMessagesPanel() {
+        const panel = document.getElementById('compactMessagesPanel');
+        panel.style.display = 'block';
+        if (!isPanelOpen) {
+            toggleMessagesPanel();
+        }
+    }
+
+    // ==================== PHONE VALIDATION FUNCTIONS ====================
+    const countryPhonePatterns = {
+    'Afghanistan': { pattern: '^\\+93[\\s\\-]?\\d{9}$', placeholder: '+93 123456789', example: '+93 123456789' },
+    'Albania': { pattern: '^\\+355[\\s\\-]?\\d{9}$', placeholder: '+355 123456789', example: '+355 123456789' },
+    'Algeria': { pattern: '^\\+213[\\s\\-]?\\d{9}$', placeholder: '+213 123456789', example: '+213 123456789' },
+    'Andorra': { pattern: '^\\+376[\\s\\-]?\\d{6}$', placeholder: '+376 123456', example: '+376 123456' },
+    'Angola': { pattern: '^\\+244[\\s\\-]?\\d{9}$', placeholder: '+244 123456789', example: '+244 123456789' },
+    'Argentina': { pattern: '^\\+54[\\s\\-]?\\d{10}$', placeholder: '+541 123456789', example: '+541 123456789' },
+    'Armenia': { pattern: '^\\+374[\\s\\-]?\\d{8}$', placeholder: '+374 12345678', example: '+374 12345678' },
+    'Australia': { pattern: '^\\+61[\\s\\-]?\\d{9}$', placeholder: '+61 123456789', example: '+61 123456789' },
+    'Austria': { pattern: '^\\+43[\\s\\-]?\\d{10}$', placeholder: '+43 1234567890', example: '+43 1234567890' },
+    'Azerbaijan': { pattern: '^\\+994[\\s\\-]?\\d{9}$', placeholder: '+994 123456789', example: '+994 123456789' },
+    'Bahamas': { pattern: '^\\+1242[\\s\\-]?\\d{7}$', placeholder: '+1 (242) 1234567', example: '+1 242 1234567' },
+    'Bahrain': { pattern: '^\\+973[\\s\\-]?\\d{8}$', placeholder: '+973 12345678', example: '+973 12345678' },
+    'Bangladesh': { pattern: '^\\+880[\\s\\-]?\\d{10}$', placeholder: '+880 1712345678', example: '+880 1712345678' },
+    'Barbados': { pattern: '^\\+1246[\\s\\-]?\\d{7}$', placeholder: '+1 246 1234567', example: '+1 246 1234567' },
+    'Belarus': { pattern: '^\\+375[\\s\\-]?\\d{9}$', placeholder: '+375 123456789', example: '+375 123456789' },
+    'Belgium': { pattern: '^\\+32[\\s\\-]?\\d{9}$', placeholder: '+32 123456789', example: '+32 123456789' },
+    'Belize': { pattern: '^\\+501[\\s\\-]?\\d{7}$', placeholder: '+501 1234567', example: '+501 1234567' },
+    'Benin': { pattern: '^\\+229[\\s\\-]?\\d{8}$', placeholder: '+229 12345678', example: '+229 12345678' },
+    'Bhutan': { pattern: '^\\+975[\\s\\-]?\\d{8}$', placeholder: '+975 12345678', example: '+975 12345678' },
+    'Bolivia': { pattern: '^\\+591[\\s\\-]?\\d{8}$', placeholder: '+591 12345678', example: '+591 12345678' },
+    'Bosnia and Herzegovina': { pattern: '^\\+387[\\s\\-]?\\d{8}$', placeholder: '+387 12345678', example: '+387 12345678' },
+    'Botswana': { pattern: '^\\+267[\\s\\-]?\\d{8}$', placeholder: '+267 12345678', example: '+267 12345678' },
+    'Brazil': { pattern: '^\\+55[\\s\\-]?\\d{11}$', placeholder: '+55 1112345678', example: '+55 1112345678' },
+    'Brunei': { pattern: '^\\+673[\\s\\-]?\\d{7}$', placeholder: '+673 1234567', example: '+673 1234567' },
+    'Bulgaria': { pattern: '^\\+359[\\s\\-]?\\d{9}$', placeholder: '+359 123456789', example: '+359 123456789' },
+    'Burkina Faso': { pattern: '^\\+226[\\s\\-]?\\d{8}$', placeholder: '+226 12345678', example: '+226 12345678' },
+    'Burundi': { pattern: '^\\+257[\\s\\-]?\\d{8}$', placeholder: '+257 12345678', example: '+257 12345678' },
+    'Cambodia': { pattern: '^\\+855[\\s\\-]?\\d{9}$', placeholder: '+855 123456789', example: '+855 123456789' },
+    'Cameroon': { pattern: '^\\+237[\\s\\-]?\\d{8}$', placeholder: '+237 12345678', example: '+237 12345678' },
+    'Canada': { pattern: '^\\+1[\\s\\-]?\\d{10}$', placeholder: '+1 1234567890', example: '+1 1234567890' },
+    'Cape Verde': { pattern: '^\\+238[\\s\\-]?\\d{7}$', placeholder: '+238 1234567', example: '+238 1234567' },
+    'Central African Republic': { pattern: '^\\+236[\\s\\-]?\\d{8}$', placeholder: '+236 12345678', example: '+236 12345678' },
+    'Chad': { pattern: '^\\+235[\\s\\-]?\\d{8}$', placeholder: '+235 12345678', example: '+235 12345678' },
+    'Chile': { pattern: '^\\+56[\\s\\-]?\\d{9}$', placeholder: '+56 123456789', example: '+56 123456789' },
+    'China': { pattern: '^\\+86[\\s\\-]?\\d{11}$', placeholder: '+86 13123456789', example: '+86 13123456789' },
+    'Colombia': { pattern: '^\\+57[\\s\\-]?\\d{10}$', placeholder: '+57 1234567890', example: '+57 1234567890' },
+    'Comoros': { pattern: '^\\+269[\\s\\-]?\\d{7}$', placeholder: '+269 1234567', example: '+2691234567' },
+    'Congo (Brazzaville)': { pattern: '^\\+242[\\s\\-]?\\d{9}$', placeholder: '+242 123456789', example: '+242 123456789' },
+    'Congo (Kinshasa)': { pattern: '^\\+243[\\s\\-]?\\d{9}$', placeholder: '+243 123456789', example: '+243 123456789' },
+    'Costa Rica': { pattern: '^\\+506[\\s\\-]?\\d{8}$', placeholder: '+506 12345678', example: '+506 12345678' },
+    'Croatia': { pattern: '^\\+385[\\s\\-]?\\d{9}$', placeholder: '+385 123456789', example: '+385 123456789' },
+    'Cuba': { pattern: '^\\+53[\\s\\-]?\\d{8}$', placeholder: '+53 12345678', example: '+53 12345678' },
+    'Cyprus': { pattern: '^\\+357[\\s\\-]?\\d{8}$', placeholder: '+357 12345678', example: '+357 12345678' },
+    'Czech Republic': { pattern: '^\\+420[\\s\\-]?\\d{9}$', placeholder: '+420 123456789', example: '+420 123456789' },
+    'Denmark': { pattern: '^\\+45[\\s\\-]?\\d{8}$', placeholder: '+45 12345678', example: '+45 12345678' },
+    'Djibouti': { pattern: '^\\+253[\\s\\-]?\\d{8}$', placeholder: '+253 12345678', example: '+253 12345678' },
+    'Dominica': { pattern: '^\\+1767[\\s\\-]?\\d{7}$', placeholder: '+1 767 1234567', example: '+1 767 1234567' },
+    'Dominican Republic': { pattern: '^\\+1[\\s\\-]?(809|829|849)[\\s\\-]?\\d{7}$', placeholder: '+1 809 1234567', example: '+1 809 1234567' },
+    'East Timor': { pattern: '^\\+670[\\s\\-]?\\d{8}$', placeholder: '+670 12345678', example: '+670 12345678' },
+    'Ecuador': { pattern: '^\\+593[\\s\\-]?\\d{9}$', placeholder: '+593 123456789', example: '+593 123456789' },
+    'Egypt': { pattern: '^\\+20[\\s\\-]?\\d{10}$', placeholder: '+20 1234567890', example: '+20 1234567890' },
+    'El Salvador': { pattern: '^\\+503[\\s\\-]?\\d{8}$', placeholder: '+503 12345678', example: '+50312345678' },
+    'Equatorial Guinea': { pattern: '^\\+240[\\s\\-]?\\d{9}$', placeholder: '+240 123456789', example: '+240123456789' },
+    'Eritrea': { pattern: '^\\+291[\\s\\-]?\\d{7}$', placeholder: '+291 1234567', example: '+291 1234567' },
+    'Estonia': { pattern: '^\\+372[\\s\\-]?\\d{8}$', placeholder: '+372 12345678', example: '+372 12345678' },
+    'Eswatini': { pattern: '^\\+268[\\s\\-]?\\d{8}$', placeholder: '+268 12345678', example: '+268 12345678' },
+    'Ethiopia': { pattern: '^\\+251[\\s\\-]?\\d{9}$', placeholder: '+251 123456789', example: '+251 123456789' },
+    'Fiji': { pattern: '^\\+679[\\s\\-]?\\d{7}$', placeholder: '+679 1234567', example: '+679 1234567' },
+    'Finland': { pattern: '^\\+358[\\s\\-]?\\d{9}$', placeholder: '+358 123456789', example: '+358 123456789' },
+    'France': { pattern: '^\\+33[\\s\\-]?\\d{9}$', placeholder: '+33 123456789', example: '+33 123456789' },
+    'Gabon': { pattern: '^\\+241[\\s\\-]?\\d{8}$', placeholder: '+241 12345678', example: '+241 12345678' },
+    'Gambia': { pattern: '^\\+220[\\s\\-]?\\d{7}$', placeholder: '+220 1234567', example: '+220 1234567' },
+    'Georgia': { pattern: '^\\+995[\\s\\-]?\\d{9}$', placeholder: '+995 123456789', example: '+995 123456789' },
+    'Germany': { pattern: '^\\+49[\\s\\-]?\\d{6,13}$', placeholder: '+49 1234567890', example: '+49 1234567890' },
+    'Ghana': { pattern: '^\\+233[\\s\\-]?\\d{9}$', placeholder: '+233 123456789', example: '+233 123456789' },
+    'Greece': { pattern: '^\\+30[\\s\\-]?\\d{10}$', placeholder: '+30 1234567890', example: '+30 1234567890' },
+    'Grenada': { pattern: '^\\+1473[\\s\\-]?\\d{7}$', placeholder: '+1 473 1234567', example: '+1 473 1234567' },
+    'Guatemala': { pattern: '^\\+502[\\s\\-]?\\d{8}$', placeholder: '+502 12345678', example: '+502 12345678' },
+    'Guinea': { pattern: '^\\+224[\\s\\-]?\\d{9}$', placeholder: '+224 123456789', example: '+224 123456789' },
+    'Guinea-Bissau': { pattern: '^\\+245[\\s\\-]?\\d{7}$', placeholder: '+245 1234567', example: '+245 1234567' },
+    'Guyana': { pattern: '^\\+592[\\s\\-]?\\d{7}$', placeholder: '+592 1234567', example: '+592 1234567' },
+    'Haiti': { pattern: '^\\+509[\\s\\-]?\\d{8}$', placeholder: '+509 12345678', example: '+509 12345678' },
+    'Honduras': { pattern: '^\\+504[\\s\\-]?\\d{8}$', placeholder: '+504 12345678', example: '+504 12345678' },
+    'Hungary': { pattern: '^\\+36[\\s\\-]?\\d{9}$', placeholder: '+36 123456789', example: '+36 123456789' },
+    'Iceland': { pattern: '^\\+354[\\s\\-]?\\d{7}$', placeholder: '+354 1234567', example: '+354 1234567' },
+    'India': { pattern: '^\\+91[\\s\\-]?\\d{10}$', placeholder: '+91 1234567890', example: '+91 1234567890' },
+    'Indonesia': { pattern: '^\\+62[\\s\\-]?\\d{9,12}$', placeholder: '+62 1234567890', example: '+62 1234567890' },
+    'Iran': { pattern: '^\\+98[\\s\\-]?\\d{10}$', placeholder: '+98 1234567890', example: '+98 1234567890' },
+    'Iraq': { pattern: '^\\+964[\\s\\-]?\\d{10}$', placeholder: '+964 1234567890', example: '+964 1234567890' },
+    'Ireland': { pattern: '^\\+353[\\s\\-]?\\d{9}$', placeholder: '+353 123456789', example: '+353 123456789' },
+    'Israel': { pattern: '^\\+972[\\s\\-]?\\d{9}$', placeholder: '+972 123456789', example: '+972 123456789' },
+    'Italy': { pattern: '^\\+39[\\s\\-]?\\d{9,10}$', placeholder: '+39 123456789', example: '+39 123456789' },
+    'Jamaica': { pattern: '^\\+1876[\\s\\-]?\\d{7}$', placeholder: '+1 876 1234567', example: '+1 876 1234567' },
+    'Japan': { pattern: '^\\+81[\\s\\-]?\\d{9,10}$', placeholder: '+81 123456789', example: '+81 123456789' },
+    'Jordan': { pattern: '^\\+962[\\s\\-]?\\d{9}$', placeholder: '+962 123456789', example: '+962 123456789' },
+    'Kazakhstan': { pattern: '^\\+7[\\s\\-]?\\d{10}$', placeholder: '+7 1234567890', example: '+7 1234567890' },
+    'Kenya': { pattern: '^\\+254[\\s\\-]?\\d{9}$', placeholder: '+254 123456789', example: '+254 123456789' },
+    'Kiribati': { pattern: '^\\+686[\\s\\-]?\\d{5}$', placeholder: '+686 12345', example: '+686 12345' },
+    'Korea, North': { pattern: '^\\+850[\\s\\-]?\\d{9}$', placeholder: '+850 123456789', example: '+850 123456789' },
+    'Korea, South': { pattern: '^\\+82[\\s\\-]?\\d{9,10}$', placeholder: '+82 123456789', example: '+82 123456789' },
+    'Kuwait': { pattern: '^\\+965[\\s\\-]?\\d{8}$', placeholder: '+965 12345678', example: '+965 12345678' },
+    'Kyrgyzstan': { pattern: '^\\+996[\\s\\-]?\\d{9}$', placeholder: '+996 123456789', example: '+996 123456789' },
+    'Laos': { pattern: '^\\+856[\\s\\-]?\\d{10}$', placeholder: '+856 1234567890', example: '+856 1234567890' },
+    'Latvia': { pattern: '^\\+371[\\s\\-]?\\d{8}$', placeholder: '+371 12345678', example: '+371 12345678' },
+    'Lebanon': { pattern: '^\\+961[\\s\\-]?\\d{8}$', placeholder: '+961 12345678', example: '+961 12345678' },
+    'Lesotho': { pattern: '^\\+266[\\s\\-]?\\d{8}$', placeholder: '+266 12345678', example: '+266 12345678' },
+    'Liberia': { pattern: '^\\+231[\\s\\-]?\\d{8}$', placeholder: '+231 12345678', example: '+231 12345678' },
+    'Libya': { pattern: '^\\+218[\\s\\-]?\\d{9}$', placeholder: '+218 123456789', example: '+218 123456789' },
+    'Liechtenstein': { pattern: '^\\+423[\\s\\-]?\\d{7}$', placeholder: '+423 1234567', example: '+423 1234567' },
+    'Lithuania': { pattern: '^\\+370[\\s\\-]?\\d{8}$', placeholder: '+370 12345678', example: '+370 12345678' },
+    'Luxembourg': { pattern: '^\\+352[\\s\\-]?\\d{9}$', placeholder: '+352 123456789', example: '+352 123456789' },
+    'Madagascar': { pattern: '^\\+261[\\s\\-]?\\d{9}$', placeholder: '+261 123456789', example: '+261 123456789' },
+    'Malawi': { pattern: '^\\+265[\\s\\-]?\\d{9}$', placeholder: '+265 123456789', example: '+265 123456789' },
+    'Malaysia': { pattern: '^\\+60[\\s\\-]?\\d{8,9}$', placeholder: '+60 123456789', example: '+60 123456789' },
+    'Maldives': { pattern: '^\\+960[\\s\\-]?\\d{7}$', placeholder: '+960 7712345', example: '+960 7712345' },
+    'Mali': { pattern: '^\\+223[\\s\\-]?\\d{8}$', placeholder: '+223 12345678', example: '+223 12345678' },
+    'Malta': { pattern: '^\\+356[\\s\\-]?\\d{8}$', placeholder: '+356 12345678', example: '+356 12345678' },
+    'Marshall Islands': { pattern: '^\\+692[\\s\\-]?\\d{7}$', placeholder: '+692 1234567', example: '+692 1234567' },
+    'Mauritania': { pattern: '^\\+222[\\s\\-]?\\d{7}$', placeholder: '+222 1234567', example: '+222 1234567' },
+    'Mauritius': { pattern: '^\\+230[\\s\\-]?\\d{7}$', placeholder: '+230 1234567', example: '+230 1234567' },
+    'Mexico': { pattern: '^\\+52[\\s\\-]?\\d{10}$', placeholder: '+52 1234567890', example: '+52 1234567890' },
+    'Micronesia': { pattern: '^\\+691[\\s\\-]?\\d{7}$', placeholder: '+691 1234567', example: '+691 1234567' },
+    'Moldova': { pattern: '^\\+373[\\s\\-]?\\d{8}$', placeholder: '+373 12345678', example: '+373 12345678' },
+    'Monaco': { pattern: '^\\+377[\\s\\-]?\\d{8}$', placeholder: '+377 12345678', example: '+377 12345678' },
+    'Mongolia': { pattern: '^\\+976[\\s\\-]?\\d{8}$', placeholder: '+976 12345678', example: '+976 12345678' },
+    'Montenegro': { pattern: '^\\+382[\\s\\-]?\\d{8}$', placeholder: '+382 12345678', example: '+382 12345678' },
+    'Morocco': { pattern: '^\\+212[\\s\\-]?\\d{9}$', placeholder: '+212 123456789', example: '+212 123456789' },
+    'Mozambique': { pattern: '^\\+258[\\s\\-]?\\d{9}$', placeholder: '+258 123456789', example: '+258 123456789' },
+    'Myanmar': { pattern: '^\\+95[\\s\\-]?\\d{9}$', placeholder: '+95 123456789', example: '+95 123456789' },
+    'Namibia': { pattern: '^\\+264[\\s\\-]?\\d{9}$', placeholder: '+264 123456789', example: '+264 123456789' },
+    'Nauru': { pattern: '^\\+674[\\s\\-]?\\d{7}$', placeholder: '+674 1234567', example: '+674 1234567' },
+    'Nepal': { pattern: '^\\+977[\\s\\-]?\\d{10}$', placeholder: '+977 1234567890', example: '+977 1234567890' },
+    'Netherlands': { pattern: '^\\+31[\\s\\-]?\\d{9}$', placeholder: '+31 123456789', example: '+31 123456789' },
+    'New Zealand': { pattern: '^\\+64[\\s\\-]?\\d{9}$', placeholder: '+64 123456789', example: '+64 123456789' },
+    'Nicaragua': { pattern: '^\\+505[\\s\\-]?\\d{8}$', placeholder: '+505 12345678', example: '+505 12345678' },
+    'Niger': { pattern: '^\\+227[\\s\\-]?\\d{8}$', placeholder: '+227 12345678', example: '+227 12345678' },
+    'Nigeria': { pattern: '^\\+234[\\s\\-]?\\d{10}$', placeholder: '+234 1234567890', example: '+234 1234567890' },
+    'North Macedonia': { pattern: '^\\+389[\\s\\-]?\\d{8}$', placeholder: '+389 12345678', example: '+389 12345678' },
+    'Norway': { pattern: '^\\+47[\\s\\-]?\\d{8}$', placeholder: '+47 12345678', example: '+47 12345678' },
+    'Oman': { pattern: '^\\+968[\\s\\-]?\\d{8}$', placeholder: '+968 12345678', example: '+968 12345678' },
+    'Pakistan': { pattern: '^\\+92[\\s\\-]?\\d{10}$', placeholder: '+92 1234567890', example: '+92 1234567890' },
+    'Palau': { pattern: '^\\+680[\\s\\-]?\\d{7}$', placeholder: '+680 1234567', example: '+680 1234567' },
+    'Panama': { pattern: '^\\+507[\\s\\-]?\\d{7}$', placeholder: '+507 1234567', example: '+507 1234567' },
+    'Papua New Guinea': { pattern: '^\\+675[\\s\\-]?\\d{8}$', placeholder: '+675 12345678', example: '+675 12345678' },
+    'Paraguay': { pattern: '^\\+595[\\s\\-]?\\d{9}$', placeholder: '+595 123456789', example: '+595 123456789' },
+    'Peru': { pattern: '^\\+51[\\s\\-]?\\d{9}$', placeholder: '+51 123456789', example: '+51 123456789' },
+    'Philippines': { pattern: '^\\+63[\\s\\-]?\\d{10}$', placeholder: '+63 1234567890', example: '+63 1234567890' },
+    'Poland': { pattern: '^\\+48[\\s\\-]?\\d{9}$', placeholder: '+48 123456789', example: '+48 123456789' },
+    'Portugal': { pattern: '^\\+351[\\s\\-]?\\d{9}$', placeholder: '+351 123456789', example: '+351 123456789' },
+    'Qatar': { pattern: '^\\+974[\\s\\-]?\\d{8}$', placeholder: '+974 12345678', example: '+974 12345678' },
+    'Romania': { pattern: '^\\+40[\\s\\-]?\\d{9}$', placeholder: '+40 123456789', example: '+40 123456789' },
+    'Russia': { pattern: '^\\+7[\\s\\-]?\\d{10}$', placeholder: '+7 1234567890', example: '+7 1234567890' },
+    'Rwanda': { pattern: '^\\+250[\\s\\-]?\\d{9}$', placeholder: '+250 123456789', example: '+250 123456789' },
+    'Saint Kitts and Nevis': { pattern: '^\\+1869[\\s\\-]?\\d{7}$', placeholder: '+1 869 1234567', example: '+1 869 1234567' },
+    'Saint Lucia': { pattern: '^\\+1758[\\s\\-]?\\d{7}$', placeholder: '+1 758 1234567', example: '+1 758 1234567' },
+    'Saint Vincent and the Grenadines': { pattern: '^\\+1784[\\s\\-]?\\d{7}$', placeholder: '+1 784 1234567', example: '+1 784 1234567' },
+    'Samoa': { pattern: '^\\+685[\\s\\-]?\\d{5}$', placeholder: '+685 12345', example: '+685 12345' },
+    'San Marino': { pattern: '^\\+378[\\s\\-]?\\d{9}$', placeholder: '+378 123456789', example: '+378 123456789' },
+    'Sao Tome and Principe': { pattern: '^\\+239[\\s\\-]?\\d{7}$', placeholder: '+239 1234567', example: '+239 1234567' },
+    'Saudi Arabia': { pattern: '^\\+966[\\s\\-]?\\d{9}$', placeholder: '+966 123456789', example: '+966 123456789' },
+    'Senegal': { pattern: '^\\+221[\\s\\-]?\\d{9}$', placeholder: '+221 123456789', example: '+221 123456789' },
+    'Serbia': { pattern: '^\\+381[\\s\\-]?\\d{9}$', placeholder: '+381 123456789', example: '+381 123456789' },
+    'Seychelles': { pattern: '^\\+248[\\s\\-]?\\d{6}$', placeholder: '+248 123456', example: '+248 123456' },
+    'Sierra Leone': { pattern: '^\\+232[\\s\\-]?\\d{8}$', placeholder: '+232 12345678', example: '+232 12345678' },
+    'Singapore': { pattern: '^\\+65[\\s\\-]?\\d{8}$', placeholder: '+65 12345678', example: '+65 12345678' },
+    'Slovakia': { pattern: '^\\+421[\\s\\-]?\\d{9}$', placeholder: '+421 123456789', example: '+421 123456789' },
+    'Slovenia': { pattern: '^\\+386[\\s\\-]?\\d{8}$', placeholder: '+386 12345678', example: '+386 12345678' },
+    'Solomon Islands': { pattern: '^\\+677[\\s\\-]?\\d{5}$', placeholder: '+677 12345', example: '+677 12345' },
+    'Somalia': { pattern: '^\\+252[\\s\\-]?\\d{8}$', placeholder: '+252 12345678', example: '+252 12345678' },
+    'South Africa': { pattern: '^\\+27[\\s\\-]?\\d{9}$', placeholder: '+27 123456789', example: '+27 123456789' },
+    'South Sudan': { pattern: '^\\+211[\\s\\-]?\\d{9}$', placeholder: '+211 123456789', example: '+211 123456789' },
+    'Spain': { pattern: '^\\+34[\\s\\-]?\\d{9}$', placeholder: '+34 123456789', example: '+34 123456789' },
+    'Sri Lanka': { pattern: '^\\+94[\\s\\-]?\\d{9}$', placeholder: '+94 123456789', example: '+94 123456789' },
+    'Sudan': { pattern: '^\\+249[\\s\\-]?\\d{9}$', placeholder: '+249 123456789', example: '+249 123456789' },
+    'Suriname': { pattern: '^\\+597[\\s\\-]?\\d{6}$', placeholder: '+597 123456', example: '+597 123456' },
+    'Sweden': { pattern: '^\\+46[\\s\\-]?\\d{9}$', placeholder: '+46 123456789', example: '+46 123456789' },
+    'Switzerland': { pattern: '^\\+41[\\s\\-]?\\d{9}$', placeholder: '+41 123456789', example: '+41 123456789' },
+    'Syria': { pattern: '^\\+963[\\s\\-]?\\d{9}$', placeholder: '+963 123456789', example: '+963 123456789' },
+    'Taiwan': { pattern: '^\\+886[\\s\\-]?\\d{9}$', placeholder: '+886 123456789', example: '+886 123456789' },
+    'Tajikistan': { pattern: '^\\+992[\\s\\-]?\\d{9}$', placeholder: '+992 123456789', example: '+992 123456789' },
+    'Tanzania': { pattern: '^\\+255[\\s\\-]?\\d{9}$', placeholder: '+255 123456789', example: '+255 123456789' },
+    'Thailand': { pattern: '^\\+66[\\s\\-]?\\d{9}$', placeholder: '+66 123456789', example: '+66 123456789' },
+    'Togo': { pattern: '^\\+228[\\s\\-]?\\d{8}$', placeholder: '+228 12345678', example: '+228 12345678' },
+    'Tonga': { pattern: '^\\+676[\\s\\-]?\\d{5}$', placeholder: '+676 12345', example: '+676 12345' },
+    'Trinidad and Tobago': { pattern: '^\\+1868[\\s\\-]?\\d{7}$', placeholder: '+1 868 1234567', example: '+1 868 1234567' },
+    'Tunisia': { pattern: '^\\+216[\\s\\-]?\\d{8}$', placeholder: '+216 12345678', example: '+216 12345678' },
+    'Turkey': { pattern: '^\\+90[\\s\\-]?\\d{10}$', placeholder: '+90 1234567890', example: '+90 1234567890' },
+    'Turkmenistan': { pattern: '^\\+993[\\s\\-]?\\d{8}$', placeholder: '+993 12345678', example: '+993 12345678' },
+    'Tuvalu': { pattern: '^\\+688[\\s\\-]?\\d{5}$', placeholder: '+688 12345', example: '+688 12345' },
+    'Uganda': { pattern: '^\\+256[\\s\\-]?\\d{9}$', placeholder: '+256 123456789', example: '+256 123456789' },
+    'Ukraine': { pattern: '^\\+380[\\s\\-]?\\d{9}$', placeholder: '+380 123456789', example: '+380 123456789' },
+    'United Arab Emirates': { pattern: '^\\+971[\\s\\-]?\\d{9}$', placeholder: '+971 501234567', example: '+971 501234567' },
+    'United Kingdom': { pattern: '^\\+44[\\s\\-]?\\d{10}$', placeholder: '+44 1234567890', example: '+441234567890' },
+    'United States': { pattern: '^\\+1[\\s\\-]?\\d{10}$', placeholder: '+1 1234567890', example: '+1 1234567890' },
+    'Uruguay': { pattern: '^\\+598[\\s\\-]?\\d{8}$', placeholder: '+598 12345678', example: '+59812345678' },
+    'Uzbekistan': { pattern: '^\\+998[\\s\\-]?\\d{9}$', placeholder: '+998 123456789', example: '+998123456789' },
+    'Vanuatu': { pattern: '^\\+678[\\s\\-]?\\d{5}$', placeholder: '+678 12345', example: '+678 12345' },
+    'Vatican City': { pattern: '^\\+379[\\s\\-]?\\d{9}$', placeholder: '+379 123456789', example: '+379 123456789' },
+    'Venezuela': { pattern: '^\\+58[\\s\\-]?\\d{10}$', placeholder: '+58 1234567890', example: '+58 1234567890' },
+    'Vietnam': { pattern: '^\\+84[\\s\\-]?\\d{9}$', placeholder: '+84 123456789', example: '+84 123456789' },
+    'Yemen': { pattern: '^\\+967[\\s\\-]?\\d{9}$', placeholder: '+967 123456789', example: '+967 123456789' },
+    'Zambia': { pattern: '^\\+260[\\s\\-]?\\d{9}$', placeholder: '+260 123456789', example: '+260 123456789' },
+    'Zimbabwe': { pattern: '^\\+263[\\s\\-]?\\d{9}$', placeholder: '+263 123456789', example: '+263 123456789' }
+    };
+
+    const defaultPattern = {
+    pattern: '^[+]?[0-9\\s\\-\\(\\)]{7,25}$',
+    placeholder: 'Enter phone number with country code',
+    example: '+1234567890'
+};
+
+    function updatePhoneValidation() {
+        const countrySelect = document.getElementById('countrySelect');
+        const phoneInput = document.getElementById('phone');
+        const phoneHelp = document.getElementById('phoneHelp');
+        const country = countrySelect.value;
+
+        if (!country) {
+            phoneInput.placeholder = 'Select country first';
+            phoneInput.pattern = '';
+            phoneHelp.textContent = 'Select a country to see the required phone format';
+            phoneHelp.style.color = '#CD853F';
+            phoneInput.classList.remove('phone-valid', 'phone-invalid');
+            return;
+        }
+
+        const phonePattern = countryPhonePatterns[country] || defaultPattern;
+        phoneInput.pattern = phonePattern.pattern;
+        phoneInput.placeholder = phonePattern.placeholder;
+        phoneInput.title = `Example: ${phonePattern.example}`;
+        phoneHelp.textContent = `Expected format: ${phonePattern.example}`;
+        phoneHelp.style.color = '#CD853F';
+
+        if (phoneInput.value) {
+            validatePhoneNumber();
+        }
+    }
+
+    function validatePhoneNumber() {
+    const countrySelect = document.getElementById('countrySelect');
+    const phoneInput = document.getElementById('phone');
+    const phoneHelp = document.getElementById('phoneHelp');
+    const country = countrySelect.value;
+
+    // If no country selected or phone is empty, show neutral state
+    if (!country || !phoneInput.value.trim()) {
+        phoneHelp.textContent = country ? 'Enter phone number' : 'Select a country first';
+        phoneInput.classList.remove('phone-valid', 'phone-invalid');
+        phoneHelp.style.color = '#CD853F';
+        return;
+    }
+
+    const phonePattern = countryPhonePatterns[country] || defaultPattern;
+    const regex = new RegExp(phonePattern.pattern);
+
+    // Clean the phone number for validation (remove spaces and dashes)
+    const phoneValue = phoneInput.value.replace(/[\s\-]/g, '');
+
+    if (regex.test(phoneValue)) {
+        phoneInput.classList.add('phone-valid');
+        phoneInput.classList.remove('phone-invalid');
+        phoneHelp.textContent = `✓ Valid ${country} phone number format`;
+        phoneHelp.style.color = '#28a745';
+    } else {
+        // For editing, be more lenient - don't show error immediately
+        if (phoneInput.hasAttribute('data-editing')) {
+            phoneInput.classList.remove('phone-valid', 'phone-invalid');
+            phoneHelp.textContent = `Format: ${phonePattern.example} (Current: ${phoneInput.value})`;
+            phoneHelp.style.color = '#ffc107';
+        } else {
+            phoneInput.classList.add('phone-invalid');
+            phoneInput.classList.remove('phone-valid');
+            phoneHelp.textContent = `Please match the requested format. Example: ${phonePattern.example}`;
+            phoneHelp.style.color = '#dc3545';
+        }
+    }
+}
+
+    function formatPhoneNumber(input) {
+        let value = input.value.replace(/\D/g, '');
+        if (value.startsWith('+')) {
+            value = value.substring(1);
+        }
+
+        const countrySelect = document.getElementById('countrySelect');
+        const country = countrySelect.value;
+
+        if (!country) {
+            if (value.length > 0) {
+                input.value = '+' + value;
+            }
+            validatePhoneNumber();
+            return;
+        }
+
+        let countryCodeLength = 2; // default
+        if (country === 'Sri Lanka') countryCodeLength = 2;
+        else if (country === 'United States') countryCodeLength = 1;
+
+        if (value.length > countryCodeLength) {
+            const countryCode = value.substring(0, countryCodeLength);
+            const rest = value.substring(countryCodeLength);
+            input.value = '+' + countryCode + ' ' + rest;
+        } else if (value.length > 0) {
+            input.value = '+' + value;
+        }
+        validatePhoneNumber();
+    }
+
+    // ==================== EVENT LISTENERS ====================
+    contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    console.log('🎯 Form submitted!');
+
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const isEditing = submitBtn.hasAttribute('data-editing');
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if (!name || !email || !phone || !message) {
+        showAlert(errorAlert, 'Please fill in all required fields', false);
+        return;
+    }
+
+    // For new submissions, validate phone format strictly
+    if (!isEditing) {
+        const country = document.getElementById('countrySelect').value;
+        if (country) {
+            const phonePattern = countryPhonePatterns[country] || defaultPattern;
+            const regex = new RegExp(phonePattern.pattern);
+            const phoneValue = phone.replace(/[\s\-]/g, '');
+
+            if (!regex.test(phoneValue)) {
+                showAlert(errorAlert, `Please enter a valid ${country} phone number. Example: ${phonePattern.example}`, false);
+                return;
+            }
+        }
+    }
+
+    const formData = {
+        name: name,
+        email: email,
+        phone: phone,
+        country: document.getElementById('countrySelect').value,
+        subject: document.getElementById('subject').value,
+        message: message
+    };
+
+    if (isEditing) {
+        const messageId = submitBtn.getAttribute('data-editing');
+        const editToken = submitBtn.getAttribute('data-edit-token');
+        await updateMessage(messageId, editToken, formData);
+    } else {
+        await submitContactForm(formData);
+    }
+});
+
+    // ==================== OTHER FUNCTIONS ====================
+    function showCallModal() {
+        const modal = document.getElementById('callModal');
+        const container = document.getElementById('callButtons');
+        container.innerHTML = '';
+        const phoneNumbers = ["+94 913099670","+94 914943668","+94 777369330","+94 912257949","+94 776306861","+94 777641659","+94 718307540"];
+        phoneNumbers.forEach(n => {
+            const btn = document.createElement('button');
+            btn.textContent = n;
+            btn.className = 'callBtn';
+            btn.onclick = ()=>{ window.location.href=`tel:${n}`; modal.style.display='none'; };
+            container.appendChild(btn);
+        });
+        modal.style.display = 'flex';
+    }
+
+    function closeCallModal(){
+        document.getElementById('callModal').style.display='none';
+    }
+
+    function updateMap(address){
+        const mapFrame = document.getElementById('gmap');
+        const encodedAddress = encodeURIComponent(address);
+        mapFrame.src = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
+
+        const overlay = document.querySelector('.map-overlay');
+        const title = overlay.querySelector('h4');
+        const paragraphs = overlay.querySelectorAll('p');
+
+        if (address.includes('Office')) {
+            title.textContent = 'Head Office';
+            paragraphs[0].textContent = 'G.D.De Silva Sons, No 51';
+            paragraphs[1].textContent = 'Sri Subadrarama Road, Balapitiya';
+            paragraphs[2].textContent = 'Sri Lanka';
+        } else if (address.includes('Factory')) {
+            title.textContent = 'Factory Location';
+            paragraphs[0].textContent = 'G.D.De Silva Sons';
+            paragraphs[1].textContent = 'Diggoda, Ahungalla';
+            paragraphs[2].textContent = 'Sri Lanka';
+        }
+    }
+
+    function closeEmailModal() {
+        document.getElementById('emailModal').style.display = 'none';
+    }
+
+    // ==================== INITIALIZATION ====================
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 DOM loaded - initializing contact form...');
+
+        // Mobile menu toggle
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.toggle('active');
+            });
+        }
+
+        // Initialize phone validation
+        updatePhoneValidation();
+
+        // Show messages panel if user has existing messages
+        const editToken = localStorage.getItem('editToken');
+        if (editToken) {
+            showMessagesPanel();
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const callModal = document.getElementById('callModal');
+            const emailModal = document.getElementById('emailModal');
+            if (event.target === callModal) closeCallModal();
+            if (event.target === emailModal) closeEmailModal();
+        });
+
+        console.log('✅ Contact form JavaScript initialized successfully!');
+    });
+</script>
+
+<!-- DEBUG BUTTONS - Add this RIGHT AFTER the script above -->
+<div style="margin: 20px 0; padding: 15px; background: #2c2c2c; border-radius: 8px; border: 2px solid #D2691E;">
+    <h4 style="color: #D2691E; margin-bottom: 10px; text-align: center;">🧪 Debug Tools</h4>
+    <div style="text-align: center;">
+        <button onclick="testBackendConnection()" style="background: #28a745; margin: 5px; padding: 10px 20px; border: none; border-radius: 5px; color: white; cursor: pointer;">
+            ✅ Test Backend Connection
+        </button>
+        <button onclick="testSimplePost()" style="background: #17a2b8; margin: 5px; padding: 10px 20px; border: none; border-radius: 5px; color: white; cursor: pointer;">
+            📨 Test POST Request
+        </button>
+        <button onclick="clearConsole()" style="background: #6c757d; margin: 5px; padding: 10px 20px; border: none; border-radius: 5px; color: white; cursor: pointer;">
+            🧹 Clear Console
+        </button>
+    </div>
+</div>
+</body>
+</html>
