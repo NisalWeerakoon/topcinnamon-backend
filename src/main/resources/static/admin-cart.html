@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Management - Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'DM Sans', sans-serif;
+            background-color: #121212;
+            min-height: 100vh;
+            color: #ffaf6e;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 2rem;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #edd4b1;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .btn-back {
+            background-color: #edd4b1;
+            color: #121212;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back:hover {
+            background-color: #ffaf6e;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .cart-list-section {
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            color: #edd4b1;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        strong {
+            color: #edd4b1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1><i class="fas fa-shopping-cart"></i> Cart Management</h1>
+            <a href="admin-dashboard.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="cart-list-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Cart Items</h2>
+            </div>
+            <div id="cartList">
+                <div style="text-align: center; padding: 2rem; color: #ffaf6e;">
+                    <p>Cart functionality will display user cart items here</p>
+                    <p style="color: #edd4b1; margin-top: 1rem;">Currently showing logged-in user's cart</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function loadCart() {
+            try {
+                const response = await fetch(`${API_BASE}/cart/database/all`);
+                const cartItems = await response.json();
+                
+                if (!cartItems || cartItems.length === 0) {
+                    document.getElementById('cartList').innerHTML = 
+                        '<div style="text-align: center; padding: 2rem; color: #ffaf6e;">No cart items found</div>';
+                    return;
+                }
+
+                // Group by user
+                const userCarts = {};
+                cartItems.forEach(item => {
+                    if (!userCarts[item.userEmail]) {
+                        userCarts[item.userEmail] = [];
+                    }
+                    userCarts[item.userEmail].push(item);
+                });
+
+                let html = '<div style="color: #ffaf6e;">';
+                
+                for (const userEmail in userCarts) {
+                    const items = userCarts[userEmail];
+                    html += `<div style="background: rgba(255,255,255,0.05); padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; border: 1px solid rgba(200, 169, 126, 0.3);">`;
+                    html += `<h3 style="color: #edd4b1; margin-bottom: 1rem;">Customer: ${userEmail}</h3>`;
+                    
+                    items.forEach(item => {
+                        html += `<div style="background: rgba(255,255,255,0.02); padding: 1rem; margin-bottom: 0.5rem; border-left: 3px solid #ffaf6e;">`;
+                        html += `<strong style="color: #edd4b1;">${item.productName}</strong><br>`;
+                        html += `<span style="color: #c7b08f;">Product ID: ${item.productId}</span><br>`;
+                        html += `<span style="color: #c7b08f;">Quantity: ${item.quantity}</span>`;
+                        html += `<span style="color: #c7b08f; margin-left: 1rem;">Type: ${item.orderType}</span><br>`;
+                        html += `<span style="color: #ffaf6e;">Price: Rs. ${item.unitPrice.toFixed(2)} each</span>`;
+                        html += `</div>`;
+                    });
+                    
+                    html += `</div>`;
+                }
+                
+                html += '</div>';
+                document.getElementById('cartList').innerHTML = html;
+            } catch (error) {
+                document.getElementById('cartList').innerHTML = 
+                    `<div style="text-align: center; padding: 2rem; color: #dc3545;">Error: ${error.message}</div>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+</body>
+</html>
+

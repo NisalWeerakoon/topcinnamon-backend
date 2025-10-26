@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Management</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS will go here -->
+    <style>
+        :root {
+        --primary-color: #edd4b1;
+        --text-color: #ffaf6e;
+        --bg-dark: #121212;
+        --card-border: rgba(200, 169, 126, 0.3);
+        --font-primary: 'Poppins', sans-serif;
+        --font-secondary: 'DM Sans', sans-serif;
+    }
+
+    body {
+        font-family: var(--font-primary);
+        background-color: var(--bg-dark);
+        color: var(--text-color);
+        min-height: 100vh;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+        background-color: rgba(18, 18, 18, 0.95);
+        border-bottom: 1px solid var(--card-border);
+        padding: 1rem 0;
+    }
+
+    .navbar h1 {
+        color: var(--primary-color);
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 500;
+    }
+
+    /* Card Styles */
+    .card {
+        background-color: rgba(18, 18, 18, 0.95);
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+    }
+
+    .card-header {
+        background-color: rgba(237, 212, 177, 0.1);
+        border-bottom: 1px solid var(--card-border);
+        padding: 1rem;
+    }
+
+    .card-header h2 {
+        color: var(--primary-color);
+        font-size: 1.4rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Form Styles */
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: var(--primary-color);
+        color: var(--text-color);
+        box-shadow: 0 0 0 0.2rem rgba(237, 212, 177, 0.25);
+    }
+
+    label {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    /* Button Styles */
+    .btn-primary {
+        background-color: var(--primary-color);
+        border: none;
+        color: var(--bg-dark);
+        font-weight: 500;
+        padding: 0.5rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--text-color);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--card-border);
+        color: var(--text-color);
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: var(--primary-color);
+    }
+
+    /* Product Cards */
+    .product-card {
+        background-color: rgba(18, 18, 18, 0.95);
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .product-card h3 {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .product-info {
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+    }
+
+    /* Modal Styles */
+    .modal-content {
+        background-color: var(--bg-dark);
+        border: 1px solid var(--card-border);
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--card-border);
+    }
+
+    .modal-footer {
+        border-top: 1px solid var(--card-border);
+    }
+
+    .modal-title {
+        color: var(--primary-color);
+    }
+
+    /* Toast Styles */
+    .toast {
+        background-color: var(--bg-dark);
+        border: 1px solid var(--card-border);
+    }
+
+    .toast-header {
+        background-color: rgba(237, 212, 177, 0.1);
+        color: var(--primary-color);
+        border-bottom: 1px solid var(--card-border);
+    }
+
+    .toast-body {
+        color: var(--text-color);
+    }
+
+    /* Animation for Toast */
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .toast.show {
+        animation: slideIn 0.3s ease forwards;
+    }
+
+    /* Utility Classes */
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .mt-4 {
+        margin-top: 2rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .card-header h2 {
+            font-size: 1.2rem;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+        }
+    }
+
+        /* Delete Modal Specific Styles */
+    #deleteModal .modal-body {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    #deleteModal .bi-exclamation-triangle-fill {
+        color: #dc3545;
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+    }
+
+    #deleteModal .product-name {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+
+    #deleteModal .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    #deleteModal .btn-danger:hover {
+        background-color: #bb2d3b;
+    }
+    </style>
+</head>
+<body>
+<!-- Header Section -->
+<nav class="navbar">
+    <div class="container">
+        <h1>Product Management</h1>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-4">
+    <!-- Add Product Form -->
+    <div class="card add-product-card">
+        <div class="card-header">
+            <h2><i class="bi bi-plus-circle"></i> Add New Product</h2>
+        </div>
+        <div class="card-body">
+            <form id="addProductForm">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Category</label>
+                        <select class="form-control" id="category" required>
+                            <option value="">Select Category</option>
+                            <option value="powder">Cinnamon Powder</option>
+                            <option value="sticks">Cinnamon Sticks</option>
+                            <option value="oil">Cinnamon Oil</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Price</label>
+                        <input type="number" class="form-control" id="price" step="0.01" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Stock Quantity</label>
+                        <input type="number" class="form-control" id="stock_quantity" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Description</label>
+                    <textarea class="form-control" id="description" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Image Filename</label>
+                    <input type="text" class="form-control" id="imageFilename">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i> Add Product
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Products List -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2><i class="bi bi-list"></i> Products List</h2>
+        </div>
+        <div class="card-body">
+            <div id="productsList" class="row"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <div class="mb-3">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="editName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Category</label>
+                        <select class="form-control" id="editCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="powder">Cinnamon Powder</option>
+                            <option value="sticks">Cinnamon Sticks</option>
+                            <option value="oil">Cinnamon Oil</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Price</label>
+                        <input type="number" class="form-control" id="editPrice" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Stock Quantity</label>
+                        <input type="number" class="form-control" id="editStock" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Description</label>
+                        <textarea class="form-control" id="editDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label>Image Filename</label>
+                        <input type="text" class="form-control" id="editImage">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveEdit">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                    Confirm Delete
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this product?</p>
+                <p class="product-name fw-bold"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toast" class="toast" role="alert">
+        <div class="toast-header">
+            <i class="bi bi-info-circle me-2"></i>
+            <strong class="me-auto">Notification</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS will go here -->
+<script>
+    // Initialize Bootstrap components
+    const toastElement = document.getElementById('toast');
+    const toast = new bootstrap.Toast(toastElement);
+    const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+
+    // Show notification function
+    function showNotification(message, success = true) {
+        const toastBody = document.querySelector('.toast-body');
+        const toastHeader = document.querySelector('.toast-header strong');
+        toastBody.textContent = message;
+        toastHeader.textContent = success ? 'Success' : 'Error';
+        toastElement.className = `toast ${success ? 'bg-success' : 'bg-danger'}`;
+        toast.show();
+    }
+
+    // Load products when page loads
+    document.addEventListener('DOMContentLoaded', loadProducts);
+
+    function loadProducts() {
+        fetch('/products')
+            .then(response => response.json())
+            .then(products => {
+                const productsDiv = document.getElementById('productsList');
+                productsDiv.innerHTML = '';
+                products.forEach(product => {
+                    productsDiv.innerHTML += `
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="product-card">
+                                <h3>${product.name}</h3>
+                                <div class="product-info">
+                                    <p><i class="bi bi-tag"></i> Category: ${product.category}</p>
+                                    <p><i class="bi bi-currency-dollar"></i> Price: $${product.price.toFixed(2)}</p>
+                                    <p><i class="bi bi-box"></i> Stock: ${product.stock_quantity}</p>
+                                    <p><i class="bi bi-text-paragraph"></i> ${product.description}</p>
+                                </div>
+                                <div class="d-flex gap-2 mt-3">
+                                    <button onclick="prepareEdit(${product.id})" class="btn btn-primary">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </button>
+                                    <button onclick="deleteProduct(${product.id})" class="btn btn-secondary">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Failed to load products', false);
+            });
+    }
+
+            // Get friendly category name
+            function getCategoryName(category) {
+                const categoryNames = {
+                    'powder': 'Cinnamon Powder',
+                    'sticks': 'Cinnamon Sticks',
+                    'oil': 'Cinnamon Oil',
+                    'other': 'Other'
+                };
+                return categoryNames[category] || category;
+            }
+
+    // Add product form submission
+    document.getElementById('addProductForm').onsubmit = function(e) {
+        e.preventDefault();
+        const productData = {
+            name: document.getElementById('name').value,
+            category: document.getElementById('category').value,
+            price: parseFloat(document.getElementById('price').value),
+            stock_quantity: parseInt(document.getElementById('stock_quantity').value),
+            description: document.getElementById('description').value,
+            imageFilename: document.getElementById('imageFilename').value
+        };
+
+        fetch('/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            loadProducts();
+            document.getElementById('addProductForm').reset();
+            showNotification('Product added successfully!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Failed to add product', false);
+        });
+    };
+
+    // Prepare edit modal
+    function prepareEdit(id) {
+        fetch(`/products/${id}`)
+            .then(response => response.json())
+            .then(product => {
+                document.getElementById('editName').value = product.name;
+                document.getElementById('editCategory').value = product.category;
+                document.getElementById('editPrice').value = product.price;
+                document.getElementById('editStock').value = product.stock_quantity;
+                document.getElementById('editDescription').value = product.description;
+                document.getElementById('editImage').value = product.imageFilename;
+
+                // Store product ID for saving
+                document.getElementById('saveEdit').onclick = () => saveEdit(id);
+
+                editModal.show();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Failed to load product details', false);
+            });
+    }
+
+
+
+    // Save edited product
+    function saveEdit(id) {
+        const productData = {
+            name: document.getElementById('editName').value,
+            category: document.getElementById('editCategory').value,
+            price: parseFloat(document.getElementById('editPrice').value),
+            stock_quantity: parseInt(document.getElementById('editStock').value),
+            description: document.getElementById('editDescription').value,
+            imageFilename: document.getElementById('editImage').value
+        };
+
+        fetch(`/products/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            editModal.hide();
+            loadProducts();
+            showNotification('Product updated successfully!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Failed to update product', false);
+        });
+    }
+
+    // Initialize delete modal
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    let productToDelete = null;
+
+    // Show delete confirmation
+    function deleteProduct(id) {
+        // Get product details to show in confirmation
+        fetch(`/products/${id}`)
+            .then(response => response.json())
+            .then(product => {
+                productToDelete = id;
+                document.querySelector('#deleteModal .product-name').textContent = product.name;
+                deleteModal.show();
+            });
+    }
+
+    // Handle delete confirmation
+    document.getElementById('confirmDelete').addEventListener('click', function() {
+        if(productToDelete) {
+            fetch(`/products/${productToDelete}`, {
+                method: 'DELETE'
+            })
+            .then(() => {
+                deleteModal.hide();
+                loadProducts();
+                showNotification('Product deleted successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Failed to delete product', false);
+            });
+        }
+    });
+
+    // Add loading indicators
+    function showLoading(element) {
+        element.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
+        element.disabled = true;
+    }
+
+    function hideLoading(element, originalText) {
+        element.innerHTML = originalText;
+        element.disabled = false;
+    }
+</script>
+</body>
+</html>

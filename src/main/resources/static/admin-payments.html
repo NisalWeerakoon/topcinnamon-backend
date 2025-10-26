@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Management - Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'DM Sans', sans-serif;
+            background-color: #121212;
+            min-height: 100vh;
+            color: #ffaf6e;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 2rem;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #edd4b1;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .btn-back {
+            background-color: #edd4b1;
+            color: #121212;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back:hover {
+            background-color: #ffaf6e;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #edd4b1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #ffaf6e;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .payment-list-section {
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            color: #edd4b1;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .btn {
+            background-color: #edd4b1;
+            color: #121212;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: #ffaf6e;
+        }
+
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .payment-table th,
+        .payment-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+        }
+
+        .payment-table th {
+            color: #edd4b1;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .payment-table td {
+            color: #ffaf6e;
+        }
+
+        .payment-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #121212;
+        }
+
+        .status-failed {
+            background: #dc3545;
+            color: white;
+        }
+
+        .status-refunded {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-refund {
+            background: #ffc107;
+            color: #121212;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-refund:hover {
+            background: #e0a800;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #ffaf6e;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .payment-table {
+                font-size: 0.85rem;
+            }
+            
+            .payment-table th,
+            .payment-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1><i class="fas fa-credit-card"></i> Payment Management</h1>
+            <a href="admin-dashboard.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalPayments">-</div>
+                <div class="stat-label">Total Payments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedPayments">-</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingPayments">-</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalRevenue">Rs. 0</div>
+                <div class="stat-label">Total Revenue</div>
+            </div>
+        </div>
+
+        <div class="payment-list-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Recent Payments</h2>
+                <button class="btn" onclick="loadPayments()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div id="paymentList">
+                <div class="loading">Loading payments...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function loadPaymentStats() {
+            try {
+                const response = await fetch(`${API_BASE}/payment/stats`);
+                const stats = await response.json();
+                
+                document.getElementById('totalPayments').textContent = stats.totalPayments || 0;
+                document.getElementById('completedPayments').textContent = stats.completedPayments || 0;
+                document.getElementById('pendingPayments').textContent = stats.pendingPayments || 0;
+                document.getElementById('totalRevenue').textContent = `Rs. ${(stats.totalRevenue || 0).toFixed(2)}`;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadPayments() {
+            const paymentList = document.getElementById('paymentList');
+            paymentList.innerHTML = '<div class="loading">Loading payments...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/payment/all`);
+                if (!response.ok) {
+                    throw new Error('Failed to load payments');
+                }
+                
+                const payments = await response.json();
+                
+                if (payments.length === 0) {
+                    paymentList.innerHTML = '<div style="text-align: center; color: #d9c7ad; padding: 2rem;">No payments found</div>';
+                    return;
+                }
+
+                let html = '<table class="payment-table"><thead><tr>';
+                html += '<th>Payment ID</th>';
+                html += '<th>Amount</th>';
+                html += '<th>Customer</th>';
+                html += '<th>Status</th>';
+                html += '<th>Refund Status</th>';
+                html += '<th>Date</th>';
+                html += '<th>Actions</th>';
+                html += '</tr></thead><tbody>';
+
+                payments.forEach(payment => {
+                    const statusClass = `status-${payment.status.toLowerCase()}`;
+                    const isRefunded = payment.status === 'REFUNDED' || payment.status === 'PARTIALLY_REFUNDED';
+                    const canRefund = payment.status === 'COMPLETED' && !isRefunded;
+                    
+                    html += `<tr>`;
+                    html += `<td>${payment.paymentId}</td>`;
+                    html += `<td>Rs. ${parseFloat(payment.amount).toFixed(2)}</td>`;
+                    html += `<td>${payment.customerEmail}</td>`;
+                    html += `<td><span class="status-badge ${statusClass}">${payment.status}</span></td>`;
+                    html += `<td>`;
+                    
+                    if (isRefunded) {
+                        html += `<span class="status-badge status-refunded">Refunded</span>`;
+                    } else if (canRefund) {
+                        html += `<span style="color: #ffaf6e; font-size: 0.85rem;">Eligible</span>`;
+                    } else {
+                        html += `<span style="color: #6c757d; font-size: 0.85rem;">N/A</span>`;
+                    }
+                    
+                    html += `</td>`;
+                    html += `<td>${new Date(payment.createdAt).toLocaleString()}</td>`;
+                    html += `<td>`;
+                    
+                    if (canRefund) {
+                        html += `<button class="btn-refund" onclick="showPaymentDetails('${payment.paymentId}')">View Details</button>`;
+                        html += `<button class="btn-refund" onclick="refundPayment('${payment.paymentId}', ${payment.amount})" style="margin-left: 0.5rem; background: #28a745; color: white;">Process Refund</button>`;
+                    } else if (isRefunded) {
+                        html += `<button class="btn-refund" onclick="showPaymentDetails('${payment.paymentId}')">View Details</button>`;
+                    } else {
+                        html += `<button class="btn-refund" onclick="showPaymentDetails('${payment.paymentId}')">View Details</button>`;
+                    }
+                    
+                    html += `</td>`;
+                    html += `</tr>`;
+                });
+
+                html += '</tbody></table>';
+                paymentList.innerHTML = html;
+            } catch (error) {
+                paymentList.innerHTML = `<div style="text-align: center; color: #dc3545; padding: 2rem;">Error loading payments: ${error.message}</div>`;
+            }
+        }
+
+        async function showPaymentDetails(paymentId) {
+            try {
+                const response = await fetch(`${API_BASE}/payment/${paymentId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load payment details');
+                }
+                
+                const payment = await response.json();
+                
+                const detailsHtml = `
+                    <div style="background: rgba(18, 18, 18, 0.95); border: 1px solid rgba(200, 169, 126, 0.3); padding: 2rem; border-radius: 10px; max-width: 600px; margin: 2rem auto;">
+                        <h3 style="color: #edd4b1; margin-bottom: 1.5rem;">Payment Details</h3>
+                        <div style="color: #ffaf6e; line-height: 2;">
+                            <p><strong style="color: #edd4b1;">Payment ID:</strong> ${payment.paymentId}</p>
+                            <p><strong style="color: #edd4b1;">Amount:</strong> Rs. ${parseFloat(payment.amount).toFixed(2)}</p>
+                            <p><strong style="color: #edd4b1;">Customer:</strong> ${payment.customerEmail}</p>
+                            <p><strong style="color: #edd4b1;">Status:</strong> <span class="status-badge status-${payment.status.toLowerCase()}">${payment.status}</span></p>
+                            <p><strong style="color: #edd4b1;">Payment Method:</strong> ${payment.paymentMethod || 'N/A'}</p>
+                            <p><strong style="color: #edd4b1;">Created At:</strong> ${new Date(payment.createdAt).toLocaleString()}</p>
+                            ${payment.gatewayTransactionId ? `<p><strong style="color: #edd4b1;">Transaction ID:</strong> ${payment.gatewayTransactionId}</p>` : ''}
+                            ${payment.refundAmount ? `<p><strong style="color: #edd4b1;">Refund Amount:</strong> Rs. ${parseFloat(payment.refundAmount).toFixed(2)}</p>` : ''}
+                            ${payment.refundedAt ? `<p><strong style="color: #edd4b1;">Refunded At:</strong> ${new Date(payment.refundedAt).toLocaleString()}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                if (confirm('Would you like to view payment details in a new window?')) {
+                    const detailsWindow = window.open('', '_blank', 'width=700,height=600,scrollbars=yes');
+                    detailsWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Payment Details - ${payment.paymentId}</title>
+                            <style>
+                                body { font-family: 'Poppins', sans-serif; background: #121212; color: #ffaf6e; padding: 2rem; }
+                                h3 { color: #edd4b1; }
+                                strong { color: #edd4b1; }
+                                .status-badge { padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; }
+                                .status-completed { background: #28a745; color: white; }
+                                .status-refunded { background: #6c757d; color: white; }
+                            </style>
+                        </head>
+                        <body>
+                            ${detailsHtml}
+                        </body>
+                        </html>
+                    `);
+                }
+            } catch (error) {
+                alert('Error loading payment details: ' + error.message);
+            }
+        }
+        
+        async function refundPayment(paymentId, amount) {
+            if (!confirm(`Process refund of Rs. ${amount.toFixed(2)} for Payment ID: ${paymentId}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/payment/${paymentId}/refund?amount=${amount}`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('Refund processed successfully!');
+                    loadPayments();
+                    loadPaymentStats();
+                } else {
+                    const error = await response.json();
+                    alert('Failed to process refund: ' + (error.message || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error processing refund: ' + error.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPaymentStats();
+            loadPayments();
+        });
+    </script>
+</body>
+</html>
+
