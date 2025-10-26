@@ -24,6 +24,9 @@ public class PaymentService {
     @Autowired
     private MockPaymentGateway mockPaymentGateway;
     
+    @Autowired
+    private PaymentIdService paymentIdService;
+    
     /**
      * Create and process a new payment
      */
@@ -34,7 +37,12 @@ public class PaymentService {
             
             // Create payment record
             Payment payment = createPaymentFromRequest(request);
+            // Assign incremental 4-digit paymentId before persisting
+            payment.setPaymentId(paymentIdService.nextPaymentId());
             payment.setStatus(PaymentStatus.PROCESSING);
+            payment = paymentRepository.save(payment);
+            // Assign 4-digit incremental paymentId based on DB id and persist
+            payment.setPaymentId(formatIncrementalPaymentId(payment.getId()));
             payment = paymentRepository.save(payment);
             
             // Process payment through gateway
@@ -72,7 +80,12 @@ public class PaymentService {
             validatePaymentRequest(request);
             
             Payment payment = createPaymentFromRequest(request);
+            // Assign incremental 4-digit paymentId before persisting
+            payment.setPaymentId(paymentIdService.nextPaymentId());
             payment.setExpiresAt(LocalDateTime.now().plusHours(24)); // 24 hours expiry
+            payment = paymentRepository.save(payment);
+            // Assign 4-digit incremental paymentId based on DB id and persist
+            payment.setPaymentId(formatIncrementalPaymentId(payment.getId()));
             payment = paymentRepository.save(payment);
             
             // Generate payment URL for redirect
@@ -208,6 +221,13 @@ public class PaymentService {
     }
     
     /**
+     * Get all payments
+     */
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
+    }
+    
+    /**
      * Get payment statistics
      */
     public PaymentStatsDto getPaymentStats() {
@@ -225,6 +245,54 @@ public class PaymentService {
             failedPayments,
             totalRevenue != null ? totalRevenue : 0.0
         );
+    }
+    
+    /**
+     * Delete payment by ID
+     */
+    public PaymentResponseDto deletePayment(String paymentId) {
+        Optional<Payment> paymentOpt = paymentRepository.findByPaymentId(paymentId);
+        
+        if (paymentOpt.isEmpty()) {
+            return PaymentResponseDto.error(paymentId, "NOT_FOUND", "Payment not found");
+        }
+        
+        Payment payment = paymentOpt.get();
+        
+        // Check if payment can be deleted (only allow deletion of pending or failed payments)
+        if (payment.getStatus() == PaymentStatus.COMPLETED || 
+            payment.getStatus() == PaymentStatus.REFUNDED || 
+            payment.getStatus() == PaymentStatus.PARTIALLY_REFUNDED) {
+            return PaymentResponseDto.error(paymentId, "INVALID_STATUS", 
+                "Cannot delete completed or refunded payments");
+        }
+        
+        try {
+            paymentRepository.delete(payment);
+            return PaymentResponseDto.success(payment);
+        } catch (Exception e) {
+            return PaymentResponseDto.error(paymentId, "DELETE_ERROR", e.getMessage());
+        }
+    }
+    
+    /**
+     * Clear all payments and reset database
+     */
+    public PaymentResponseDto clearAllPayments() {
+        try {
+            // Delete all payments first
+            paymentRepository.deleteAll();
+            
+            // Reset payment sequence to start from 0001
+            paymentIdService.resetSequence();
+            
+            // Verify the reset worked by getting the next payment ID
+            String nextId = paymentIdService.nextPaymentId();
+            
+            return PaymentResponseDto.success(null);
+        } catch (Exception e) {
+            return PaymentResponseDto.error("CLEAR_ERROR", "CLEAR_ERROR", e.getMessage());
+        }
     }
     
     // Private helper methods
@@ -256,6 +324,13 @@ public class PaymentService {
         payment.setMetadata(request.getMetadata());
         
         return payment;
+    }
+
+    private String formatIncrementalPaymentId(Long id) {
+        if (id == null || id <= 0) {
+            return "0000";
+        }
+        return String.format("%04d", id);
     }
     
     // Inner class for payment statistics

@@ -11,21 +11,23 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF for API endpoints
-            .authorizeHttpRequests(authz -> authz
-                // Allow public access to payment and checkout endpoints
-                .requestMatchers("/api/payment/**", "/api/checkout/**", "/api/cart/**").permitAll()
-                // Allow access to health check and actuator endpoints
-                .requestMatchers("/actuator/**", "/api/payment/health").permitAll()
-                // Allow access to static resources
-                .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**").permitAll()
-                // Require authentication for all other requests
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/**", "/index.html", "/static/**", "/api/auth/**", "/api/payment/**", "/api/checkout/**", "/api/cart/**", "/api/reviews/**", "/api/contact/**", "/dashboard.html", "/admin-dashboard.html", "/admin-*.html", "/manage").permitAll()
                 .anyRequest().authenticated()
             )
-            .httpBasic(httpBasic -> httpBasic.disable()) // Disable basic auth
-            .formLogin(formLogin -> formLogin.disable()); // Disable form login
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(request -> {
+                org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
+                config.setAllowedOrigins(java.util.Arrays.asList("http://localhost:5173", "http://localhost:3000"));
+                config.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                config.setAllowedHeaders(java.util.Arrays.asList("*"));
+                config.setAllowCredentials(true);
+                config.setMaxAge(3600L);
+                return config;
+            }))
+            .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         
         return http.build();
     }

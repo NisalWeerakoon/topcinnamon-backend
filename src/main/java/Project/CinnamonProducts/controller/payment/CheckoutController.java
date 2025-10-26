@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/checkout")
-@CrossOrigin(origins = "*") // Allow all origins for development
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 public class CheckoutController {
     
     @Autowired
@@ -76,9 +76,9 @@ public class CheckoutController {
     /**
      * Exception handler for validation errors
      */
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<CheckoutResponseDto> handleValidationException(IllegalArgumentException ex) {
-        CheckoutResponseDto error = CheckoutResponseDto.error("VALIDATION_ERROR", ex.getMessage());
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    public ResponseEntity<CheckoutResponseDto> handleValidationException(org.springframework.web.bind.MethodArgumentNotValidException ex) {
+        CheckoutResponseDto error = CheckoutResponseDto.error("VALIDATION_ERROR", "Invalid request data");
         return ResponseEntity.badRequest().body(error);
     }
     

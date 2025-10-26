@@ -55,6 +55,11 @@ public class PaymentResponseDto {
     }
     
     public static PaymentResponseDto success(Payment payment) {
+        if (payment == null) {
+            PaymentResponseDto response = new PaymentResponseDto();
+            response.setStatus(PaymentStatus.COMPLETED);
+            return response;
+        }
         PaymentResponseDto response = new PaymentResponseDto(payment);
         response.setStatus(PaymentStatus.COMPLETED);
         return response;

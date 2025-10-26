@@ -2,6 +2,7 @@ package Project.CinnamonProducts.controller.payment;
 
 import Project.CinnamonProducts.dto.payment.PaymentRequestDto;
 import Project.CinnamonProducts.dto.payment.PaymentResponseDto;
+import Project.CinnamonProducts.entity.payment.Payment;
 import Project.CinnamonProducts.entity.payment.PaymentMethod;
 import Project.CinnamonProducts.entity.payment.PaymentStatus;
 import Project.CinnamonProducts.service.payment.PaymentService;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/payment")
-@CrossOrigin(origins = "*") // Allow all origins for development
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 public class PaymentController {
     
     @Autowired
@@ -124,6 +125,15 @@ public class PaymentController {
     }
     
     /**
+     * Get all payments
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<Payment>> getAllPayments() {
+        List<Payment> payments = paymentService.getAllPayments();
+        return ResponseEntity.ok(payments);
+    }
+    
+    /**
      * Get payment statistics
      */
     @GetMapping("/stats")
@@ -156,6 +166,36 @@ public class PaymentController {
     @GetMapping("/methods")
     public ResponseEntity<PaymentMethod[]> getPaymentMethods() {
         return ResponseEntity.ok(PaymentMethod.values());
+    }
+    
+    /**
+     * Delete payment by ID
+     */
+    @DeleteMapping("/{paymentId}")
+    public ResponseEntity<PaymentResponseDto> deletePayment(@PathVariable String paymentId) {
+        PaymentResponseDto response = paymentService.deletePayment(paymentId);
+        
+        if ("NOT_FOUND".equals(response.getErrorCode())) {
+            return ResponseEntity.notFound().build();
+        } else if (response.getErrorCode() != null) {
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * Clear all payments and reset database
+     */
+    @DeleteMapping("/clear-all")
+    public ResponseEntity<PaymentResponseDto> clearAllPayments() {
+        PaymentResponseDto response = paymentService.clearAllPayments();
+        
+        if (response.getErrorCode() != null) {
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        return ResponseEntity.ok(response);
     }
     
     /**

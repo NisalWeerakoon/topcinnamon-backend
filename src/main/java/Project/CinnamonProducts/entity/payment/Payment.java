@@ -80,7 +80,8 @@ public class Payment {
     public Payment() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.paymentId = generatePaymentId();
+        // Assign a temporary unique value. Will be replaced with 4-digit incremental after first save
+        this.paymentId = generateTemporaryPaymentId();
     }
     
     public Payment(BigDecimal amount, String currency, PaymentMethod paymentMethod, 
@@ -98,9 +99,9 @@ public class Payment {
         this.updatedAt = LocalDateTime.now();
     }
     
-    private String generatePaymentId() {
-        return "PAY_" + System.currentTimeMillis() + "_" + 
-               String.format("%04d", (int) (Math.random() * 10000));
+    private String generateTemporaryPaymentId() {
+        return "TMP_" + System.currentTimeMillis() + "_" +
+               String.format("%06d", (int) (Math.random() * 1_000_000));
     }
     
     // Business methods
