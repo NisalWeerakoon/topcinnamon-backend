@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Arrays; // ADD THIS IMPORT
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
@@ -59,16 +61,15 @@ public class ReviewService {
         return null;
     }
 
-    // Query Methods
     public List<Review> getAllApprovedReviews() {
-        return reviewRepository.findByApprovedTrue();
+        return reviewRepository.findByStatus("APPROVED"); // Changed
     }
 
     public List<Review> getApprovedReviewsByProduct(String productId) {
         try {
             System.out.println("🔍 Fetching approved reviews for product: " + productId);
 
-            List<Review> allApproved = reviewRepository.findByApprovedTrue();
+            List<Review> allApproved = reviewRepository.findByStatus("APPROVED"); // Changed
             System.out.println("📝 Total approved reviews: " + allApproved.size());
 
             if (productId == null || productId.trim().isEmpty()) {
@@ -97,7 +98,11 @@ public class ReviewService {
     }
 
     public List<Review> getAllPendingReviews() {
-        return reviewRepository.findByApprovedFalse();
+        // Return both SUBMITTED and UNDER_REVIEW as pending
+        List<Review> pending = new ArrayList<>();
+        pending.addAll(reviewRepository.findByStatus("SUBMITTED"));
+        pending.addAll(reviewRepository.findByStatus("UNDER_REVIEW"));
+        return pending;
     }
 
     public List<Review> getAllReviews() {
@@ -187,29 +192,74 @@ public class ReviewService {
 
     // Statistics methods
     public ReviewStatistics getReviewStatistics(String productId) {
-        Object[] stats = reviewRepository.findReviewStatistics(productId);
-        List<Object[]> distribution = reviewRepository.findRatingDistribution(productId);
+        try {
+            System.out.println("🔍 Calculating statistics for product: " + productId);
 
-        ReviewStatistics reviewStats = new ReviewStatistics();
+            // Get ALL reviews first for debugging
+            List<Review> allReviews = reviewRepository.findAll();
+            System.out.println("📊 Total reviews in database: " + allReviews.size());
 
-        if (stats != null && stats.length == 2) {
-            reviewStats.setTotalReviews(((Long) stats[0]).intValue());
-            reviewStats.setAverageRating((Double) stats[1]);
+            // Count approved reviews manually for statistics
+            List<Review> approvedReviews;
+            if (productId == null || productId.trim().isEmpty()) {
+                approvedReviews = reviewRepository.findByStatus("APPROVED");
+            } else {
+                approvedReviews = reviewRepository.findByStatus("APPROVED").stream()
+                        .filter(review -> productId.equals(review.getProductId()))
+                        .collect(Collectors.toList());
+            }
+
+            System.out.println("✅ Approved reviews count: " + approvedReviews.size());
+
+            ReviewStatistics reviewStats = new ReviewStatistics();
+
+            if (!approvedReviews.isEmpty()) {
+                // Calculate average rating from approved reviews
+                double average = approvedReviews.stream()
+                        .mapToInt(Review::getRating)
+                        .average()
+                        .orElse(0.0);
+
+                reviewStats.setTotalReviews(approvedReviews.size());
+                reviewStats.setAverageRating(average);
+
+                // Calculate rating distribution
+                Map<Integer, Long> distribution = approvedReviews.stream()
+                        .collect(Collectors.groupingBy(Review::getRating, Collectors.counting()));
+
+                // Initialize all ratings 1-5
+                for (int i = 1; i <= 5; i++) {
+                    reviewStats.getRatingDistribution().put(i, distribution.getOrDefault(i, 0L));
+                }
+            } else {
+                // No approved reviews
+                reviewStats.setTotalReviews(0);
+                reviewStats.setAverageRating(0.0);
+                for (int i = 1; i <= 5; i++) {
+                    reviewStats.getRatingDistribution().put(i, 0L);
+                }
+            }
+
+            System.out.println("📈 Final statistics:");
+            System.out.println("   - Total Reviews: " + reviewStats.getTotalReviews());
+            System.out.println("   - Average Rating: " + reviewStats.getAverageRating());
+            System.out.println("   - Distribution: " + reviewStats.getRatingDistribution());
+
+            return reviewStats;
+
+        } catch (Exception e) {
+            System.err.println("❌ Error calculating statistics: " + e.getMessage());
+            e.printStackTrace();
+
+            // Return empty stats on error
+            ReviewStatistics emptyStats = new ReviewStatistics();
+            emptyStats.setTotalReviews(0);
+            emptyStats.setAverageRating(0.0);
+            for (int i = 1; i <= 5; i++) {
+                emptyStats.getRatingDistribution().put(i, 0L);
+            }
+            return emptyStats;
         }
-
-        // Initialize rating distribution
-        for (int i = 1; i <= 5; i++) {
-            reviewStats.getRatingDistribution().put(i, 0L);
-        }
-
-        // Fill actual distribution
-        for (Object[] dist : distribution) {
-            Integer rating = (Integer) dist[0];
-            Long count = (Long) dist[1];
-            reviewStats.getRatingDistribution().put(rating, count);
-        }
-
-        return reviewStats;
     }
 
     public Map<String, Object> getAdminDashboardStats() {
@@ -311,6 +361,74 @@ public class ReviewService {
 
         if (!oldReviews.isEmpty()) {
             System.out.println("Disabled editing for " + oldReviews.size() + " old reviews");
+        }
+    }
+
+    // Add this method to ReviewService.java for debugging
+    public ReviewStatistics getReviewStatisticsWithDebug(String productId) {
+        try {
+            System.out.println("🐛 DEBUG STATISTICS START ===========================");
+            System.out.println("📊 Calculating statistics for product: " + productId);
+
+            // Check how many approved reviews exist
+            List<Review> allApproved = reviewRepository.findByStatus("APPROVED");
+            System.out.println("✅ Total APPROVED reviews in database: " + allApproved.size());
+
+            // Show details of approved reviews
+            if (!allApproved.isEmpty()) {
+                System.out.println("📝 Approved reviews details:");
+                for (Review review : allApproved) {
+                    System.out.println("   - ID: " + review.getId() +
+                            " | Rating: " + review.getRating() +
+                            " | Product: " + review.getProductId() +
+                            " | Status: " + review.getStatus() +
+                            " | Approved: " + review.isApproved());
+                }
+            }
+
+            // Test the repository query directly
+            System.out.println("🔍 Testing repository query...");
+            Object[] repoStats = reviewRepository.findReviewStatistics(productId);
+            System.out.println("📡 Repository query result: " + Arrays.toString(repoStats));
+
+            // Manual calculation for comparison
+            System.out.println("🔢 Manual calculation...");
+            List<Review> approvedReviews;
+            if (productId == null || productId.trim().isEmpty()) {
+                approvedReviews = allApproved;
+            } else {
+                approvedReviews = allApproved.stream()
+                        .filter(review -> productId.equals(review.getProductId()))
+                        .collect(Collectors.toList());
+            }
+
+            System.out.println("✅ Manual count: " + approvedReviews.size() + " approved reviews");
+
+            if (!approvedReviews.isEmpty()) {
+                double manualAvg = approvedReviews.stream()
+                        .mapToInt(Review::getRating)
+                        .average()
+                        .orElse(0.0);
+                System.out.println("📈 Manual average: " + manualAvg);
+            }
+
+            // Now call the original method
+            System.out.println("🔄 Calling original getReviewStatistics method...");
+            ReviewStatistics stats = getReviewStatistics(productId);
+
+            System.out.println("📊 Final statistics result:");
+            System.out.println("   - Total Reviews: " + stats.getTotalReviews());
+            System.out.println("   - Average Rating: " + stats.getAverageRating());
+            System.out.println("   - Distribution: " + stats.getRatingDistribution());
+
+            System.out.println("🐛 DEBUG STATISTICS END =============================");
+
+            return stats;
+
+        } catch (Exception e) {
+            System.err.println("❌ DEBUG STATISTICS ERROR: " + e.getMessage());
+            e.printStackTrace();
+            return new ReviewStatistics(); // Return empty stats
         }
     }
 }

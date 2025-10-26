@@ -1,4 +1,4 @@
-package com.topcinnamon.models;
+package com.topcinnamon.dto;
 
 public class User {
     private String id;

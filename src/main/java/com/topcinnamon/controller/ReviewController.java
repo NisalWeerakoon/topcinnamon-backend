@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reviews")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ReviewController {
     private final ReviewService reviewService;
 
@@ -250,9 +251,19 @@ public class ReviewController {
     @GetMapping("/statistics")
     public ResponseEntity<?> getReviewStatistics(@RequestParam(required = false) String productId) {
         try {
-            ReviewService.ReviewStatistics stats = reviewService.getReviewStatistics(productId);
+            System.out.println("🎯 STATISTICS ENDPOINT CALLED - productId: " + productId);
+
+            // Temporary: Use debug method
+            ReviewService.ReviewStatistics stats = reviewService.getReviewStatisticsWithDebug(productId);
+
+            System.out.println("✅ Sending statistics response:");
+            System.out.println("   - Total: " + stats.getTotalReviews());
+            System.out.println("   - Average: " + stats.getAverageRating());
+
             return ResponseEntity.ok().body(stats);
         } catch (Exception e) {
+            System.err.println("❌ Statistics endpoint error: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().body("Error fetching statistics: " + e.getMessage());
         }
     }
