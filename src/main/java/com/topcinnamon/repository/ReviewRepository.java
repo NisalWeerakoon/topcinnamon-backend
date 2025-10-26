@@ -13,33 +13,31 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    // Basic queries
-    List<Review> findByApprovedTrue();
-    List<Review> findByApprovedFalse();
+    // Update these queries to use status instead of approved
+    List<Review> findByStatusNot(String status); // Changed from findByApprovedFalse()
     Optional<Review> findByEditToken(String editToken);
     List<Review> findByReadByAdminFalseAndCreatedAtBefore(LocalDateTime date);
     List<Review> findByCanEditTrueAndCreatedAtBefore(LocalDateTime date);
 
-    // Enhanced queries
-    List<Review> findByApprovedTrueAndProductId(String productId);
-    List<Review> findByApprovedTrueOrderByHelpfulVotesDesc();
-    List<Review> findByApprovedTrueOrderByCreatedAtDesc();
+    // Enhanced queries - UPDATED
+    List<Review> findByStatusAndProductId(String status, String productId); // Changed
+    List<Review> findByStatusOrderByHelpfulVotesDesc(String status); // Changed
+    List<Review> findByStatusOrderByCreatedAtDesc(String status); // Changed
     List<Review> findAllByOrderByCreatedAtDesc();
-    List<Review> findByStatusOrderByCreatedAtDesc(String status);
-    List<Review> findByApprovedFalseAndStatus(String status);
+    List<Review> findByStatus(String status); // Changed from findByApprovedFalseAndStatus
 
     // Dashboard queries
     long countByStatus(String status);
     long countByCreatedAtAfter(LocalDateTime date);
 
-    @Query("SELECT COALESCE(AVG(r.rating), 0) FROM Review r WHERE r.approved = true")
+    // FIXED Statistics queries - use status instead of approved
+    @Query("SELECT COALESCE(AVG(r.rating), 0) FROM Review r WHERE r.status = 'APPROVED'")
     Optional<Double> findAverageRating();
 
-    // Statistics queries
-    @Query("SELECT r.rating, COUNT(r) FROM Review r WHERE r.approved = true AND (:productId IS NULL OR r.productId = :productId) GROUP BY r.rating")
+    @Query("SELECT r.rating, COUNT(r) FROM Review r WHERE r.status = 'APPROVED' AND (:productId IS NULL OR r.productId = :productId) GROUP BY r.rating")
     List<Object[]> findRatingDistribution(@Param("productId") String productId);
 
-    @Query("SELECT COUNT(r), COALESCE(AVG(r.rating), 0) FROM Review r WHERE r.approved = true AND (:productId IS NULL OR r.productId = :productId)")
+    @Query("SELECT COUNT(r), COALESCE(AVG(r.rating), 0) FROM Review r WHERE r.status = 'APPROVED' AND (:productId IS NULL OR r.productId = :productId)")
     Object[] findReviewStatistics(@Param("productId") String productId);
 
     // Search functionality
@@ -63,3 +61,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
                                  @Param("productId") String productId,
                                  @Param("search") String search);
 }
+
