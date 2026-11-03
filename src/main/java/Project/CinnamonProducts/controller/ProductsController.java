@@ -4,57 +4,62 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import Project.CinnamonProducts.repository.ProductRepository;
-import Project.CinnamonProducts.models.Product;
+import Project.CinnamonProducts.model.Product;
 import org.springframework.web.bind.annotation.*;
 
 
 
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
+
 @RestController
 @RequestMapping("/products")
-
 public class ProductsController {
 
     @Autowired
     private ProductRepository repo;
 
-    // GET all products: http://localhost:8081/products
+    // GET all products
     @GetMapping
     public List<Product> getAllProducts() {
         return repo.findAll();
     }
 
-    // GET single product by ID: http://localhost:8081/products/1
+    // GET products by category
+    @GetMapping("/category/{category}")
+    public List<Product> getProductsByCategory(@PathVariable String category) {
+        return repo.findByCategory(category);
+    }
+
+    // GET test endpoint
+    @GetMapping("/test")
+    public String test() {
+        return "Controller is working!";
+    }
+
+    
+
+    // GET single product by ID
     @GetMapping("/{id}")
     public Product getName(@PathVariable Long id) {
         return repo.findById(id).orElse(null);
     }
 
-    // POST new product: http://localhost:8081/products
+    // POST new product
     @PostMapping
     public Product addProduct(@RequestBody Product product) {
         return repo.save(product);
     }
 
-    // PUT update product: http://localhost:8081/products/1
+    // PUT update product
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
         product.setId(id);
         return repo.save(product);
     }
 
-    // DELETE product: http://localhost:8081/products/1
+    // DELETE product
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
         repo.deleteById(id);
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "Controller is working!";
-    }
-
-    @GetMapping("/manage")
-    public String managePage() {
-        return "products";
     }
 }

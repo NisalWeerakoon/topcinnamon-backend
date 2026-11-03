@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'DM Sans', sans-serif;
+            background-color: #121212;
+            min-height: 100vh;
+            color: #ffaf6e;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 2rem;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #edd4b1;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .btn-back {
+            background-color: #edd4b1;
+            color: #121212;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back:hover {
+            background-color: #ffaf6e;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .user-list-section {
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            color: #edd4b1;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .btn {
+            background-color: #edd4b1;
+            color: #121212;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #ffaf6e;
+        }
+
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-table th,
+        .user-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+        }
+
+        .user-table th {
+            color: #edd4b1;
+            font-weight: 600;
+        }
+
+        .user-table td {
+            color: #ffaf6e;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1><i class="fas fa-users"></i> User Management</h1>
+            <a href="admin-dashboard.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="user-list-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Registered Users</h2>
+                <button class="btn" onclick="loadUsers()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div id="userList">
+                <div style="text-align: center; padding: 2rem; color: #8b6914;">Loading users...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/auth/users`);
+                const result = await response.json();
+                
+                // Handle both array and object responses
+                const users = Array.isArray(result) ? result : (result.message === "No users found" ? [] : [result]);
+                
+                if (users.length === 0) {
+                    document.getElementById('userList').innerHTML = 
+                        '<div style="text-align: center; padding: 2rem; color: #ffaf6e;">No users found</div>';
+                    return;
+                }
+
+                let html = '<table class="user-table"><thead><tr>';
+                html += '<th>Email</th><th>First Name</th><th>Last Name</th><th>Mobile</th>';
+                html += '</tr></thead><tbody>';
+
+                users.forEach(user => {
+                    html += `<tr>`;
+                    html += `<td>${user.email || 'N/A'}</td>`;
+                    html += `<td>${user.firstName || user.first_name || 'N/A'}</td>`;
+                    html += `<td>${user.lastName || user.last_name || 'N/A'}</td>`;
+                    html += `<td>${user.mobile || user.mobile_number || 'N/A'}</td>`;
+                    html += `</tr>`;
+                });
+
+                html += '</tbody></table>';
+                document.getElementById('userList').innerHTML = html;
+            } catch (error) {
+                document.getElementById('userList').innerHTML = 
+                    `<div style="text-align: center; padding: 2rem; color: #dc3545;">Error: ${error.message}</div>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadUsers);
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Management - Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'DM Sans', sans-serif;
+            background-color: #121212;
+            min-height: 100vh;
+            color: #ffaf6e;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 2rem;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #edd4b1;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .btn-back {
+            background-color: #edd4b1;
+            color: #121212;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back:hover {
+            background-color: #ffaf6e;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .review-list-section {
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            color: #edd4b1;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .review-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .review-id {
+            color: #ffaf6e;
+            font-weight: 600;
+        }
+
+        .review-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-submitted {
+            background: #ffc107;
+            color: #121212;
+        }
+
+        .review-details {
+            color: #d9c7ad;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .review-content {
+            color: #ffaf6e;
+            margin-bottom: 1rem;
+        }
+
+        .review-content strong {
+            color: #edd4b1;
+            font-size: 1.1rem;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .rating-stars {
+            color: #ffaf6e;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #ffaf6e;
+        }
+
+        .no-reviews {
+            text-align: center;
+            padding: 2rem;
+            color: #ffaf6e;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1><i class="fas fa-star"></i> Pending Reviews</h1>
+            <a href="admin-dashboard.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="review-list-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Reviews Awaiting Approval</h2>
+                <button class="btn-back" onclick="loadReviews()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div id="reviewList">
+                <div class="loading">Loading reviews...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function loadReviews() {
+            const reviewList = document.getElementById('reviewList');
+            reviewList.innerHTML = '<div class="loading">Loading reviews...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/reviews/admin/submitted`);
+                const reviews = await response.json();
+
+                if (reviews.length === 0) {
+                    reviewList.innerHTML = '<div class="no-reviews">No pending reviews found.</div>';
+                    return;
+                }
+
+                let html = '';
+                reviews.forEach(review => {
+                    html += `
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-id">Review ID: ${review.id}</div>
+                                <span class="review-status status-submitted">${review.status}</span>
+                            </div>
+                            <div class="review-details">
+                                <strong>Product:</strong> ${review.productName} (ID: ${review.productId})<br>
+                                <strong>Customer:</strong> ${review.customerName} (${review.email})<br>
+                                <strong>Rating:</strong> ${renderStars(review.rating)}<br>
+                                <strong>Created:</strong> ${new Date(review.createdAt).toLocaleString()}
+                            </div>
+                            <div class="review-content">
+                                <strong>${review.reviewTitle}</strong><br>
+                                ${review.comment}
+                            </div>
+                            <div class="review-actions">
+                                <button class="btn btn-success" onclick="approveReview(${review.id})">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                                <button class="btn btn-danger" onclick="rejectReview(${review.id})">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                reviewList.innerHTML = html;
+            } catch (error) {
+                reviewList.innerHTML = `<div class="loading">Error loading reviews: ${error.message}</div>`;
+            }
+        }
+
+        function renderStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                stars += `<i class="fas fa-star ${i <= rating ? '' : 'empty'}" style="color: ${i <= rating ? '#ffaf6e' : '#444'};"></i>`;
+            }
+            return stars;
+        }
+
+        async function approveReview(reviewId) {
+            if (!confirm('Are you sure you want to approve this review?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/reviews/admin/${reviewId}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        adminNotes: 'Approved by admin'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Review approved successfully!');
+                    loadReviews(); // Refresh the list
+                } else {
+                    const error = await response.text();
+                    alert('Error approving review: ' + error);
+                }
+            } catch (error) {
+                alert('Error approving review: ' + error.message);
+            }
+        }
+
+        async function rejectReview(reviewId) {
+            if (!confirm('Are you sure you want to reject this review?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/reviews/admin/${reviewId}/reject`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        adminNotes: 'Rejected by admin'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Review rejected successfully!');
+                    loadReviews(); // Refresh the list
+                } else {
+                    const error = await response.text();
+                    alert('Error rejecting review: ' + error);
+                }
+            } catch (error) {
+                alert('Error rejecting review: ' + error.message);
+            }
+        }
+
+        // Load reviews on page load
+        document.addEventListener('DOMContentLoaded', loadReviews);
+    </script>
+</body>
+</html>

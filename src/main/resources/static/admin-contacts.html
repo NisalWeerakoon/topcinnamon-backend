@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Messages - Admin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'DM Sans', sans-serif;
+            background-color: #121212;
+            min-height: 100vh;
+            color: #ffaf6e;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 2rem;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #edd4b1;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .btn-back {
+            background-color: #edd4b1;
+            color: #121212;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back:hover {
+            background-color: #ffaf6e;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .contact-list-section {
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            color: #edd4b1;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .contact-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .contact-table th,
+        .contact-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+        }
+        
+        .contact-table th {
+            color: #edd4b1;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .contact-table td {
+            color: #ffaf6e;
+        }
+        
+        .contact-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .contact-message {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .status-pending {
+            background: #ffc107;
+            color: #121212;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-responded {
+            background: #28a745;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1><i class="fas fa-envelope"></i> Contact Messages</h1>
+            <a href="admin-dashboard.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="contact-list-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Customer Messages</h2>
+                <button class="btn-back" onclick="loadContacts()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div id="contactList">
+                <div style="text-align: center; padding: 2rem; color: #ffaf6e;">Loading messages...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        
+        async function loadContacts() {
+            try {
+                const response = await fetch(`${API_BASE}/contact`);
+                const contacts = await response.json();
+                
+                if (contacts.length === 0) {
+                    document.getElementById('contactList').innerHTML = 
+                        '<div style="text-align: center; padding: 2rem; color: #ffaf6e;">No messages found</div>';
+                    return;
+                }
+                
+                let html = '<table class="contact-table"><thead><tr>';
+                html += '<th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Status</th><th>Date</th>';
+                html += '</tr></thead><tbody>';
+                
+                contacts.forEach(contact => {
+                    const statusClass = contact.status === 'Pending' ? 'status-pending' : 'status-responded';
+                    html += `<tr>`;
+                    html += `<td>${contact.name}</td>`;
+                    html += `<td>${contact.email}</td>`;
+                    html += `<td>${contact.subject}</td>`;
+                    html += `<td class="contact-message">${contact.message}</td>`;
+                    html += `<td><span class="${statusClass}">${contact.status}</span></td>`;
+                    html += `<td>${new Date(contact.createdAt).toLocaleString()}</td>`;
+                    html += `</tr>`;
+                });
+                
+                html += '</tbody></table>';
+                document.getElementById('contactList').innerHTML = html;
+            } catch (error) {
+                document.getElementById('contactList').innerHTML = 
+                    `<div style="text-align: center; padding: 2rem; color: #dc3545;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadContacts);
+    </script>
+</body>
+</html>
+

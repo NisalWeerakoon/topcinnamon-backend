@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Top Cinnamon</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'DM Sans', sans-serif;
+            background-color: #121212;
+            min-height: 100vh;
+            color: #ffaf6e;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(200, 169, 126, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header h1 {
+            color: #edd4b1;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #ffaf6e;
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-color: #edd4b1;
+        }
+
+        .dashboard-card h3 {
+            color: #edd4b1;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .dashboard-card h3 i {
+            font-size: 1.8rem;
+            color: #ffaf6e;
+        }
+
+        .dashboard-card p {
+            color: #ffaf6e;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #edd4b1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #ffaf6e;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            background-color: #edd4b1;
+            color: #121212;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #ffaf6e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(237, 212, 177, 0.4);
+        }
+
+        .recent-section {
+            background-color: rgba(18, 18, 18, 0.95);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .recent-section h2 {
+            color: #edd4b1;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .recent-section h2 i {
+            color: #ffaf6e;
+        }
+
+        .recent-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(200, 169, 126, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .recent-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status-completed {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #121212;
+        }
+
+        .status-failed {
+            background: #dc3545;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #ffaf6e;
+        }
+        
+        strong {
+            color: #edd4b1;
+        }
+        
+        small {
+            color: #ffaf6e;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+        <p>Top Cinnamon Management System</p>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-grid" id="dashboardGrid">
+            <div class="dashboard-card" onclick="window.location.href='/admin-payments.html'">
+                <h3><i class="fas fa-credit-card"></i> Payments</h3>
+                <p>Manage payment transactions and refunds</p>
+                <div class="stat-number" id="totalPayments">-</div>
+                <div class="stat-label">Total Payments</div>
+            </div>
+
+            <div class="dashboard-card" onclick="window.location.href='/admin-users.html'">
+                <h3><i class="fas fa-users"></i> Users</h3>
+                <p>View and manage user accounts</p>
+                <div class="stat-number" id="totalUsers">-</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+
+            <div class="dashboard-card" onclick="window.location.href='/admin-cart.html'">
+                <h3><i class="fas fa-shopping-cart"></i> Cart</h3>
+                <p>View customer cart items</p>
+                <div class="stat-number" id="totalCartItems">-</div>
+                <div class="stat-label">Cart Items</div>
+            </div>
+
+            <div class="dashboard-card" onclick="window.location.href='/admin-reviews.html'">
+                <h3><i class="fas fa-star"></i> Reviews</h3>
+                <p>Approve and manage product reviews</p>
+                <div class="stat-number" id="totalReviews">-</div>
+                <div class="stat-label">Total Reviews</div>
+            </div>
+
+            <div class="dashboard-card" onclick="window.location.href='/admin-contacts.html'">
+                <h3><i class="fas fa-envelope"></i> Contact Messages</h3>
+                <p>View and respond to customer inquiries</p>
+                <div class="stat-number" id="totalContacts">-</div>
+                <div class="stat-label">Messages</div>
+            </div>
+
+            <div class="dashboard-card" onclick="window.location.href='/admin-orders.html'">
+                <h3><i class="fas fa-shopping-bag"></i> Orders</h3>
+                <p>View and manage customer orders</p>
+                <div class="stat-number" id="totalOrders">-</div>
+                <div class="stat-label">Orders</div>
+            </div>
+
+            <div class="dashboard-card" onclick="window.location.href='/manage'">
+                <h3><i class="fas fa-box"></i> Products</h3>
+                <p>Manage product inventory</p>
+                <div class="stat-number" id="totalProducts">-</div>
+                <div class="stat-label">Products</div>
+            </div>
+        </div>
+
+        <div class="recent-section">
+            <h2><i class="fas fa-clock"></i> Recent Activity</h2>
+            <div id="recentActivity">
+                <div class="loading">Loading recent activity...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function loadDashboardStats() {
+            try {
+                // Load payment stats
+                const paymentResponse = await fetch(`${API_BASE}/payment/stats`);
+                if (paymentResponse.ok) {
+                    const paymentStats = await paymentResponse.json();
+                    document.getElementById('totalPayments').textContent = paymentStats.totalPayments || 0;
+                }
+            } catch (error) {
+                console.error('Error loading payment stats:', error);
+                document.getElementById('totalPayments').textContent = '0';
+            }
+
+            try {
+                // Load user stats
+                const userResponse = await fetch(`${API_BASE}/auth/users`);
+                if (userResponse.ok) {
+                    const users = await userResponse.json();
+                    document.getElementById('totalUsers').textContent = users.length || 0;
+                }
+            } catch (error) {
+                console.error('Error loading user stats:', error);
+                document.getElementById('totalUsers').textContent = '0';
+            }
+
+            try {
+                // Load product stats
+                const productResponse = await fetch(`${API_BASE}/products`);
+                if (productResponse.ok) {
+                    const products = await productResponse.json();
+                    document.getElementById('totalProducts').textContent = products.length || 0;
+                }
+            } catch (error) {
+                console.error('Error loading product stats:', error);
+                document.getElementById('totalProducts').textContent = '0';
+            }
+
+            try {
+                // Load review stats
+                const reviewResponse = await fetch(`${API_BASE}/reviews/admin/dashboard/stats`);
+                if (reviewResponse.ok) {
+                    const reviewStats = await reviewResponse.json();
+                    document.getElementById('totalReviews').textContent = reviewStats.totalSubmitted || 0;
+                }
+            } catch (error) {
+                console.error('Error loading review stats:', error);
+                document.getElementById('totalReviews').textContent = '0';
+            }
+
+            // Load other stats...
+            document.getElementById('totalCartItems').textContent = '0';
+            document.getElementById('totalContacts').textContent = '0';
+        }
+
+        async function loadRecentActivity() {
+            const activityDiv = document.getElementById('recentActivity');
+            activityDiv.innerHTML = '<div class="loading">Loading recent activity...</div>';
+
+            try {
+                // Load recent payments
+                const payments = await fetch(`${API_BASE}/payment/stats`);
+                if (payments.ok) {
+                    const data = await payments.json();
+                    let html = '';
+                    
+                    // Show a sample of recent activity
+                    html += '<div class="recent-item">';
+                    html += '<strong>Recent Payment Activity</strong><br>';
+                    html += `<span class="status-badge status-completed">Completed: ${data.completedPayments || 0}</span> `;
+                    html += `<span class="status-badge status-pending">Pending: ${data.pendingPayments || 0}</span><br>`;
+                    html += `<small style="color: #d9c7ad;">Total Revenue: $${(data.totalRevenue || 0).toFixed(2)}</small>`;
+                    html += '</div>';
+                    
+                    activityDiv.innerHTML = html;
+                }
+            } catch (error) {
+                activityDiv.innerHTML = '<div class="error">Unable to load recent activity</div>';
+            }
+        }
+
+        // Load stats on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardStats();
+            loadRecentActivity();
+        });
+    </script>
+</body>
+</html>
+

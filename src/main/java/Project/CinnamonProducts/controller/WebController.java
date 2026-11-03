@@ -12,7 +12,7 @@ public class WebController {
     @Autowired
     private ProductRepository repo;
 
-    @GetMapping("/manage") //http://localhost:8081/manage
+    @GetMapping("/manage") //http://localhost:8080/manage
     public String managePage(Model model) {
         model.addAttribute("products", repo.findAll());
         return "products";
